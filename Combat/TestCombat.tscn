@@ -1,0 +1,164 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Combat/TestCombat.gd" type="Script" id=1]
+[ext_resource path="res://Combat/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Combat/Board/tile.png" type="Texture2D" id=3]
+[ext_resource path="res://Combat/Board/testWall.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Combat/UI/endturn_button.png" type="Texture2D" id=5]
+[ext_resource path="res://Combat/UI/arrow.png" type="Texture2D" id=6]
+[ext_resource path="res://Combat/UI/UI.gd" type="Script" id=7]
+[ext_resource path="res://Combat/UI/CardBack.png" type="Texture2D" id=8]
+[ext_resource path="res://Basic/PixelFont.tres" type="FontFile" id=10]
+
+[sub_resource type="RectangleShape2D" id=1]
+size = Vector2( 579, 36 )
+
+[sub_resource type="RectangleShape2D" id=2]
+size = Vector2( 69, 298.5 )
+
+[sub_resource type="RectangleShape2D" id=3]
+size = Vector2( 112, 293 )
+
+[sub_resource type="RectangleShape2D" id=4]
+size = Vector2( 548, 64 )
+
+[node name="TestCombat" type="Node2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 56.0 ]
+}
+
+[node name="GridContainer" type="NinePatchRect" parent="."]
+offset_right = 1025.0
+offset_bottom = 576.0
+texture = ExtResource( 3 )
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 1
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+
+[node name="testWall" parent="." instance=ExtResource( 4 )]
+position = Vector2( 192, 192 )
+
+[node name="testWall2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 192, 256 )
+
+[node name="testWall3" parent="." instance=ExtResource( 4 )]
+position = Vector2( 256, 192 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 517, -36 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( -72, 285.5 )
+shape = SubResource( 2 )
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 1136, 283 )
+shape = SubResource( 3 )
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 524, 640 )
+shape = SubResource( 4 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 504, 280 )
+current = true
+
+[node name="Marker2D" type="Marker2D" parent="Camera2D"]
+position = Vector2( -20, -179 )
+
+[node name="UI" type="Control" parent="."]
+offset_top = 546.0
+offset_right = 1024.0
+offset_bottom = 794.0
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Arrow" type="TextureButton" parent="UI"]
+anchor_right = 0.078
+anchor_bottom = 0.145
+offset_left = 506.0
+offset_top = -6.0
+offset_right = 458.128
+offset_bottom = -1.96
+texture_normal = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CardBack" type="Sprite2D" parent="UI"]
+position = Vector2( 88, 144 )
+texture = ExtResource( 8 )
+
+[node name="CardsLeft" type="RichTextLabel" parent="UI/CardBack"]
+offset_left = -44.0
+offset_top = -80.0
+offset_right = 52.0
+offset_bottom = -48.0
+theme_override_fonts/normal_font = ExtResource( 10 )
+text = "Cards Left:  "
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="UI"]
+
+[node name="Buttons" type="Control" parent="UI"]
+offset_right = 40.0
+offset_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EndTurn" type="TextureButton" parent="UI/Buttons"]
+visible = false
+anchor_right = 1.271
+anchor_bottom = 1.213
+offset_left = 944.0
+offset_top = 144.0
+offset_right = 957.16
+offset_bottom = 159.48
+texture_normal = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Staminalabel" type="RichTextLabel" parent="UI/Buttons"]
+offset_left = 968.0
+offset_top = 136.0
+offset_right = 1024.0
+offset_bottom = 176.0
+text = "30/30"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DrawButton" type="Button" parent="UI/Buttons"]
+offset_left = 964.0
+offset_top = 105.0
+offset_right = 1008.0
+offset_bottom = 125.0
+text = "Draw"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Hand" type="HBoxContainer" parent="UI"]
+offset_left = 140.0
+offset_top = 74.0
+offset_right = 947.0
+offset_bottom = 216.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="UI/Arrow" to="UI" method="_on_Arrow_pressed"]
+[connection signal="pressed" from="UI/Buttons/EndTurn" to="UI" method="_on_EndTurn_pressed"]
+[connection signal="pressed" from="UI/Buttons/DrawButton" to="UI" method="_on_DrawButton_pressed"]

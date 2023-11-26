@@ -1,0 +1,4 @@
+res://Combat/CardParts/Card.tscn
+res://Combat/CardParts/Card.gd
+res://Combat/CardParts/fireCards.json
+res://Combat/UI/UI.gd
