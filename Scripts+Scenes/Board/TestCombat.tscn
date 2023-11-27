@@ -1,0 +1,145 @@
+[gd_scene load_steps=14 format=3 uid="uid://dvbw4dpifwfuv"]
+
+[ext_resource type="Script" path="res://Scripts+Scenes/Board/TestCombat.gd" id="1_b22n8"]
+[ext_resource type="Texture2D" uid="uid://32h8uf6o7v5w" path="res://Assets/Board/tile.png" id="2_firdh"]
+[ext_resource type="PackedScene" uid="uid://ba50p44lrpamx" path="res://Scripts+Scenes/Board/Tiles/Player.tscn" id="3_ayfle"]
+[ext_resource type="PackedScene" uid="uid://c7fd361jvvod1" path="res://Scripts+Scenes/Board/Tiles/testWall.tscn" id="4_wn6mj"]
+[ext_resource type="Script" path="res://Scripts+Scenes/Board/UI/UI.gd" id="5_67yxq"]
+[ext_resource type="Texture2D" uid="uid://0lsrk40yb2yj" path="res://Assets/UI/arrow.png" id="6_lgb5h"]
+[ext_resource type="Texture2D" uid="uid://4rd7tn4yi1a5" path="res://Assets/UI/CardBack.png" id="7_w4xi5"]
+[ext_resource type="FontFile" path="res://Assets/Fonts/PixelFont.tres" id="8_gdklo"]
+[ext_resource type="Texture2D" uid="uid://dep2n78amfqd2" path="res://Assets/UI/endturn_button.png" id="9_k225c"]
+
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(579, 36)
+
+[sub_resource type="RectangleShape2D" id="2"]
+size = Vector2(69, 298.5)
+
+[sub_resource type="RectangleShape2D" id="3"]
+size = Vector2(112, 293)
+
+[sub_resource type="RectangleShape2D" id="4"]
+size = Vector2(548, 64)
+
+[node name="TestCombat" type="Node2D"]
+script = ExtResource("1_b22n8")
+
+[node name="GridContainer" type="NinePatchRect" parent="."]
+offset_right = 1025.0
+offset_bottom = 576.0
+texture = ExtResource("2_firdh")
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 1
+
+[node name="Player" parent="." instance=ExtResource("3_ayfle")]
+
+[node name="testWall" parent="." instance=ExtResource("4_wn6mj")]
+position = Vector2(192, 192)
+scale = Vector2(0.994806, 1)
+
+[node name="testWall2" parent="." instance=ExtResource("4_wn6mj")]
+position = Vector2(192, 256)
+
+[node name="testWall3" parent="." instance=ExtResource("4_wn6mj")]
+position = Vector2(256, 192)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(517, -36)
+shape = SubResource("1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-72, 285.5)
+shape = SubResource("2")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1136, 283)
+shape = SubResource("3")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(524, 640)
+shape = SubResource("4")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(504, 280)
+
+[node name="Marker2D" type="Marker2D" parent="Camera2D"]
+position = Vector2(-20, -179)
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 546.0
+offset_right = 1024.0
+offset_bottom = 794.0
+script = ExtResource("5_67yxq")
+
+[node name="Arrow" type="TextureButton" parent="UI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.078
+anchor_bottom = 0.145
+offset_left = 506.0
+offset_top = -6.0
+offset_right = 458.128
+offset_bottom = -1.96
+scale = Vector2(0.998038, 1)
+texture_normal = ExtResource("6_lgb5h")
+
+[node name="CardBack" type="Sprite2D" parent="UI"]
+position = Vector2(88, 144)
+texture = ExtResource("7_w4xi5")
+
+[node name="CardsLeft" type="RichTextLabel" parent="UI/CardBack"]
+offset_left = -44.0
+offset_top = -80.0
+offset_right = 52.0
+offset_bottom = -48.0
+theme_override_fonts/normal_font = ExtResource("8_gdklo")
+text = "Cards Left:  "
+
+[node name="Buttons" type="Control" parent="UI"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="EndTurn" type="TextureButton" parent="UI/Buttons"]
+visible = false
+layout_mode = 0
+anchor_right = 1.271
+anchor_bottom = 1.213
+offset_left = 944.0
+offset_top = 144.0
+offset_right = 957.16
+offset_bottom = 159.48
+texture_normal = ExtResource("9_k225c")
+
+[node name="Staminalabel" type="RichTextLabel" parent="UI/Buttons"]
+layout_mode = 0
+offset_left = 968.0
+offset_top = 136.0
+offset_right = 1024.0
+offset_bottom = 176.0
+text = "30/30"
+
+[node name="DrawButton" type="Button" parent="UI/Buttons"]
+layout_mode = 0
+offset_left = 964.0
+offset_top = 105.0
+offset_right = 1008.0
+offset_bottom = 125.0
+text = "Draw"
+
+[node name="Hand" type="HBoxContainer" parent="UI"]
+layout_mode = 0
+offset_left = 140.0
+offset_top = 74.0
+offset_right = 947.0
+offset_bottom = 216.0
+alignment = 1
+
+[connection signal="pressed" from="UI/Arrow" to="UI" method="_on_Arrow_pressed"]
+[connection signal="pressed" from="UI/Buttons/EndTurn" to="UI" method="_on_EndTurn_pressed"]
+[connection signal="pressed" from="UI/Buttons/DrawButton" to="UI" method="_on_DrawButton_pressed"]

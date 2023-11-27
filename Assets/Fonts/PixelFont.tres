@@ -1,0 +1,7 @@
+[gd_resource type="FontFile" load_steps=2 format=3]
+
+[ext_resource type="FontFile" uid="uid://clr3ktnie2g4u" path="res://Assets/Fonts/pixelFont.ttf" id="1"]
+
+[resource]
+size = 12
+font_data = ExtResource( 1 )
