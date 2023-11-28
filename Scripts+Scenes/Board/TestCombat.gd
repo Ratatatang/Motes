@@ -22,3 +22,8 @@ func setStaminaLabel(maxS, tempS):
 func useCard(card):
 	pass
 
+func enoughAP(cost):
+	if(cost > curAP):
+		return true
+	else:
+		return false

@@ -72,8 +72,8 @@ func moveCard(card):
 func _on_DrawButton_pressed():
 	var handCount = $Hand.get_child_count()
 	
-	if(handCount < parent.maxHandSize and parent.enoughStamina(1)):
-		parent.updateStamina(-1)
+	if(handCount < parent.maxHandSize and parent.enoughAP(1)):
+		parent.updateAP(-1)
 		drawDeckCard()
 
 # Arrow button
