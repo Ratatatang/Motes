@@ -2,8 +2,9 @@
 	"Ignite": {
 		"Element": "Fire",
 		"Name": "Ignite",
-		"Description": "Lights one tile on fire, or the enemy on that tile.",
+		"Description": "Lights a tile on fire or the enemy on the tile.",
 		"PicFrame": 0,
+		"CastChance": 100,
 		"Cost": 5,
 		"Color": "Orange",
 		"Targeting": {}
@@ -13,6 +14,7 @@
 		"Name": "Fireball",
 		"Description": "Launches a fireball that does some damage, and ignites.",
 		"PicFrame": 1,
+		"CastChance": 95,
 		"Cost": 5,
 		"Color": "Orange"
 		}

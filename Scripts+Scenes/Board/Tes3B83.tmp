@@ -1,12 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://dvbw4dpifwfuv"]
+[gd_scene load_steps=14 format=3 uid="uid://dvbw4dpifwfuv"]
 
 [ext_resource type="Script" path="res://Scripts+Scenes/Board/TestCombat.gd" id="1_b22n8"]
 [ext_resource type="Texture2D" uid="uid://32h8uf6o7v5w" path="res://Assets/Board/tile.png" id="2_firdh"]
+[ext_resource type="PackedScene" uid="uid://ba50p44lrpamx" path="res://Scripts+Scenes/Board/Tiles/Player.tscn" id="3_ayfle"]
 [ext_resource type="PackedScene" uid="uid://c7fd361jvvod1" path="res://Scripts+Scenes/Board/Tiles/testWall.tscn" id="4_wn6mj"]
 [ext_resource type="Script" path="res://Scripts+Scenes/Board/UI/UI.gd" id="5_67yxq"]
 [ext_resource type="Texture2D" uid="uid://0lsrk40yb2yj" path="res://Assets/UI/arrow.png" id="6_lgb5h"]
 [ext_resource type="Texture2D" uid="uid://4rd7tn4yi1a5" path="res://Assets/UI/CardBack.png" id="7_w4xi5"]
-[ext_resource type="FontFile" uid="uid://b8u7jxcjx70ak" path="res://Assets/Fonts/PixelFont.tres" id="8_gdklo"]
+[ext_resource type="FontFile" path="res://Assets/Fonts/PixelFont.tres" id="8_gdklo"]
 [ext_resource type="Texture2D" uid="uid://dep2n78amfqd2" path="res://Assets/UI/endturn_button.png" id="9_k225c"]
 
 [sub_resource type="RectangleShape2D" id="1"]
@@ -31,8 +32,10 @@ texture = ExtResource("2_firdh")
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 1
 
+[node name="Player" parent="." instance=ExtResource("3_ayfle")]
+
 [node name="testWall" parent="." instance=ExtResource("4_wn6mj")]
-position = Vector2(193, 192)
+position = Vector2(192, 192)
 scale = Vector2(0.994806, 1)
 
 [node name="testWall2" parent="." instance=ExtResource("4_wn6mj")]
@@ -87,17 +90,15 @@ texture_normal = ExtResource("6_lgb5h")
 
 [node name="CardBack" type="Sprite2D" parent="UI"]
 position = Vector2(88, 144)
-scale = Vector2(1.2, 1.2)
 texture = ExtResource("7_w4xi5")
 
 [node name="CardsLeft" type="RichTextLabel" parent="UI/CardBack"]
-offset_left = -39.0
-offset_top = -61.0
-offset_right = 59.0
-offset_bottom = -29.0
+offset_left = -44.0
+offset_top = -80.0
+offset_right = 52.0
+offset_bottom = -48.0
 theme_override_fonts/normal_font = ExtResource("8_gdklo")
-theme_override_font_sizes/normal_font_size = 12
-text = "Cards Left:  6"
+text = "Cards Left:  "
 
 [node name="Buttons" type="Control" parent="UI"]
 anchors_preset = 0

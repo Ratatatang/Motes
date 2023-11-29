@@ -17,7 +17,7 @@ var fireCards
 
 func _ready():
 	randomize()
-	var text = FileAccess.open("res://Scripts+Scenes/Cards/fireCards.json", FileAccess.READ)
+	var text = FileAccess.open("res://Scripts+Scenes/Cards/CardData/fireCards.json", FileAccess.READ)
 	var json = JSON.new()
 	var parse_result = json.parse(text.get_as_text())
 
@@ -26,11 +26,6 @@ func _ready():
 		return
 
 	fireCards = json.get_data()
-	
-	drawDeckCard()
-	drawDeckCard()
-	drawDeckCard()
-	drawDeckCard()
 
 var state = stateMachine.DOWN
 
@@ -38,10 +33,11 @@ func _input(event):
 	if(event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down")):
 		_on_Arrow_pressed()
 
-# Updates the AP display
-
-func updateAP(newAP, maxAP):
-	$Buttons/APlabel.text = str(newAP)+"/"+str(maxAP)
+func dealHand():
+	drawDeckCard()
+	drawDeckCard()
+	drawDeckCard()
+	drawDeckCard()
 
 # Draws a card scene & gives it random data 
 # passData is necessary for when you draw a card, don't remove it
@@ -51,7 +47,7 @@ func drawDeckCard():
 	loadedCard.cardData = fireCards.get(parent.drawCard())
 	loadedCard.passData()
 	$Hand.add_child(loadedCard)
-	
+
 # drawRandCard with given data
 # use for when you draw a specific card from another card
 # dosen't remove anything from the deck
@@ -73,13 +69,13 @@ func _on_DrawButton_pressed():
 	var handCount = $Hand.get_child_count()
 	
 	if(handCount < parent.maxHandSize and parent.enoughAP(1)):
-		parent.updateAP(-1)
+		print("drawing!")
+		parent.incrementAP(-1)
 		drawDeckCard()
 
 # Arrow button
 
 func _on_Arrow_pressed():
-	print("ArrowPressed")
 	if(state == stateMachine.DOWN):
 		var tween = create_tween()
 		tween.tween_property(self, "position", Vector2(0, outPosition), 0.4).set_trans( Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT_IN)
@@ -88,7 +84,7 @@ func _on_Arrow_pressed():
 		
 	elif(state == stateMachine.UP):
 		var tween = create_tween()
-		$Tween.interpolate_property(self, "position", Vector2(0, downPosition), 0.4).set_trans( Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT_IN)
+		tween.tween_property(self, "position", Vector2(0, downPosition), 0.4).set_trans( Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT_IN)
 		state = stateMachine.DOWN
 		$Arrow.flip_v = !($Arrow.flip_v)
 

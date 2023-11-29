@@ -1,29 +1,55 @@
 extends Node2D
 
-var deck = ["Ignite", "Ignite", "Ignite", "Ignite", "Ignite", "Fireball", "Fireball", "Fireball", "Fireball", "Fireball"]
+@onready var player = load("res://Scripts+Scenes/Board/Tiles/PlayerData/Player.tscn")
+
 var curDeck
-var maxHandSize = 8
+var maxHandSize
+var hand
 var maxAP
 var curAP
 var maxHP
 var curHP
 
-func ready():
+var controlledCharacters = []
+var selectedCharacter
+
+
+func _ready():
 	randomize()
-	curDeck = deck.duplicate()
+	var newPlayer = player.instantiate()
+	add_child(newPlayer)
+	controlledCharacters.append(newPlayer)
+	selectedCharacter = controlledCharacters[0]
+	getCharacter(selectedCharacter)
+	$UI.dealHand()
+	updateDeckAmountLabel()
+
+func getCharacter(cha) -> void:
+	curDeck = cha.getCurDeck()
+	maxHandSize = cha.getMaxHandSize()
+	maxAP = cha.getMaxAP()
+	curAP = cha.getCurAP()
+	maxHP = cha.getMaxHP()
+	curHP = cha.getCurHP()
 	curDeck.shuffle()
 
-func drawCard():
-	return deck.pop_front()
+func drawCard() -> String:
+	var card = curDeck.pop_front()
+	updateDeckAmountLabel()
+	return card
 
-func setStaminaLabel(maxS, tempS):
-	$UI/Buttons/Staminalabel.text = str(tempS) + "/" + str(maxS)
+func enoughAP(num : int) -> bool:
+	return selectedCharacter.enoughAP(num)
 
-func useCard(card):
+func incrementAP(num : int) -> void:
+	selectedCharacter.incrementAP(num)
+	curAP = selectedCharacter.getCurAP()
+
+func updateAPLabel() -> void:
+	$UI/Buttons/APLabel.text = str(curAP) + "/" + str(maxAP)
+
+func updateDeckAmountLabel() -> void:
+	$UI/CardBack/CardsLeft.text = "Cards Left: "+str(curDeck.size())
+
+func useCard(card : NodePath) -> void:
 	pass
-
-func enoughAP(cost):
-	if(cost > curAP):
-		return true
-	else:
-		return false

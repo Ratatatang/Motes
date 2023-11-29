@@ -5,6 +5,7 @@ extends Button
 @onready var returnPos = self.position
 
 var cardData
+var color
 
 func loadCard():
 	pass
@@ -14,10 +15,12 @@ func loadCard():
 func updateData():
 	$Name.text = cardData.get("Name")
 	$Description.text = cardData.get("Description")
-	$Element.texture = load("res://Combat/CardParts/ElementSymbols/"+cardData.get("Element")+".png")
-	$Picture.texture = load("res://Combat/CardParts/"+cardData.get("Element")+"CardPics.png")
+	$Element.texture = load("res://Assets/Cards/ElementSymbols/"+cardData.get("Element")+".png")
+	$Picture.texture = load("res://Assets/Cards/CardImages/"+cardData.get("Element")+"/"+cardData.get("Element")+"CardPics.png")
 	$Picture.frame = cardData.get("PicFrame")
 	$APCost.text = str(cardData.get("Cost"))
+	$PercentChance.text = str(cardData.get("CastChance"))
+	$CardBacking.color = color
 	
 # these 2 move the card when you hover over it / move out of it
 	
