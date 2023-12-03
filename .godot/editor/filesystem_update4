@@ -2,11 +2,7 @@ res://Scripts+Scenes/Board/TestCombat.tscn
 res://Assets/Fonts/PixelFont.tres
 res://Scripts+Scenes/Board/UI/UI.tscn
 res://Scripts+Scenes/Cards/Card.tscn
-res://Scripts+Scenes/Board/Tiles/Tile.tscn
-res://Scripts+Scenes/Board/Tiles/testWall.tscn
-res://Scripts+Scenes/Board/Tiles/Player.tscn
-res://Scripts+Scenes/Board/TestCombat.gd
-res://Scripts+Scenes/Board/Tiles/PlayerData/CharacterClass.gd
 res://Scripts+Scenes/Board/Tiles/PlayerData/Player.tscn
-res://Scripts+Scenes/Cards/CardData/CardClass.gd
-res://Scripts+Scenes/Board/UI/UI.gd
+res://Scripts+Scenes/Cards/Card.gd
+res://Scripts+Scenes/Board/Tiles/PlayerData/CharacterClass.gd
+res://Scripts+Scenes/Board/TestCombat.gd

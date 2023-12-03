@@ -1,6 +1,9 @@
 extends Node2D
 
-@onready var player = load("res://Scripts+Scenes/Board/Tiles/PlayerData/Player.tscn")
+@onready var player = "res://Scripts+Scenes/Board/Tiles/PlayerData/Player.tscn"
+@onready var gamePieces = $TileMap/GamePieces
+@onready var tilemap = $TileMap
+@onready var line = $TileMap/Line2D
 
 var curDeck
 var maxHandSize
@@ -16,21 +19,20 @@ var selectedCharacter
 
 func _ready():
 	randomize()
-	var newPlayer = player.instantiate()
-	add_child(newPlayer)
-	controlledCharacters.append(newPlayer)
+	loadNewPlayer(player)
 	selectedCharacter = controlledCharacters[0]
-	getCharacter(selectedCharacter)
+	getCharacterData(selectedCharacter)
+	line.position = selectedCharacter.position
 	$UI.dealHand()
 	updateDeckAmountLabel()
 
-func getCharacter(cha) -> void:
-	curDeck = cha.getCurDeck()
-	maxHandSize = cha.getMaxHandSize()
-	maxAP = cha.getMaxAP()
-	curAP = cha.getCurAP()
-	maxHP = cha.getMaxHP()
-	curHP = cha.getCurHP()
+func getCharacterData(cha) -> void:
+	curDeck = cha.curDeck
+	maxHandSize = cha.maxHandSize
+	maxAP = cha.maxAP
+	curAP = cha.curAP
+	maxHP = cha.maxHP
+	curHP = cha.curHP
 	curDeck.shuffle()
 
 func drawCard() -> String:
@@ -43,7 +45,7 @@ func enoughAP(num : int) -> bool:
 
 func incrementAP(num : int) -> void:
 	selectedCharacter.incrementAP(num)
-	curAP = selectedCharacter.getCurAP()
+	curAP = selectedCharacter.curAP
 
 func updateAPLabel() -> void:
 	$UI/Buttons/APLabel.text = str(curAP) + "/" + str(maxAP)
@@ -53,3 +55,9 @@ func updateDeckAmountLabel() -> void:
 
 func useCard(card : NodePath) -> void:
 	pass
+	
+func loadNewPlayer(loadPath : String) -> void:
+	var newCharacter = load(loadPath).instantiate()
+	newCharacter.tilemap = $TileMap
+	gamePieces.add_child(newCharacter)
+	controlledCharacters.append(newCharacter)

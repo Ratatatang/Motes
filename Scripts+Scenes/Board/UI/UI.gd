@@ -1,10 +1,15 @@
 extends Control
 
+@onready var handNode = $Hand
+@onready var parent = get_parent()
+
 var outPosition = 352
-var downPosition = 540
+var downPosition = 525
+var loggedMousePos = Vector2(0,0)
+
+var raiseIgnore = false
 
 var cardScene = "res://Scripts+Scenes/Cards/Card.tscn"
-@onready var parent = get_parent()
 
 # Statemachine for if hand UI is shown or not
 
@@ -30,9 +35,20 @@ func _ready():
 var state = stateMachine.DOWN
 
 func _input(event):
-	if(event.is_action_pressed("ui_up") or event.is_action_pressed("ui_down")):
-		_on_Arrow_pressed()
-
+	if(event.is_action_pressed("space")):
+		if(raiseIgnore == true):
+			raiseIgnore = false
+			_on_area_2d_mouse_entered()
+		else:
+			_on_area_2d_mouse_entered()
+			raiseIgnore = true
+		
+func _physics_process(delta):
+	if(loggedMousePos == get_global_mouse_position()):
+		pass
+	else:
+		pass
+		
 func dealHand():
 	drawDeckCard()
 	drawDeckCard()
@@ -46,7 +62,9 @@ func drawDeckCard():
 	var loadedCard = load(cardScene).instantiate()
 	loadedCard.cardData = fireCards.get(parent.drawCard())
 	loadedCard.passData()
-	$Hand.add_child(loadedCard)
+	loadedCard.visible = false
+	handNode.add_child(loadedCard)
+	loadedCard.moveTo()
 
 # drawRandCard with given data
 # use for when you draw a specific card from another card
@@ -56,35 +74,33 @@ func drawCard(data):
 	var loadedCard = load(cardScene).instantiate()
 	loadedCard.cardData = data
 	loadedCard.passData()
-	$Hand.add_child(loadedCard)
+	handNode.add_child(loadedCard)
 
 func moveCard(card):
 	$UI.add_child(card)
-	$Hand.remove_child(card)
+	handNode.remove_child(card)
 	card.set_position(0,0)
 
-# Draw card button
-
 func _on_DrawButton_pressed():
-	var handCount = $Hand.get_child_count()
+	var handCount = handNode.get_child_count()
 	
 	if(handCount < parent.maxHandSize and parent.enoughAP(1)):
-		print("drawing!")
 		parent.incrementAP(-1)
 		drawDeckCard()
 
-# Arrow button
-
-func _on_Arrow_pressed():
-	if(state == stateMachine.DOWN):
-		var tween = create_tween()
-		tween.tween_property(self, "position", Vector2(0, outPosition), 0.4).set_trans( Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT_IN)
+func _on_area_2d_mouse_entered():
+	var tween = create_tween()
+	
+	if(raiseIgnore == true):
+		raiseIgnore = false
+		
+	elif(state == stateMachine.DOWN):
+		tween.tween_property(self, "position", Vector2(0, outPosition), 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		await tween.finished
 		state = stateMachine.UP
-		$Arrow.flip_v = !($Arrow.flip_v)
 		
 	elif(state == stateMachine.UP):
-		var tween = create_tween()
-		tween.tween_property(self, "position", Vector2(0, downPosition), 0.4).set_trans( Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT_IN)
+		tween.tween_property(self, "position", Vector2(0, downPosition), 0.35).set_trans(Tween.TRANS_CIRC).set_ease(Tween.EASE_OUT)
+		await tween.finished
 		state = stateMachine.DOWN
-		$Arrow.flip_v = !($Arrow.flip_v)
-
+	

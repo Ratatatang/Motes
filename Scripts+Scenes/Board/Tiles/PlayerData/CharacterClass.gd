@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name CharacterClass
 
+@onready var tilemap
+
 var deck = ["Ignite", "Ignite", "Ignite", "Ignite", "Ignite", "Fireball", "Fireball", "Fireball", "Fireball", "Fireball"]
 var curDeck = deck.duplicate()
 var maxHandSize = 8
@@ -10,38 +12,36 @@ var curAP = 30
 var maxHP = 20
 var curHP = 20
 
-func getCurDeck() -> Array:
-	return curDeck
+var astarGrid : AStarGrid2D
+var currentPath : Array[Vector2i]
 
-func getMaxHandSize() -> int:
-	return maxHandSize
-
-func getMaxAP() -> int:
-	return maxAP
-
-func getCurAP() -> int:
-	return curAP
-
-func getMaxHP() -> int:
-	return maxHP
+func _ready():
+	currentPath = [Vector2i(0,0)]
+	astarGrid = AStarGrid2D.new() 
+	astarGrid.region = tilemap.get_used_rect()
+	astarGrid.cell_size = Vector2(64, 64)
+	astarGrid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
+	astarGrid.update()
 	
-func getCurHP() -> int:
-	return maxAP
-
-func setMaxHandSize(new_size : int) -> void:
-	maxHandSize = new_size
-
-func setMaxAP(new_AP : int) -> void:
-	maxAP = new_AP
-
-func setMaxHP(new_HP : int) -> void:
-	maxHP = new_HP
+func _input(event):
+	if(event.is_action_pressed("leftClick") == false):
+		return
 	
-func setCurHP(new_HP : int) -> void:
-	curHP = new_HP
+	var idPath = astarGrid.get_id_path(
+		tilemap.local_to_map(global_position), 
+		tilemap.local_to_map(get_global_mouse_position())).slice(1)
+		
+	if idPath.is_empty() == false:
+		currentPath = idPath
 
-func setCurAP(new_AP : int) -> void:
-	curAP = new_AP
+func _physics_process(delta):
+	if(currentPath.is_empty()):
+		return
+	else:
+		var targetPosition = tilemap.map_to_local(currentPath.front())
+		global_position = global_position.move_toward(targetPosition, 1)
+		if(global_position == targetPosition):
+			currentPath.pop_front()
 
 func incrementAP(num : int) -> void:
 	curAP += num
@@ -51,3 +51,5 @@ func enoughAP(cost : int) -> bool:
 		return true
 	else:
 		return false
+
+

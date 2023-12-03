@@ -1,8 +1,8 @@
 extends Button
 
 @onready var timer = $Timer
-
-@onready var returnPos = self.position
+@onready var returnPos = position
+@onready var parent = get_parent()
 
 var cardData
 var color
@@ -22,6 +22,12 @@ func updateData():
 	$PercentChance.text = str(cardData.get("CastChance"))
 	$CardBacking.color = color
 	
+
+func moveTo():
+	global_position = Vector2(-469, 454)
+	var tween = create_tween()
+	tween.tween_property(self, "position", returnPos, 1).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT_IN)
+
 # these 2 move the card when you hover over it / move out of it
 	
 func _on_Card_mouse_entered():
@@ -34,4 +40,4 @@ func _on_Card_mouse_exited():
 	if(disabled == false):
 		var tween = create_tween()
 		get_parent().z_index = 0
-		tween.tween_property(self, "position", returnPos, 0.1).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT_IN)
+		tween.tween_property(self, "position", returnPos, 0.1).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT_IN) 

@@ -1,9 +1,96 @@
-[gd_scene load_steps=5 format=3 uid="uid://cm7uxw0cq0ymo"]
+[gd_scene load_steps=9 format=3 uid="uid://cm7uxw0cq0ymo"]
 
 [ext_resource type="Script" path="res://Scripts+Scenes/Cards/CardController.gd" id="1_5rub8"]
 [ext_resource type="Script" path="res://Scripts+Scenes/Cards/Card.gd" id="2_etir8"]
 [ext_resource type="Texture2D" uid="uid://cwq2iv3rf0cu" path="res://Assets/Cards/CardFront.png" id="3_xpgng"]
 [ext_resource type="FontFile" uid="uid://b8u7jxcjx70ak" path="res://Assets/Fonts/PixelFont.tres" id="4_p3ex8"]
+[ext_resource type="Texture2D" uid="uid://4rd7tn4yi1a5" path="res://Assets/Cards/CardBack.png" id="5_ogprk"]
+
+[sub_resource type="Animation" id="Animation_ucyjo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Card/Card/Backside:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_ef8ym"]
+resource_name = "flip"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.01, 1), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Card/Card/Backside:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_btvl0"]
+_data = {
+"RESET": SubResource("Animation_ucyjo"),
+"flip": SubResource("Animation_ef8ym")
+}
 
 [node name="Card" type="Control"]
 custom_minimum_size = Vector2(80, 0)
@@ -12,13 +99,14 @@ anchor_left = -0.046
 anchor_top = -0.117
 anchor_right = 1.0
 anchor_bottom = 1.014
-offset_left = 54.992
-offset_top = 85.816
-offset_right = -1033.0
-offset_bottom = -486.072
+offset_left = 52.992
+offset_top = 75.816
+offset_right = -1072.0
+offset_bottom = -524.072
 script = ExtResource("1_5rub8")
 
 [node name="Card" type="Node2D" parent="."]
+position = Vector2(-45, -11)
 
 [node name="Card" type="Button" parent="Card"]
 custom_minimum_size = Vector2(100, 100)
@@ -40,7 +128,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 1.0
-offset_right = -2.0
+offset_right = -1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
@@ -105,6 +193,16 @@ scale = Vector2(1.125, 1.07813)
 hframes = 2
 
 [node name="Timer" type="Timer" parent="Card/Card"]
+
+[node name="Backside" type="Sprite2D" parent="Card/Card"]
+position = Vector2(53, 69)
+scale = Vector2(1.146, 1.014)
+texture = ExtResource("5_ogprk")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_btvl0")
+}
 
 [connection signal="mouse_entered" from="Card/Card" to="Card/Card" method="_on_Card_mouse_entered"]
 [connection signal="mouse_exited" from="Card/Card" to="Card/Card" method="_on_Card_mouse_exited"]
