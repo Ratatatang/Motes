@@ -59,5 +59,6 @@ func useCard(card : NodePath) -> void:
 func loadNewPlayer(loadPath : String) -> void:
 	var newCharacter = load(loadPath).instantiate()
 	newCharacter.tilemap = $TileMap
+	newCharacter.position = Vector2(32, 32)
 	gamePieces.add_child(newCharacter)
 	controlledCharacters.append(newCharacter)
