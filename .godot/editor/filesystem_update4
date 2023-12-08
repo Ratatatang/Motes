@@ -5,3 +5,14 @@ res://Scripts+Scenes/Board/TestCombat.tscn
 res://Scripts+Scenes/Board/UI/UI.tscn
 res://Scripts+Scenes/Cards/Card.tscn
 res://Scripts+Scenes/Board/TestCombat.gd
+res://Scripts+Scenes/Cards/CardData/CardClass.gd
+res://Scripts+Scenes/Cards/CardData/Ignite.gd
+res://Scripts+Scenes/Cards/CardData/FireCardClass.gd
+res://Scripts+Scenes/Cards/CardData/Fireball.gd
+res://Scripts+Scenes/Cards/CardData/CardDirectory.json
+res://Scripts+Scenes/Board/UI/UI.gd
+res://Scripts+Scenes/Cards/CardController.gd
+res://Scripts+Scenes/Cards/Card.gd
+res://Scripts+Scenes/Cards/CardTest.tscn
+res://Scripts+Scenes/Cards/CardData/Fire/Fireball.gd
+res://Scripts+Scenes/Cards/CardData/Fire/Ignite.gd

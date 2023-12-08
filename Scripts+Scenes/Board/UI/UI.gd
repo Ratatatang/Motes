@@ -8,6 +8,7 @@ var downPosition = 525
 var loggedMousePos = Vector2(0,0)
 
 var raiseIgnore = false
+var raiseDisabled = false
 
 var cardScene = "res://Scripts+Scenes/Cards/Card.tscn"
 
@@ -18,24 +19,25 @@ enum stateMachine {
 	DOWN
 }
 
-var fireCards
+var cardsDirectory
 
 func _ready():
 	randomize()
-	var text = FileAccess.open("res://Scripts+Scenes/Cards/CardData/fireCards.json", FileAccess.READ)
+	var text = FileAccess.open("res://Scripts+Scenes/Cards/CardData/CardDirectory.json", FileAccess.READ)
 	var json = JSON.new()
 	var parse_result = json.parse(text.get_as_text())
 
 	if parse_result != OK:
-		print("Error %s reading fire cards file." % parse_result)
+		print("Error %s reading cards directory." % parse_result)
 		return
 
-	fireCards = json.get_data()
+	cardsDirectory = json.get_data()
 
 var state = stateMachine.DOWN
 
 func _input(event):
 	if(event.is_action_pressed("space")):
+		raiseDisabled = false
 		if(raiseIgnore == true):
 			raiseIgnore = false
 			_on_area_2d_mouse_entered()
@@ -60,8 +62,8 @@ func dealHand():
  
 func drawDeckCard():
 	var loadedCard = load(cardScene).instantiate()
-	loadedCard.cardData = fireCards.get(parent.drawCard())
-	loadedCard.passData()
+	var object = load(cardsDirectory.get(parent.drawCard())).new()
+	loadedCard.passData(object)
 	loadedCard.visible = false
 	handNode.add_child(loadedCard)
 	loadedCard.moveTo()
@@ -81,6 +83,11 @@ func moveCard(card):
 	handNode.remove_child(card)
 	card.set_position(0,0)
 
+func setDown():
+	if(state == stateMachine.UP):
+		raiseIgnore = false
+		_on_area_2d_mouse_entered()
+
 func _on_DrawButton_pressed():
 	var handCount = handNode.get_child_count()
 	
@@ -89,6 +96,9 @@ func _on_DrawButton_pressed():
 		drawDeckCard()
 
 func _on_area_2d_mouse_entered():
+	if(raiseDisabled == true):
+		return
+	
 	var tween = create_tween()
 	
 	if(raiseIgnore == true):

@@ -1,18 +1,20 @@
+extends Object
 class_name  CardClass
 
 var element : String
-var title : String
+var name : String
 var description : String
 var image
 var castChance : int
 var cost : int
+var frame : int
 var targeting
 
 func getElement() -> String:
 	return element
 
-func getTitle() -> String:
-	return title
+func getName() -> String:
+	return name
 
 func getDescription() -> String:
 	return element
@@ -26,8 +28,8 @@ func getCastChance() -> int:
 func setElement(new_element) -> void:
 	element = new_element
 
-func setTitle(new_title) -> void:
-	title = new_title
+func setName(new_name) -> void:
+	name = new_name
 
 func setDescription(new_description) -> void:
 	description = new_description

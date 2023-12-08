@@ -1,9 +1,11 @@
+TileMap
 Sprite2D
 AnimationPlayer
-Control
+RichTextLabel
+Marker2D
 Line2D
+Control
 CollisionShape2D
 Area2D
 Node
 Node2D
-TileMap

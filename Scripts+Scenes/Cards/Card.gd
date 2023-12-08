@@ -5,7 +5,6 @@ extends Button
 @onready var parent = get_parent()
 
 var cardData
-var color
 
 func loadCard():
 	pass
@@ -13,14 +12,13 @@ func loadCard():
 # updates all the displays on the card to reflect the data stored
 
 func updateData():
-	$Name.text = cardData.get("Name")
-	$Description.text = cardData.get("Description")
-	$Element.texture = load("res://Assets/Cards/ElementSymbols/"+cardData.get("Element")+".png")
-	$Picture.texture = load("res://Assets/Cards/CardImages/"+cardData.get("Element")+"/"+cardData.get("Element")+"CardPics.png")
-	$Picture.frame = cardData.get("PicFrame")
-	$APCost.text = str(cardData.get("Cost"))
-	$PercentChance.text = str(cardData.get("CastChance"))
-	$CardBacking.color = color
+	$Name.text = cardData.name
+	$Description.text = cardData.description
+	$Element.texture = load("res://Assets/Cards/ElementSymbols/"+cardData.element+".png")
+	$Picture.texture = load("res://Assets/Cards/CardImages/Fire/"+cardData.name+".png")
+	$APCost.text = str(cardData.cost)
+	$PercentChance.text = str(cardData.castChance)
+	$CardBacking.color = cardData.color
 	
 
 func moveTo():

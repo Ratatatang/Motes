@@ -1,8 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://dvbw4dpifwfuv"]
+[gd_scene load_steps=18 format=3 uid="uid://dvbw4dpifwfuv"]
 
 [ext_resource type="Script" path="res://Scripts+Scenes/Board/TestCombat.gd" id="1_b22n8"]
 [ext_resource type="Texture2D" uid="uid://32h8uf6o7v5w" path="res://Assets/Board/tile.png" id="2_firdh"]
 [ext_resource type="Texture2D" uid="uid://c6vjnapx2ol82" path="res://Assets/Board/wall.png" id="3_hsjks"]
+[ext_resource type="Texture2D" uid="uid://vh6excj7dr8j" path="res://Assets/Board/Objects/chair.png" id="4_ltidq"]
+[ext_resource type="FontFile" uid="uid://clr3ktnie2g4u" path="res://Assets/Fonts/pixelFont.ttf" id="4_nd71r"]
 [ext_resource type="Script" path="res://Scripts+Scenes/Board/UI/UI.gd" id="5_67yxq"]
 [ext_resource type="Texture2D" uid="uid://4rd7tn4yi1a5" path="res://Assets/Cards/CardBack.png" id="5_q8c5x"]
 [ext_resource type="FontFile" uid="uid://b8u7jxcjx70ak" path="res://Assets/Fonts/PixelFont.tres" id="8_gdklo"]
@@ -14,11 +16,9 @@ texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
-0:0/0/custom_data_0 = true
 1:0/0 = 0
 1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 1:0/0/physics_layer_0/angular_velocity = 0.0
-1:0/0/custom_data_0 = true
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_12pqk"]
 texture = ExtResource("3_hsjks")
@@ -27,12 +27,21 @@ texture_region_size = Vector2i(64, 64)
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+0:0/0/custom_data_0 = true
+0:0/0/custom_data_1 = true
+1:0/0 = 0
+1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_0/angular_velocity = 0.0
+1:0/0/custom_data_0 = true
+1:0/0/custom_data_1 = true
 
 [sub_resource type="TileSet" id="TileSet_4g06v"]
 tile_size = Vector2i(64, 64)
 physics_layer_0/collision_layer = 1
-custom_data_layer_0/name = "passable"
+custom_data_layer_0/name = "impassable"
 custom_data_layer_0/type = 1
+custom_data_layer_1/name = "opaque"
+custom_data_layer_1/type = 1
 sources/5 = SubResource("TileSetAtlasSource_jqsql")
 sources/6 = SubResource("TileSetAtlasSource_12pqk")
 
@@ -58,11 +67,21 @@ script = ExtResource("1_b22n8")
 tile_set = SubResource("TileSet_4g06v")
 cell_quadrant_size = 64
 format = 2
-layer_0/tile_data = PackedInt32Array(0, 5, 0, 1, 5, 0, 2, 5, 0, 3, 5, 0, 15, 5, 0, 14, 5, 0, 13, 5, 0, 12, 5, 0, 11, 5, 0, 10, 5, 0, 9, 5, 0, 8, 5, 0, 7, 5, 0, 6, 5, 0, 5, 5, 0, 4, 5, 0, 65540, 5, 0, 524288, 5, 0, 458752, 5, 0, 393216, 5, 0, 327680, 5, 0, 262144, 5, 0, 196608, 5, 0, 131072, 5, 0, 65536, 5, 0, 524289, 5, 0, 524303, 5, 0, 65551, 5, 0, 131087, 5, 0, 196623, 5, 0, 262159, 5, 0, 327695, 5, 0, 393231, 5, 0, 458767, 5, 0, 524302, 5, 0, 524301, 5, 0, 524300, 5, 0, 524299, 5, 0, 524298, 5, 0, 524297, 5, 0, 524296, 5, 0, 524295, 5, 0, 524294, 5, 0, 524293, 5, 0, 524292, 5, 0, 524291, 5, 0, 524290, 5, 0, 458754, 5, 0, 458753, 5, 0, 393217, 5, 0, 327682, 5, 0, 327683, 5, 0, 327684, 6, 0, 327685, 5, 0, 327686, 5, 0, 327687, 5, 0, 393223, 5, 0, 458758, 6, 0, 458757, 6, 0, 458756, 6, 0, 393220, 6, 0, 393219, 5, 0, 393221, 5, 0, 458755, 5, 0, 393218, 5, 0, 393222, 5, 0, 393224, 5, 0, 458759, 5, 0, 458760, 5, 0, 458761, 5, 0, 458762, 5, 0, 458763, 5, 0, 393227, 5, 0, 393228, 5, 0, 393229, 5, 0, 458765, 5, 0, 458766, 5, 0, 393230, 5, 0, 458764, 5, 0, 327693, 5, 0, 327694, 5, 0, 262158, 5, 0, 196622, 5, 0, 131086, 5, 0, 65550, 5, 0, 65549, 5, 0, 65548, 5, 0, 65547, 5, 0, 65546, 5, 0, 131082, 5, 0, 131081, 5, 0, 131080, 5, 0, 131079, 5, 0, 131078, 5, 0, 65542, 6, 0, 65541, 5, 0, 65543, 6, 0, 65544, 6, 0, 65545, 5, 0, 196618, 5, 0, 262154, 6, 0, 327689, 6, 0, 327688, 5, 0, 262152, 5, 0, 262153, 6, 0, 196617, 6, 0, 327690, 5, 0, 393225, 5, 0, 393226, 5, 0, 327691, 5, 0, 262156, 6, 0, 196621, 5, 0, 327692, 5, 0, 262157, 5, 0, 131085, 5, 0, 131084, 5, 0, 131083, 5, 0, 196619, 5, 0, 262155, 6, 0, 196620, 5, 0, 262151, 5, 0, 262150, 5, 0, 262149, 5, 0, 262148, 5, 0, 262147, 5, 0, 196610, 5, 0, 262146, 5, 0, 262145, 5, 0, 327681, 5, 0, 196609, 5, 0, 131073, 5, 0, 65537, 5, 0, 65538, 5, 0, 65539, 5, 0, 131075, 5, 0, 131074, 5, 0, 131076, 5, 0, 131077, 5, 0, 196613, 5, 0, 196612, 5, 0, 196611, 5, 0, 196615, 5, 0, 196616, 5, 0, 196614, 5, 0)
-
-[node name="Line2D" type="Line2D" parent="TileMap"]
+layer_0/tile_data = PackedInt32Array(0, 5, 0, 1, 5, 0, 2, 5, 0, 3, 5, 0, 15, 5, 0, 14, 5, 0, 13, 5, 0, 12, 5, 0, 11, 5, 0, 10, 5, 0, 9, 5, 0, 8, 5, 0, 7, 5, 0, 6, 5, 0, 5, 5, 0, 4, 5, 0, 65540, 6, 0, 524288, 5, 0, 458752, 5, 0, 393216, 5, 0, 327680, 5, 0, 262144, 5, 0, 196608, 5, 0, 131072, 5, 0, 65536, 5, 0, 524289, 5, 0, 524303, 5, 0, 65551, 5, 0, 131087, 5, 0, 196623, 5, 0, 262159, 5, 0, 327695, 5, 0, 393231, 5, 0, 458767, 5, 0, 524302, 5, 0, 524301, 5, 0, 524300, 5, 0, 524299, 5, 0, 524298, 5, 0, 524297, 5, 0, 524296, 5, 0, 524295, 5, 0, 524294, 5, 0, 524293, 5, 0, 524292, 5, 0, 524291, 5, 0, 524290, 5, 0, 458754, 6, 0, 458753, 6, 0, 393217, 6, 0, 327682, 5, 0, 327683, 5, 0, 327684, 6, 0, 327685, 5, 0, 327686, 5, 0, 327687, 5, 0, 393223, 5, 0, 458758, 6, 0, 458757, 6, 0, 458756, 6, 0, 393220, 5, 0, 393219, 5, 0, 393221, 5, 0, 458755, 6, 0, 393218, 5, 0, 393222, 5, 0, 393224, 6, 0, 458759, 6, 0, 458760, 6, 0, 458761, 5, 0, 458762, 5, 0, 458763, 5, 0, 393227, 6, 0, 393228, 6, 0, 393229, 6, 0, 458765, 5, 0, 458766, 5, 0, 393230, 6, 0, 458764, 5, 0, 327693, 5, 0, 327694, 6, 0, 262158, 6, 0, 196622, 6, 0, 131086, 6, 0, 65550, 6, 0, 65549, 6, 0, 65548, 6, 0, 65547, 6, 0, 65546, 6, 0, 131082, 5, 0, 131081, 5, 0, 131080, 6, 0, 131079, 5, 0, 131078, 5, 0, 65542, 6, 0, 65541, 6, 0, 65543, 6, 0, 65544, 6, 0, 65545, 6, 0, 196618, 5, 0, 262154, 5, 0, 327689, 5, 0, 327688, 6, 0, 262152, 5, 0, 262153, 5, 0, 196617, 5, 0, 327690, 5, 0, 393225, 6, 0, 393226, 6, 0, 327691, 5, 0, 262156, 5, 0, 196621, 5, 0, 327692, 5, 0, 262157, 5, 0, 131085, 5, 0, 131084, 5, 0, 131083, 5, 0, 196619, 5, 0, 262155, 5, 0, 196620, 5, 0, 262151, 5, 0, 262150, 5, 0, 262149, 5, 0, 262148, 6, 0, 262147, 5, 0, 196610, 5, 0, 262146, 5, 0, 262145, 5, 0, 327681, 6, 0, 196609, 6, 0, 131073, 6, 0, 65537, 6, 0, 65538, 6, 0, 65539, 6, 0, 131075, 5, 0, 131074, 5, 0, 131076, 6, 0, 131077, 5, 0, 196613, 6, 0, 196612, 6, 0, 196611, 5, 0, 196615, 5, 0, 196616, 6, 0, 196614, 6, 0)
 
 [node name="GamePieces" type="Node2D" parent="TileMap"]
+
+[node name="Sprite2D" type="Sprite2D" parent="TileMap/GamePieces"]
+position = Vector2(352, 160)
+texture = ExtResource("4_ltidq")
+hframes = 4
+
+[node name="WarFog" type="TileMap" parent="TileMap"]
+visible = false
+tile_set = SubResource("TileSet_4g06v")
+cell_quadrant_size = 64
+format = 2
+layer_0/tile_data = PackedInt32Array(0, 5, 0, 3, 5, 0, 9, 5, 0, 8, 5, 0, 7, 5, 0, 6, 5, 0, 5, 5, 0, 4, 5, 0, 393216, 5, 0, 327680, 5, 0, 262144, 5, 0)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
@@ -87,6 +106,22 @@ position = Vector2(504, 280)
 
 [node name="Marker2D" type="Marker2D" parent="Camera2D"]
 position = Vector2(-20, -179)
+
+[node name="MovementCostMarker" type="Marker2D" parent="."]
+visible = false
+
+[node name="MoementCost" type="RichTextLabel" parent="MovementCostMarker"]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(1.5, 1.5)
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_nd71r")
+theme_override_font_sizes/normal_font_size = 12
+text = "COST: "
+autowrap_mode = 0
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
