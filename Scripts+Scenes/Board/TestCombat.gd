@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var player = "res://Scripts+Scenes/Board/Tiles/PlayerData/Player.tscn"
+@onready var tileMarker = "res://Scripts+Scenes/Board/Tiles/tile_marker.tscn"
 @onready var gamePieces = $TileMap/GamePieces
 @onready var tilemap = $TileMap
 @onready var UI = $UI
@@ -19,6 +20,8 @@ var selectedCharacter
 var doubleSelected = false
 
 var curPath
+
+var markers = []
 
 func _ready():
 	randomize()
@@ -72,6 +75,16 @@ func drawCard() -> String:
 	updateDeckAmountLabel()
 	return card
 
+func cardUsed(card):
+	print("click!")
+#	var targetableTiles = []
+#	for tile in tilemap.get_used_cells():
+#		targetableTiles.append(tilemap.map_to_local(tile))
+	
+#	for tile in targetableTiles:
+#		var marker = load(tileMarker).instantiate()
+#		marker.global_position = tile.global_position
+
 func enoughAP(num : int) -> bool:
 	return selectedCharacter.enoughAP(num)
 
@@ -85,8 +98,6 @@ func updateAPLabel() -> void:
 func updateDeckAmountLabel() -> void:
 	$UI/CardBack/CardsLeft.text = "Cards Left: "+str(curDeck.size())
 
-func useCard(card : NodePath) -> void:
-	pass
 	
 func loadNewPlayer(loadPath : String) -> void:
 	var newCharacter = load(loadPath).instantiate()

@@ -72,6 +72,7 @@ layer_0/tile_data = PackedInt32Array(0, 5, 0, 1, 5, 0, 2, 5, 0, 3, 5, 0, 15, 5, 
 [node name="GamePieces" type="Node2D" parent="TileMap"]
 
 [node name="Sprite2D" type="Sprite2D" parent="TileMap/GamePieces"]
+visible = false
 position = Vector2(352, 160)
 texture = ExtResource("4_ltidq")
 hframes = 4
@@ -110,7 +111,7 @@ position = Vector2(-20, -179)
 [node name="MovementCostMarker" type="Marker2D" parent="."]
 visible = false
 
-[node name="MoementCost" type="RichTextLabel" parent="MovementCostMarker"]
+[node name="MovementCost" type="RichTextLabel" parent="MovementCostMarker"]
 visible = false
 offset_right = 40.0
 offset_bottom = 40.0
@@ -176,6 +177,8 @@ offset_left = 964.0
 offset_top = 118.0
 offset_right = 1014.0
 offset_bottom = 149.0
+mouse_filter = 1
+action_mode = 0
 text = "Draw"
 
 [node name="Hand" type="HBoxContainer" parent="UI"]

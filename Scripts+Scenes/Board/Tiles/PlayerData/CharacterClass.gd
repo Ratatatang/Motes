@@ -4,7 +4,7 @@ class_name CharacterClass
 @onready var tilemap : TileMap
 @onready var line = $Line2D
 
-var deck = ["Ignite", "Ignite", "Ignite", "Ignite", "Ignite", "Fireball", "Fireball", "Fireball", "Fireball", "Fireball"]
+var deck = ["Ignite", "Ignite", "Ignite", "Ignite", "Ignite", "FireArrow", "FireArrow", "FireArrow", "FireArrow", "FireArrow"]
 var curDeck = deck.duplicate()
 var maxHandSize = 8
 var hand = {}

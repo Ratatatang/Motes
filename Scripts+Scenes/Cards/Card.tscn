@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://cm7uxw0cq0ymo"]
+[gd_scene load_steps=10 format=3 uid="uid://cm7uxw0cq0ymo"]
 
 [ext_resource type="Script" path="res://Scripts+Scenes/Cards/CardController.gd" id="1_5rub8"]
 [ext_resource type="Script" path="res://Scripts+Scenes/Cards/Card.gd" id="2_etir8"]
 [ext_resource type="Texture2D" uid="uid://cwq2iv3rf0cu" path="res://Assets/Cards/CardFront.png" id="3_xpgng"]
 [ext_resource type="FontFile" uid="uid://b8u7jxcjx70ak" path="res://Assets/Fonts/PixelFont.tres" id="4_p3ex8"]
+[ext_resource type="Texture2D" uid="uid://3uo6qspe6ry4" path="res://Assets/Cards/CardImages/missingCard.png" id="5_h57qs"]
 [ext_resource type="Texture2D" uid="uid://4rd7tn4yi1a5" path="res://Assets/Cards/CardBack.png" id="5_ogprk"]
 
 [sub_resource type="Animation" id="Animation_ucyjo"]
@@ -127,8 +128,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 1.0
-offset_right = -1.0
+offset_right = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
@@ -188,8 +188,9 @@ mouse_filter = 1
 theme_override_fonts/normal_font = ExtResource("4_p3ex8")
 
 [node name="Picture" type="Sprite2D" parent="Card/Card"]
-position = Vector2(44, 59)
+position = Vector2(43, 59)
 scale = Vector2(1.125, 1.07813)
+texture = ExtResource("5_h57qs")
 
 [node name="Timer" type="Timer" parent="Card/Card"]
 
@@ -205,3 +206,4 @@ libraries = {
 
 [connection signal="mouse_entered" from="Card/Card" to="Card/Card" method="_on_Card_mouse_entered"]
 [connection signal="mouse_exited" from="Card/Card" to="Card/Card" method="_on_Card_mouse_exited"]
+[connection signal="pressed" from="Card/Card" to="Card/Card" method="_on_pressed"]

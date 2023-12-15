@@ -76,12 +76,16 @@ func drawCard(data):
 	var loadedCard = load(cardScene).instantiate()
 	loadedCard.cardData = data
 	loadedCard.passData()
+	loadedCard.cardUsed.connect(cardUsed)
 	handNode.add_child(loadedCard)
 
 func moveCard(card):
 	$UI.add_child(card)
 	handNode.remove_child(card)
 	card.set_position(0,0)
+
+func cardUsed(card):
+	print("click!")
 
 func setDown():
 	if(state == stateMachine.UP):

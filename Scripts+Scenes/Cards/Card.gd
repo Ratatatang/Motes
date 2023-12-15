@@ -15,7 +15,7 @@ func updateData():
 	$Name.text = cardData.name
 	$Description.text = cardData.description
 	$Element.texture = load("res://Assets/Cards/ElementSymbols/"+cardData.element+".png")
-	$Picture.texture = load("res://Assets/Cards/CardImages/Fire/"+cardData.name+".png")
+	$Picture.texture = load("res://Assets/Cards/CardImages/Fire/"+cardData.sysName+".png")
 	$APCost.text = str(cardData.cost)
 	$PercentChance.text = str(cardData.castChance)
 	$CardBacking.color = cardData.color
@@ -39,3 +39,7 @@ func _on_Card_mouse_exited():
 		var tween = create_tween()
 		get_parent().z_index = 0
 		tween.tween_property(self, "position", returnPos, 0.1).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT_IN) 
+
+
+func _on_pressed():
+	parent.get_parent().emitUsed()

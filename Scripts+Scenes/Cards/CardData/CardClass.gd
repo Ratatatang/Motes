@@ -2,6 +2,7 @@ extends Object
 class_name  CardClass
 
 var element : String
+var sysName : String
 var name : String
 var description : String
 var image
@@ -15,6 +16,9 @@ func getElement() -> String:
 
 func getName() -> String:
 	return name
+
+func getSysName() -> String:
+	return sysName
 
 func getDescription() -> String:
 	return element
@@ -30,6 +34,9 @@ func setElement(new_element) -> void:
 
 func setName(new_name) -> void:
 	name = new_name
+
+func setSysName(new_name) -> void:
+	sysName = new_name
 
 func setDescription(new_description) -> void:
 	description = new_description
