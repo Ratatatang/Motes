@@ -1,7 +1,7 @@
 extends FireCard
 
 func _init():
-	element = "Fire"
+	super()
 	name = "Fire  Arrow"
 	sysName = "FireArrow"
 	description = "Launches a bolt of flame that does some damage, and ignites."

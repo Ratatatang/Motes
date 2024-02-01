@@ -1,6 +1,5 @@
 extends Node2D
 
-@onready var player = "res://Scripts+Scenes/Board/Tiles/PlayerData/Player.tscn"
 @onready var tileMarker = "res://Scripts+Scenes/Board/Tiles/tile_marker.tscn"
 @onready var gamePieces = $TileMap/GamePieces
 @onready var tilemap = $TileMap
@@ -15,7 +14,7 @@ var curAP
 var maxHP
 var curHP
 
-var controlledCharacters = []
+var characters = []
 var selectedCharacter
 var doubleSelected = false
 
@@ -25,9 +24,11 @@ var markers = []
 
 func _ready():
 	randomize()
-	loadNewPlayer(player)
-	selectedCharacter = controlledCharacters[0]
+	loadNewEnitity("res://Scripts+Scenes/Board/Tiles/Entities/PlayerData/Player.tscn")
+	loadNewEnitity("res://Scripts+Scenes/Board/Tiles/Entities/EnemyData/Enemy.tscn", Vector2(32, 96))
+	selectedCharacter = characters[0]
 	getCharacterData(selectedCharacter)
+	
 	UI.dealHand()
 	updateDeckAmountLabel()
 
@@ -46,6 +47,10 @@ func _input(event):
 				undouble()
 		elif(doubleSelected == true):
 			selectedCharacter.setPath()
+			undouble()
+	
+	if(event.is_action_pressed("rightClick")):
+		if(doubleSelected == true):
 			undouble()
 
 func getCharacterData(cha) -> void:
@@ -98,10 +103,13 @@ func updateAPLabel() -> void:
 func updateDeckAmountLabel() -> void:
 	$UI/CardBack/CardsLeft.text = "Cards Left: "+str(curDeck.size())
 
+func loadNewEnitity(loadPath : String, pos = Vector2(32, 32)) -> void:
+	var newEnitity = load(loadPath).instantiate()
+	newEnitity.tilemap = $TileMap
+	newEnitity.global_position = pos
+	newEnitity.otherEntities = characters
+	characters.append(newEnitity)
+	gamePieces.add_child(newEnitity)
 	
-func loadNewPlayer(loadPath : String) -> void:
-	var newCharacter = load(loadPath).instantiate()
-	newCharacter.tilemap = $TileMap
-	newCharacter.global_position = Vector2(32, 32)
-	gamePieces.add_child(newCharacter)
-	controlledCharacters.append(newCharacter)
+	for character in characters:
+		character.updateImpassable()

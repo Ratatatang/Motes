@@ -45,12 +45,6 @@ func _input(event):
 			_on_area_2d_mouse_entered()
 			raiseIgnore = true
 		
-func _physics_process(delta):
-	if(loggedMousePos == get_global_mouse_position()):
-		pass
-	else:
-		pass
-		
 func dealHand():
 	drawDeckCard()
 	drawDeckCard()
@@ -108,7 +102,7 @@ func _on_area_2d_mouse_entered():
 	if(raiseIgnore == true):
 		raiseIgnore = false
 		
-	elif(state == stateMachine.DOWN):
+	if(state == stateMachine.DOWN):
 		tween.tween_property(self, "position", Vector2(0, outPosition), 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		await tween.finished
 		state = stateMachine.UP

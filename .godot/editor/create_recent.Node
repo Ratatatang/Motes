@@ -1,10 +1,11 @@
+Line2D
+Path2D
 ColorRect
 TileMap
 Sprite2D
 AnimationPlayer
 RichTextLabel
 Marker2D
-Line2D
 Control
 CollisionShape2D
 Area2D

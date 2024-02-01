@@ -6,6 +6,9 @@ var fireColor : String = "Orange"
 var igniteDuration : int = 3
 var color : String = "a80d10"
 
+func _init():
+	element = "Fire"
+
 func getFireColor() -> String:
 	return fireColor
 
