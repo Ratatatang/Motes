@@ -1,0 +1,4 @@
+{
+	"Ignite": "res://Scripts/Cards/CardData/Fire/Ignite.gd",
+	"FireArrow": "res://Scripts/Cards/CardData/Fire/FireArrow.gd"
+}

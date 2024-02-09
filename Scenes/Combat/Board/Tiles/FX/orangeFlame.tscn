@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://im6ahx2vtcro"]
+
+[ext_resource type="Texture2D" uid="uid://c84bjee1fpy72" path="res://Assets/Board/FX/burning.png" id="1_bsuf0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5711a"]
+atlas = ExtResource("1_bsuf0")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8teri"]
+atlas = ExtResource("1_bsuf0")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f8hfs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5711a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8teri")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="OrangeFlame" type="AnimatedSprite2D"]
+scale = Vector2(1.9, 1.9)
+sprite_frames = SubResource("SpriteFrames_f8hfs")
+autoplay = "default"
+frame = 1
+frame_progress = 0.149837

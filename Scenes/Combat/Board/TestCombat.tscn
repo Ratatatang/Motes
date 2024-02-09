@@ -1,0 +1,155 @@
+[gd_scene load_steps=10 format=3 uid="uid://dvbw4dpifwfuv"]
+
+[ext_resource type="Script" path="res://Scripts/Combat/TestCombat.gd" id="1_crd7n"]
+[ext_resource type="Script" path="res://Scripts/Combat/Board/BoardFX.gd" id="2_4nea0"]
+[ext_resource type="Texture2D" uid="uid://vh6excj7dr8j" path="res://Assets/Board/Objects/chair.png" id="3_8chye"]
+[ext_resource type="FontFile" uid="uid://clr3ktnie2g4u" path="res://Assets/Fonts/pixelFont.ttf" id="4_epmqb"]
+[ext_resource type="Script" path="res://Scripts/UI/UI.gd" id="5_pktj1"]
+[ext_resource type="Texture2D" uid="uid://4rd7tn4yi1a5" path="res://Assets/Cards/CardBack.png" id="6_yl21w"]
+[ext_resource type="FontFile" uid="uid://b8u7jxcjx70ak" path="res://Assets/Fonts/PixelFont.tres" id="7_ic47e"]
+
+[sub_resource type="TileSet" id="TileSet_4g06v"]
+tile_size = Vector2i(64, 64)
+physics_layer_0/collision_layer = 32
+physics_layer_0/collision_mask = 32
+custom_data_layer_0/name = "impassable"
+custom_data_layer_0/type = 1
+custom_data_layer_1/name = "opaque"
+custom_data_layer_1/type = 1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hqxpg"]
+size = Vector2(1153, 43.5)
+
+[node name="GameBoard" type="Node2D"]
+script = ExtResource("1_crd7n")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_4g06v")
+rendering_quadrant_size = 64
+format = 2
+layer_0/tile_data = PackedInt32Array(0, 5, 0, 1, 5, 0, 2, 5, 0, 3, 5, 0, 15, 5, 0, 14, 5, 0, 13, 5, 0, 12, 5, 0, 11, 5, 0, 10, 5, 0, 9, 5, 0, 8, 5, 0, 7, 5, 0, 6, 5, 0, 5, 5, 0, 4, 5, 0, 65540, 5, 0, 524288, 5, 0, 458752, 5, 0, 393216, 5, 0, 327680, 5, 0, 262144, 5, 0, 196608, 5, 0, 131072, 5, 0, 65536, 5, 0, 524289, 5, 0, 524303, 5, 0, 65551, 5, 0, 131087, 5, 0, 196623, 5, 0, 262159, 5, 0, 327695, 5, 0, 393231, 5, 0, 458767, 5, 0, 524302, 5, 0, 524301, 5, 0, 524300, 5, 0, 524299, 5, 0, 524298, 5, 0, 524297, 5, 0, 524296, 5, 0, 524295, 5, 0, 524294, 5, 0, 524293, 5, 0, 524292, 5, 0, 524291, 5, 0, 524290, 5, 0, 458754, 6, 0, 458753, 5, 0, 393217, 5, 0, 327682, 6, 0, 327683, 5, 0, 327684, 5, 0, 327685, 5, 0, 327686, 5, 0, 327687, 5, 0, 393223, 5, 0, 458758, 6, 0, 458757, 6, 0, 458756, 6, 0, 393220, 5, 0, 393219, 5, 0, 393221, 5, 0, 458755, 6, 0, 393218, 6, 0, 393222, 5, 0, 393224, 6, 0, 458759, 6, 0, 458760, 6, 0, 458761, 5, 0, 458762, 5, 0, 458763, 5, 0, 393227, 6, 0, 393228, 6, 0, 393229, 6, 0, 458765, 5, 0, 458766, 5, 0, 393230, 6, 0, 458764, 5, 0, 327693, 5, 0, 327694, 6, 0, 262158, 6, 0, 196622, 6, 0, 131086, 6, 0, 65550, 6, 0, 65549, 6, 0, 65548, 6, 0, 65547, 6, 0, 65546, 6, 0, 131082, 5, 0, 131081, 5, 0, 131080, 6, 0, 131079, 5, 0, 131078, 5, 0, 65542, 5, 0, 65541, 5, 0, 65543, 5, 0, 65544, 6, 0, 65545, 6, 0, 196618, 5, 0, 262154, 5, 0, 327689, 5, 0, 327688, 6, 0, 262152, 5, 0, 262153, 5, 0, 196617, 5, 0, 327690, 5, 0, 393225, 6, 0, 393226, 6, 0, 327691, 5, 0, 262156, 5, 0, 196621, 5, 0, 327692, 5, 0, 262157, 5, 0, 131085, 5, 0, 131084, 5, 0, 131083, 5, 0, 196619, 5, 0, 262155, 5, 0, 196620, 5, 0, 262151, 5, 0, 262150, 5, 0, 262149, 5, 0, 262148, 5, 0, 262147, 5, 0, 196610, 6, 0, 262146, 6, 0, 262145, 5, 0, 327681, 5, 0, 196609, 5, 0, 131073, 5, 0, 65537, 5, 0, 65538, 5, 0, 65539, 5, 0, 131075, 5, 0, 131074, 5, 0, 131076, 5, 0, 131077, 5, 0, 196613, 6, 0, 196612, 6, 0, 196611, 6, 0, 196615, 5, 0, 196616, 6, 0, 196614, 6, 0)
+script = ExtResource("2_4nea0")
+
+[node name="GameFX" type="Node2D" parent="TileMap"]
+
+[node name="GamePieces" type="Node2D" parent="TileMap"]
+
+[node name="Sprite2D" type="Sprite2D" parent="TileMap/GamePieces"]
+visible = false
+position = Vector2(352, 160)
+texture = ExtResource("3_8chye")
+hframes = 4
+
+[node name="WarFog" type="TileMap" parent="TileMap"]
+visible = false
+tile_set = SubResource("TileSet_4g06v")
+rendering_quadrant_size = 64
+format = 2
+layer_0/tile_data = PackedInt32Array(0, 65541, 0, 3, 65541, 0, 9, 65541, 0, 8, 65541, 0, 7, 65541, 0, 6, 65541, 0, 5, 65541, 0, 4, 65541, 0, 393216, 65541, 0, 327680, 65541, 0, 262144, 65541, 0, 65536, 65541, 0, 131072, 65541, 0, 196608, 65541, 0, 458752, 65541, 0, 524288, 65541, 0, 1, 65541, 0, 65537, 65541, 0, 131073, 65541, 0, 196609, 65541, 0, 262145, 65541, 0, 327681, 65541, 0, 393217, 65541, 0, 458753, 65541, 0, 524289, 65541, 0, 2, 65541, 0, 65538, 65541, 0, 131074, 65541, 0, 196610, 65541, 0, 262146, 65541, 0, 327682, 65541, 0, 393218, 65541, 0, 458754, 65541, 0, 524290, 65541, 0, 65539, 65541, 0, 131075, 65541, 0, 196611, 65541, 0, 262147, 65541, 0, 327683, 65541, 0, 393219, 65541, 0, 458755, 65541, 0, 524291, 65541, 0, 65540, 65541, 0, 131076, 65541, 0, 196612, 65541, 0, 262148, 65541, 0, 327684, 65541, 0, 393220, 65541, 0, 458756, 65541, 0, 524292, 65541, 0, 65541, 65541, 0, 131077, 65541, 0, 196613, 65541, 0, 262149, 65541, 0, 327685, 65541, 0, 393221, 65541, 0, 458757, 65541, 0, 524293, 65541, 0, 65542, 65541, 0, 131078, 65541, 0, 196614, 65541, 0, 262150, 65541, 0, 327686, 65541, 0, 393222, 65541, 0, 458758, 65541, 0, 524294, 65541, 0, 65543, 65541, 0, 131079, 65541, 0, 196615, 65541, 0, 262151, 65541, 0, 327687, 65541, 0, 393223, 65541, 0, 458759, 65541, 0, 524295, 65541, 0, 65544, 65541, 0, 131080, 65541, 0, 196616, 65541, 0, 262152, 65541, 0, 327688, 65541, 0, 393224, 65541, 0, 458760, 65541, 0, 524296, 65541, 0, 65545, 65541, 0, 131081, 65541, 0, 196617, 65541, 0, 262153, 65541, 0, 327689, 65541, 0, 393225, 65541, 0, 458761, 65541, 0, 524297, 65541, 0, 10, 65541, 0, 65546, 65541, 0, 131082, 65541, 0, 196618, 65541, 0, 262154, 65541, 0, 327690, 65541, 0, 393226, 65541, 0, 458762, 65541, 0, 524298, 65541, 0, 11, 65541, 0, 65547, 65541, 0, 131083, 65541, 0, 196619, 65541, 0, 262155, 65541, 0, 327691, 65541, 0, 393227, 65541, 0, 458763, 65541, 0, 524299, 65541, 0, 12, 65541, 0, 65548, 65541, 0, 131084, 65541, 0, 196620, 65541, 0, 262156, 65541, 0, 327692, 65541, 0, 393228, 65541, 0, 458764, 65541, 0, 524300, 65541, 0, 13, 65541, 0, 65549, 65541, 0, 131085, 65541, 0, 196621, 65541, 0, 262157, 65541, 0, 327693, 65541, 0, 393229, 65541, 0, 458765, 65541, 0, 524301, 65541, 0, 14, 65541, 0, 65550, 65541, 0, 131086, 65541, 0, 196622, 65541, 0, 262158, 65541, 0, 327694, 65541, 0, 393230, 65541, 0, 458766, 65541, 0, 524302, 65541, 0, 15, 65541, 0, 65551, 65541, 0, 131087, 65541, 0, 196623, 65541, 0, 262159, 65541, 0, 327695, 65541, 0, 393231, 65541, 0, 458767, 65541, 0, 524303, 65541, 0)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(504, 280)
+
+[node name="MovementCostMarker" type="Marker2D" parent="."]
+visible = false
+
+[node name="MovementCost" type="RichTextLabel" parent="MovementCostMarker"]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(1.5, 1.5)
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 0
+theme_override_fonts/normal_font = ExtResource("4_epmqb")
+theme_override_font_sizes/normal_font_size = 12
+text = "COST: "
+autowrap_mode = 0
+
+[node name="TurnLabel" type="RichTextLabel" parent="."]
+offset_left = 460.0
+offset_top = -39.0
+offset_right = 999.0
+offset_bottom = 7.0
+scale = Vector2(1.5, 1.5)
+text = "P1's Turn"
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 525.0
+offset_right = 1024.0
+offset_bottom = 773.0
+mouse_filter = 1
+script = ExtResource("5_pktj1")
+
+[node name="CardBack" type="Sprite2D" parent="UI"]
+position = Vector2(88, 128)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("6_yl21w")
+
+[node name="CardsLeft" type="RichTextLabel" parent="UI/CardBack"]
+offset_left = -39.0
+offset_top = -61.0
+offset_right = 59.0
+offset_bottom = -29.0
+theme_override_fonts/normal_font = ExtResource("7_ic47e")
+theme_override_font_sizes/normal_font_size = 12
+text = "Cards Left:  6"
+
+[node name="Buttons" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = -16.0
+offset_right = 40.0
+offset_bottom = 24.0
+
+[node name="EndTurn" type="Button" parent="UI/Buttons"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.271
+anchor_bottom = 1.213
+offset_left = 968.0
+offset_top = 118.0
+offset_right = 967.16
+offset_bottom = 100.48
+text = "Turn"
+
+[node name="APLabel" type="RichTextLabel" parent="UI/Buttons"]
+layout_mode = 0
+offset_left = 902.0
+offset_top = 149.0
+offset_right = 958.0
+offset_bottom = 189.0
+text = "30/30"
+
+[node name="DrawButton" type="Button" parent="UI/Buttons"]
+layout_mode = 0
+offset_left = 898.0
+offset_top = 118.0
+offset_right = 948.0
+offset_bottom = 149.0
+mouse_filter = 1
+action_mode = 0
+text = "Draw"
+
+[node name="Hand" type="HBoxContainer" parent="UI"]
+layout_mode = 0
+offset_left = 140.0
+offset_top = 91.0
+offset_right = 947.0
+offset_bottom = 212.0
+alignment = 1
+
+[node name="RaiseArea" type="Area2D" parent="UI"]
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UI/RaiseArea"]
+position = Vector2(504.5, 54.75)
+shape = SubResource("RectangleShape2D_hqxpg")
+
+[connection signal="pressed" from="UI/Buttons/EndTurn" to="UI" method="_on_end_turn_pressed"]
+[connection signal="pressed" from="UI/Buttons/DrawButton" to="UI" method="_on_DrawButton_pressed"]
+[connection signal="mouse_entered" from="UI/RaiseArea" to="UI" method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="UI/RaiseArea" to="UI" method="_on_area_2d_mouse_exited"]
