@@ -34,3 +34,10 @@ func _physics_process(delta):
 		velocity.y = move_toward(velocity.y, 0, SPEED)
 
 	move_and_slide()
+
+func moveTo(newPosition):
+	position = newPosition
+
+func tweenTo(newPosition):
+	var tween = create_tween()
+	tween.tween_property(self, "position", newPosition, 0.5).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)

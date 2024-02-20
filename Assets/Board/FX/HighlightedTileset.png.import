@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://eqlsj0u1mb4o"
-path="res://.godot/imported/WaterCardPics.png-f97288a53c978ac732ddf39ca7f5f680.ctex"
+uid="uid://dryyqp6v02pj"
+path="res://.godot/imported/HighlightedTileset.png-4689a468bf2e3b5450ac3e4f2b543226.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Cards/CardImages/Water/WaterCardPics.png"
-dest_files=["res://.godot/imported/WaterCardPics.png-f97288a53c978ac732ddf39ca7f5f680.ctex"]
+source_file="res://Assets/Board/FX/HighlightedTileset.png"
+dest_files=["res://.godot/imported/HighlightedTileset.png-4689a468bf2e3b5450ac3e4f2b543226.ctex"]
 
 [params]
 

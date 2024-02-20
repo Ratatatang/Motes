@@ -16,8 +16,8 @@ config/features=PackedStringArray("4.2")
 
 [autoload]
 
-SignalManager="*res://Scenes/Global/SignalManager.tscn"
-MasterInfo="*res://Scripts/Global/MasterInfo.gd"
+GlobalFX="*res://Scenes/Global/GlobalFX.tscn"
+MasterInfo="*res://Scenes/Global/MasterInfo.tscn"
 
 [display]
 

@@ -12,4 +12,5 @@ func getData():
 	
 func passData(cardData):
 	$Card/Card.cardData = cardData
+	$Card/Card.cardMaster = self
 	$Card/Card.updateData()

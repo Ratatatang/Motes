@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://bv3s5v7oqyfjw"]
-
-[node name="TileMarker" type="ColorRect"]
-offset_right = 42.0
-offset_bottom = 42.0
-mouse_filter = 2
-color = Color(0.819608, 0, 0, 0.235294)

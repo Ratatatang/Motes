@@ -1,7 +1,10 @@
+AnimationPlayer
+StaticBody2D
+DampedSpringJoint2D
+CollisionShape2D
 Button
 RichTextLabel
 ColorRect
-CollisionShape2D
 Area2D
 Camera2D
 CharacterBody2D
@@ -10,5 +13,3 @@ Node
 Node2D
 RayCast2D
 AnimatedSprite2D
-Line2D
-Path2D

@@ -3,6 +3,8 @@ extends Button
 @onready var timer = $Timer
 @onready var returnPos = position
 
+var cardMaster
+
 var selected = false
 
 var cardData
@@ -19,7 +21,7 @@ func updateData():
 	$Picture.texture = load("res://Assets/Cards/CardImages/Fire/"+cardData.name+".png")
 	$APCost.text = str(cardData.cost)
 	$PercentChance.text = str(cardData.castChance)
-	$CardBacking.color = cardData.color
+	$CardSprite.self_modulate = cardData.color
 	
 
 func moveTo():
@@ -32,8 +34,35 @@ func unselect():
 	_on_Card_mouse_exited()
 
 func freeSelf():
-	get_parent().get_parent().queue_free()
+	cardMaster.queue_free()
 
+func getElement():
+	return cardData.element
+
+func getDisplayName():
+	return cardData.displayName
+
+func getName():
+	return cardData.name
+
+func getDescription():
+	return cardData.description
+
+func getCastChance():
+	return cardData.castChance
+
+func getRange():
+	return cardData.range
+
+func getCost():
+	return cardData.cost
+
+func getTargeting():
+	return cardData.targeting
+	
+func getValidTargets():
+	return cardData.validTargets
+	
 # these 2 move the card when you hover over it / move out of it
 func _on_Card_mouse_entered():
 	if(disabled == false and selected == false):
@@ -49,4 +78,4 @@ func _on_Card_mouse_exited():
 
 func _on_pressed():
 	if(disabled == false):
-		SignalManager.selectedCard.emit(self)
+		cardMaster.cardUsed.emit(self)

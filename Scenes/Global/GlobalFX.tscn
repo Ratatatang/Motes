@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqirkpxcpjktv"]
+
+[ext_resource type="Script" path="res://Scripts/Global/GlobalFX.gd" id="1_sctc3"]
+
+[node name="GlobalFX" type="Node"]
+script = ExtResource("1_sctc3")

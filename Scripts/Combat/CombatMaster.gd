@@ -3,35 +3,35 @@ extends Node2D
 enum actions {
 	NONE,
 	SELECTING,
-	MOVING
+	MOVING,
+	CARD
 }
 var currentAction = actions.NONE
 
 func _ready():
-	addEntity("res://Scenes/Combat/Board/Entities/Player.tscn")
+	%Environment.addEntity(load("res://Scenes/Combat/Board/Entities/Player.tscn"), Vector2(13, 5))
+	#%Environment.addEntity(load("res://Scenes/Combat/Board/Entities/Player.tscn"), Vector2(21, 5))
+	%Environment.addEntity(load("res://Scenes/Combat/Board/Entities/Enemy.tscn"), Vector2(23, 5), "Enemy1")
 	%UI.visible = false
-
+	%Services.beginGame()
+	
 func _input(event):
 	if event.is_action_pressed("leftClick"):
-		var tileEntity = %Environment.getTileEntity(%Environment.getMouseTile())
-		
-		if(tileEntity != null):
+		if(%Environment.getMouseTile() != Vector2i.MIN):
 			
-			if(currentAction == actions.NONE):
-				%Services.loadCharacter(tileEntity)
-				currentAction = actions.SELECTING
-				
-			elif(currentAction == actions.SELECTING and %Services.selectedCharacter == tileEntity):
-				%Services.unloadCharacter()
-				currentAction = actions.NONE
-			
-		else:
 			if(currentAction == actions.MOVING):
 				%Services.selectedMoveTo(%Environment.getMouseTile())
-
-func addEntity(entity):
-	%Environment.addEntity(load(entity), Vector2(20, 5))
-
-#0: NONE, 1: SELECTING, 2: MOVING
+			
+			if(currentAction == actions.CARD):
+					%Services.useCard(%Environment.getMouseTile())
+				
+	elif event.is_action_pressed("rightClick"):
+		if(currentAction == actions.MOVING):
+			%Services.cancelMove()
+			
+		if(currentAction == actions.CARD):
+			%Services.cancelCard()
+			
+#0: NONE, 1: SELECTING, 2: MOVING, 3: CARD
 func setAction(action : actions):
 	currentAction = action

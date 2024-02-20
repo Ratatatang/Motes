@@ -7,13 +7,25 @@ var name : String
 var description : String
 var image
 var castChance : int
-var cost : int
+var range : int = 5
+var cost : int = 5
 var targeting
+var validTargets
+var AITags
 
-func _OnTileEffect(target: LevelMap):
+var tileEffect = func (tile: Vector2i, entity: Entity, selfEntity: Entity):
 	pass
 	
-func _OnEnemyEffect(target: Entity):
+var enemyEffect = func (tile: Vector2i, entity: Entity, selfEntity: Entity):
+	pass
+
+var selfEffect = func (tile: Vector2i, entity: Entity, selfEntity: Entity):
+	pass
+
+var allyEffect = func (tile: Vector2i, entity: Entity, selfEntity: Entity):
+	pass
+
+var tileEffectEffect = func (tile: Vector2i, entity: Entity, selfEntity: Entity):
 	pass
 
 func getElement() -> String:

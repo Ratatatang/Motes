@@ -7,24 +7,9 @@ var loggedMousePos = Vector2(0,0)
 var raiseIgnore = false
 var raiseDisabled = false
 var currentlyDown = true
+var cardsDisabled = false
 
 var cardScene = "res://Scenes/Combat/Card.tscn"
-
-
-var cardsDirectory
-
-func _ready():
-	randomize()
-	var text = FileAccess.open("res://Scripts/Cards/CardData/CardDirectory.json", FileAccess.READ)
-	var json = JSON.new()
-	var parse_result = json.parse(text.get_as_text())
-
-	if parse_result != OK:
-		print("Error %s reading cards directory." % parse_result)
-		return
-
-	cardsDirectory = json.get_data()
-
 
 func _input(event):
 	if(event.is_action_pressed("space")):
@@ -36,19 +21,15 @@ func _input(event):
 			_on_area_2d_mouse_entered()
 			raiseIgnore = true
 
-func updateAPLabel():
-	$CardBack/APLeft.text = "AP:  "+str(%Services.getCurAP())+"/"+str(%Services.getMaxAP())
+func updateLabels():
+	updateAPLabel()
+	updateCardsLabel()
 
-# Draws a card scene & gives it random data 
-# passData is necessary for when you draw a card, don't remove it
- 
-func drawDeckCard():
-	var loadedCard = load(cardScene).instantiate()
-	var object = load(cardsDirectory.get(%Services.drawCard())).new()
-	loadedCard.passData(object)
-	loadedCard.visible = false
-	%Hand.add_child(loadedCard)
-	loadedCard.moveTo()
+func updateAPLabel():
+	$CardBack/APLabel.text = "AP:  "+str(%Services.getCurAP())+"/"+str(%Services.getMaxAP())
+	
+func updateCardsLabel():
+	$CardBack/CardsLabel.text = "Cards Left:  "+str(%Services.getCurDeck().size())
 
 # drawRandCard with given data
 # use for when you draw a specific card from another card
@@ -56,33 +37,73 @@ func drawDeckCard():
 	
 func drawCard(data):
 	var loadedCard = load(cardScene).instantiate()
-	loadedCard.cardData = data
-	loadedCard.passData()
-	loadedCard.cardUsed.connect(cardUsed)
+	loadedCard.passData(data)
+	loadedCard.connect("cardUsed", Callable(self, "useCard"))
 	%Hand.add_child(loadedCard)
+	loadedCard.moveTo()
 
 func moveCard(card):
 	add_child(card)
 	%Hand.remove_child(card)
 	card.set_position(0,0)
 
-func cardUsed(card):
-	print("click!")
-
 func setDown():
 	if(!currentlyDown):
 		raiseIgnore = false
 		_on_area_2d_mouse_entered()
 
-func _on_DrawButton_pressed():
-	var handCount = %Hand.get_child_count()
+func loadHand(entity):
+	for card in %Hand.get_children():
+		card.queue_free()
 	
-	if(handCount < %Services.getMaxHandSize() and %Services.enoughAP(1)):
-		%Services.decrementAP(1)
-		drawDeckCard()
+	for card in entity.hand:
+		drawCard(card)
+
+func useCard(card):
+	if(!cardsDisabled):
+		%Combat.setAction(3)
+		%Services.loadCard(card)
+		%Services.drawValidTargets(card)
+		setDown()
+		visible = false
+
+func disableMove():
+	$Buttons/Move.disabled = true
+
+func enableMove():
+	$Buttons/Move.disabled = false
+
+func disableCards():
+	cardsDisabled = true
+
+func enableCards():
+	cardsDisabled = false
+
+func enableShuffle():
+	$Buttons/Draw.visible = false
+	$Buttons/Shuffle.visible = true
+	
+func disableShuffle():
+	$Buttons/Draw.visible = true
+	$Buttons/Shuffle.visible = false
+
+func _on_DrawButton_pressed():
+	%Services.drawCard()
+	updateCardsLabel()
 
 func _on_end_turn_pressed():
+	%Services.unloadCharacter()
 	%Services.advanceTurn()
+
+func _on_move_pressed():
+	%Combat.setAction(2)
+	%Services.enableLine()
+	setDown()
+	visible = false
+
+func _on_shuffle_pressed():
+	%Services.shuffleDeck()
+	disableShuffle()
 
 func _on_area_2d_mouse_entered():
 	if(raiseDisabled == true):
