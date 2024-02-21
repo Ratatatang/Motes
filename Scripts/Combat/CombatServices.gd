@@ -1,5 +1,8 @@
 extends Node
 
+signal AIAdvance 
+
+
 var AStarGrid : AStarGrid2D
 var AStarGridCharactersPassable : AStarGrid2D
 
@@ -86,7 +89,7 @@ func advanceRound():
 
 func selectedMoveTo(tilePos):
 	if(selectedCharacter.isPassablePoint(tilePos)):
-		if(enoughAP(selectedCharacter.getPath(tilePos).size())):
+		if(enoughAP(selectedCharacter.getPath(tilePos).size()-1)):
 			
 			decrementAP(selectedCharacter.getPath(tilePos).size()-1)
 			
@@ -110,6 +113,18 @@ func selectedMoveTo(tilePos):
 			%UI.enableMove()
 			%UI.enableCards()
 
+func AIMoveTo(tilePos):
+	if(selectedCharacter.isPassablePoint(tilePos)):
+		if(enoughAP(selectedCharacter.getPath(tilePos).size()-1)):
+			
+			decrementAP(selectedCharacter.getPath(tilePos).size()-1)
+			%Environment.removeHighlight(selectedCharacter)
+			selectedCharacter.setPath(tilePos)
+			
+			await(selectedCharacter.finishedMoving)
+			
+			%Environment.highlightEntity(selectedCharacter)
+
 func useCard(tilePos, entity = selectedCharacter, card = selectedCard):
 	if(%Environment.getTileCircle(%Environment.getEntityTile(entity), card.getRange()).has(tilePos)):
 		if(entity.canTargetTile(tilePos, card.getValidTargets())):
@@ -128,6 +143,20 @@ func useCard(tilePos, entity = selectedCharacter, card = selectedCard):
 				
 				updateAStar()
 				clearTargetedTiles()
+
+func AIUseCard(tilePos, card, entity = selectedCharacter):
+	if(%Environment.getTileCircle(%Environment.getEntityTile(entity), card.range).has(tilePos)):
+		if(entity.canTargetTile(tilePos, card.validTargets)):
+			if(enoughAP(card.cost)):
+				decrementAP(card.cost)
+				
+				%AnimationCard.passData(card)
+				%ScreenAnimations.play("useCard")
+				
+				for target in card.targeting:
+					target.call(tilePos, %Environment.getTileEntity(tilePos), entity)
+				
+				getHand().erase(card)
 
 func cancelMove():
 	disableLine()
@@ -152,7 +181,7 @@ func loadCharacter(entity):
 		%UI.loadHand(selectedCharacter)
 		%UI.updateLabels()
 	else:
-		selectedCharacter.decideMoves()
+		executeAI()
 
 func unloadCharacter():
 	if(selectedCharacter != null):
@@ -179,6 +208,13 @@ func drawCard():
 	
 	if(getCurDeck().size() == 0):
 		%UI.enableShuffle()
+
+func AIDrawCard():
+	if(getCurDeck().size() > 0):
+		if(getHand().size() < getMaxHandSize()):
+			if(enoughAP(1)):
+				selectedCharacter.drawCard()
+				decrementAP(1)
 
 func shuffleDeck():
 	var newDeck = getDeck().duplicate()
@@ -209,6 +245,33 @@ func clearTargetedTiles():
 
 func moveCameraToTile(tile):
 	%Camera.tweenTo(Vector2(tile)*64)
+
+func executeAI():
+	for step in selectedCharacter.AISteps:
+		step.call()
+		await selectedCharacter.advanceMoves
+		executeAIMoves()
+		await AIAdvance
+	
+	unloadCharacter()
+	advanceTurn()
+
+func executeAIMoves():
+	for move in selectedCharacter.movesList:
+		#0: Move, 1: Draw, 2: Card 
+		match move[0]:
+			0:
+				AIMoveTo(move[1])
+				await selectedCharacter.finishedMoving
+			1:
+				AIDrawCard()
+			2:
+				AIUseCard(move[1], move[2])
+				await %ScreenAnimations.animation_finished
+	
+	selectedCharacter.movesList = []
+	await get_tree().process_frame
+	AIAdvance.emit()
 
 func getAStar():
 	return AStarGrid

@@ -14,3 +14,12 @@ func passData(cardData):
 	$Card/Card.cardData = cardData
 	$Card/Card.cardMaster = self
 	$Card/Card.updateData()
+
+func flipCard():
+	$AnimationPlayer.play("flip")
+
+func coverCard():
+	$AnimationPlayer.play("cover")
+
+func resetCard():
+	$AnimationPlayer.play("reset")

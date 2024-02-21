@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://ciugbodw8mi37"]
+[gd_scene load_steps=22 format=3 uid="uid://ciugbodw8mi37"]
 
 [ext_resource type="Script" path="res://Scripts/Combat/CombatServices.gd" id="1_4mlhq"]
 [ext_resource type="Script" path="res://Scripts/Combat/CombatMaster.gd" id="1_dhfxj"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" path="res://Scripts/UI/UI.gd" id="7_1n7qw"]
 [ext_resource type="Texture2D" uid="uid://4rd7tn4yi1a5" path="res://Assets/Cards/CardBack.png" id="7_r3m1s"]
 [ext_resource type="FontFile" uid="uid://b8u7jxcjx70ak" path="res://Assets/Fonts/PixelFont.tres" id="8_uirdl"]
+[ext_resource type="PackedScene" uid="uid://cm7uxw0cq0ymo" path="res://Scenes/Combat/Card.tscn" id="12_sgxv5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p6nax"]
 texture = ExtResource("4_i6yc5")
@@ -676,6 +677,75 @@ sources/2 = SubResource("TileSetAtlasSource_o8tkf")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gb65e"]
 size = Vector2(1153, 52.7844)
 
+[sub_resource type="Animation" id="Animation_uwwqy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationCard:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(885, 731)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationCard")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"resetCard"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_3dexj"]
+resource_name = "useCard"
+length = 1.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationCard:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 1.25, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(96, 731), Vector2(96, 478), Vector2(96, 493), Vector2(96, 493), Vector2(-109, 493)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationCard")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.45, 1.25),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"flipCard"
+}, {
+"args": [],
+"method": &"coverCard"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ms5we"]
+_data = {
+"RESET": SubResource("Animation_uwwqy"),
+"useCard": SubResource("Animation_3dexj")
+}
+
 [node name="Master" type="Node2D"]
 
 [node name="CurrentScene" type="Node2D" parent="."]
@@ -833,6 +903,21 @@ scale = Vector2(1.04, 2.04)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CurrentScene/Combat/UI/UI/RaiseArea"]
 position = Vector2(504.5, 59.3922)
 shape = SubResource("RectangleShape2D_gb65e")
+
+[node name="ScreenFX" type="CanvasLayer" parent="CurrentScene/Combat"]
+
+[node name="ScreenAnimations" type="AnimationPlayer" parent="CurrentScene/Combat/ScreenFX"]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_ms5we")
+}
+
+[node name="AnimationCard" parent="CurrentScene/Combat/ScreenFX" instance=ExtResource("12_sgxv5")]
+unique_name_in_owner = true
+offset_left = 937.992
+offset_top = 806.816
+offset_right = -187.0
+offset_bottom = 206.932
 
 [connection signal="pressed" from="CurrentScene/Combat/UI/UI/Buttons/EndTurn" to="CurrentScene/Combat/UI/UI" method="_on_end_turn_pressed"]
 [connection signal="pressed" from="CurrentScene/Combat/UI/UI/Buttons/Draw" to="CurrentScene/Combat/UI/UI" method="_on_DrawButton_pressed"]

@@ -63,6 +63,16 @@ func getTileCircle(pos : Vector2, radius) -> Array:
 	
 	return tiles
 
+#Get a cicle area around a tile
+func getTileRing(pos : Vector2, radius) -> Array:
+	var tiles = []
+	for y in range(-radius - 1, radius + 1):
+		for x in range(-radius - 1, radius + 1):
+			if !(x * x) + (y * y) <= (radius * radius)/1.4 and (x * x-1) + (y * y-1) <= (radius * radius):
+				tiles.append(Vector2i(pos + Vector2(x, y)))
+
+	return tiles
+
 func targetTiles(tiles):
 	set_cells_terrain_connect(1, tiles, 0, 0, true)
 
@@ -80,14 +90,13 @@ func setTileData(pos, data):
 			loadTileVFX(pos, loadedData)
 		return
 	
-	for dataIteration in dataGrid:
-		if(dataIteration.name == loadedData.name):
+	for dataIteration in dataGrid[pos]:
+		if dataIteration.name == loadedData.name:
 			dataIteration.merge(loadedData)
 			return
 	
 	if(loadedData.VFX != null):
 		loadTileVFX(pos, loadedData)
-	dataGrid[pos] += loadedData
 	
 func getTileData(pos):
 	return dataGrid[pos]

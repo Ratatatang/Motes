@@ -14,3 +14,5 @@ res://Scripts/Combat/CameraController.gd
 res://Scripts/Combat/Board/BoardFX.gd
 res://Scripts/Combat/Entities/EnemyData/EnemyClass.gd
 res://Scripts/Global/MasterInfo.gd
+res://Scripts/Cards/CardData/Fire/FireArrow.gd
+res://Scripts/Cards/CardController.gd
