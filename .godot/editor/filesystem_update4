@@ -5,14 +5,4 @@ res://Scenes/Combat/Board/Entities/Player.tscn
 res://Scenes/Combat/Board/Entities/Enemy.tscn
 res://Scenes/Global/GlobalFX.tscn
 res://Scenes/Global/MasterInfo.tscn
-res://Scripts/Cards/CardData/Fire/Ignite.gd
 res://Scripts/Combat/CombatServices.gd
-res://Scripts/UI/UI.gd
-res://Scripts/Combat/Entities/EntityClass.gd
-res://Scripts/Combat/CombatMaster.gd
-res://Scripts/Combat/CameraController.gd
-res://Scripts/Combat/Board/BoardFX.gd
-res://Scripts/Combat/Entities/EnemyData/EnemyClass.gd
-res://Scripts/Global/MasterInfo.gd
-res://Scripts/Cards/CardData/Fire/FireArrow.gd
-res://Scripts/Cards/CardController.gd

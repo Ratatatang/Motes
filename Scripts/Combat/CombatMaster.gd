@@ -16,6 +16,10 @@ func _ready():
 	%Services.beginGame()
 	
 func _input(event):
+	if event is InputEventMouseMotion:
+		if(currentAction == actions.CARD):
+			%Services.checkMouseTargets(%Environment.getMouseTile())
+	
 	if event.is_action_pressed("leftClick"):
 		if(%Environment.getMouseTile() != Vector2i.MIN):
 			
@@ -31,7 +35,7 @@ func _input(event):
 			
 		if(currentAction == actions.CARD):
 			%Services.cancelCard()
-			
+
 #0: NONE, 1: SELECTING, 2: MOVING, 3: CARD
 func setAction(action : actions):
 	currentAction = action

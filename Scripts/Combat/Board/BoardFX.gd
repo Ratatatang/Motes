@@ -7,6 +7,8 @@ var entityGrid
 
 var entities = []
 
+var mouseHighlights = []
+
 func _ready():
 	MasterInfo.currentLevelMap = self
 	

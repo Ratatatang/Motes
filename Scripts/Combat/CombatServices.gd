@@ -12,6 +12,7 @@ var selectedCard
 var cardsRefrence
 
 var targetedTiles = []
+var mouseTargets = []
 
 var entityTurnOrder = []
 var currentTurn = 0
@@ -112,6 +113,10 @@ func selectedMoveTo(tilePos):
 			
 			%UI.enableMove()
 			%UI.enableCards()
+		else:
+			selectedCharacter.invalidMovement()
+	else:
+		selectedCharacter.invalidMovement()
 
 func AIMoveTo(tilePos):
 	if(selectedCharacter.isPassablePoint(tilePos)):
@@ -160,7 +165,7 @@ func AIUseCard(tilePos, card, entity = selectedCharacter):
 
 func cancelMove():
 	disableLine()
-	%UI.visible = true
+	%UI.visible = true 
 	%Combat.setAction(1)
 	selectedCard = null
 
@@ -225,7 +230,7 @@ func shuffleDeck():
 	newDeck.shuffle()
 	selectedCharacter.curDeck = newDeck
 
-func drawValidTargets(card = null, entity = selectedCharacter):
+func drawValidTargets(card = selectedCard, entity = selectedCharacter):
 	var validTiles = []
 	var tiles = %Environment.getTileCircle(%Environment.getEntityTile(entity), card.getRange())
 	
@@ -237,12 +242,43 @@ func drawValidTargets(card = null, entity = selectedCharacter):
 	%Environment.targetTiles(validTiles)
 
 func clearTargetedTiles():
+	clearMouseTargets()
 	for tile in targetedTiles:
 		%Environment.erase_cell(1, tile)
 		
 	targetedTiles.clear()
 	%Environment.highlightEntity(selectedCharacter)
 
+func checkMouseTargets(mouseTile):
+	var targetTiles = []
+	
+	clearMouseTargets()
+	if targetedTiles.has(mouseTile):
+		for tile in selectedCard.getAreaOfEffect():
+			var tileIteration = mouseTile + tile
+			if(AStarGrid.is_in_boundsv(tileIteration)):
+				targetTiles.append(tileIteration)
+		
+		mouseTargetTiles(targetTiles)
+
+func mouseTargetTiles(tiles):
+	mouseTargets = []
+	for tile in tiles:
+		if(AStarGrid.is_in_boundsv(tile)):
+			mouseTargets.append(tile)
+	
+	if(mouseTargets != []):
+		%Environment.set_cells_terrain_connect(1, mouseTargets, 0, 1, true)
+	else:
+		drawValidTargets()
+			
+
+func clearMouseTargets():
+	for tile in mouseTargets:
+		%Environment.erase_cell(1, tile)
+	
+	drawValidTargets()
+			
 func moveCameraToTile(tile):
 	%Camera.tweenTo(Vector2(tile)*64)
 

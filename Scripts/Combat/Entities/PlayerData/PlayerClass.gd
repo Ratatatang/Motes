@@ -4,7 +4,7 @@ class_name PlayerPawn
 @onready var line = $Line2D
 
 func _init():
-	deck = ["Ignite", "Ignite", "Ignite", "Ignite", "Ignite", "FireArrow", "FireArrow", "FireArrow", "FireArrow", "FireArrow"]
+	deck = ["Ignite", "Ignite", "Ignite", "Ignite", "Ignite", "FireArrow", "FireArrow", "FireArrow", "FireArrow", "FireArrow", "Firebomb", "Firebomb", "Firebomb"]
 	maxHandSize = 8
 	maxAP = 30
 	maxHP = 20
@@ -19,8 +19,12 @@ func _physics_process(delta):
 		for point in getPath(map.getMouseTile()):
 			line.add_point((point*64)-Vector2i(position))
 
+func invalidMovement() -> void:
+	$AnimationPlayer.play("invalidMovement")
+
 func enableLine() -> void:
 	line.visible = true
+	$AnimationPlayer.play("reset")
 
 func disableLine() -> void:
 	line.visible = false

@@ -9,6 +9,9 @@ var image
 var castChance : int
 var range : int = 5
 var cost : int = 5
+
+var areaOfEffect : Array = [Vector2i.ZERO]
+
 var targeting
 var validTargets
 var AITags

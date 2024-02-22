@@ -57,6 +57,9 @@ func getRange():
 func getCost():
 	return cardData.cost
 
+func getAreaOfEffect():
+	return cardData.areaOfEffect
+
 func getTargeting():
 	return cardData.targeting
 	
