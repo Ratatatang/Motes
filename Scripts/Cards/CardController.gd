@@ -17,9 +17,11 @@ func passData(cardData):
 
 func flipCard():
 	$AnimationPlayer.play("flip")
+	SFXHandler.playSFX(load("res://Assets/Cards/SFX/CardFlip.wav"), self)
 
 func coverCard():
 	$AnimationPlayer.play("cover")
+	SFXHandler.playSFX(load("res://Assets/Cards/SFX/CardFlip.wav"), self)
 
 func resetCard():
 	$AnimationPlayer.play("reset")

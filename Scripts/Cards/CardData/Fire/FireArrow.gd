@@ -5,7 +5,7 @@ func _init():
 	displayName = "Fire  Arrow"
 	name = "FireArrow"
 	description = "Launches a bolt of flame that does some damage, and ignites."
-	castChance = 95
+	castChance = 100
 	cost = 5
 	range = 5
 	

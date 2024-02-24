@@ -24,7 +24,8 @@ func addEntity(entity, gridPos, team = "Player"):
 	var newEntity = entity.instantiate()
 	
 	newEntity.AStarGrid = %Services.getAStar()
-	newEntity.characterPassableMap = %Services.getAStarCharactersPassable()
+	newEntity.characterPassableMap = %Services.getAStarGridAIPassable()
+	newEntity.AStarGridAI = %Services.getAStarAI()
 	newEntity.cardsRef = %Services.getCardsRefrence()
 	newEntity.map = self
 	newEntity.setTeam(team)
@@ -88,6 +89,9 @@ func setTileData(pos, data):
 	
 	if(dataGrid[pos] == null):
 		dataGrid[pos] = [loadedData]
+		if(getTileEntity(pos) != null):
+			loadedData._onSet(getTileEntity(pos))
+		
 		if(loadedData.VFX != null):
 			loadTileVFX(pos, loadedData)
 		return

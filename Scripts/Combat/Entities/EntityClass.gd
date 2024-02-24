@@ -25,6 +25,7 @@ var map : LevelMap
 var cardsRef : Dictionary
 
 var AStarGrid : AStarGrid2D
+var AStarGridAI : AStarGrid2D
 var characterPassableMap : AStarGrid2D
 
 var currentPath : Array[Vector2i]
@@ -33,6 +34,9 @@ var moving : bool
 
 var team : String
 var isAI : bool = false
+
+var statusEffects = []
+var firstTile = true
 
 func _init():
 	curDeck = deck.duplicate()
@@ -54,6 +58,15 @@ func _physics_process(delta):
 			currentPath.pop_front()
 			map.removeTileEntity(self)
 			map.setTileEntity(Vector2i(position/64), self)
+			
+			if(!firstTile):
+				var tileEffects = map.getTileData(Vector2i(position/64))
+				
+				if(tileEffects != null):
+					for effect in tileEffects:
+						effect._walkedOn(self)
+			else:
+				firstTile = false
 		
 		if(currentPath.is_empty() == false):
 			targetPosition = currentPath.front()*64
@@ -71,8 +84,9 @@ func setPath(desiredPoint) -> void:
 		idPath = AStarGrid.get_id_path(
 			map.getEntityTile(self), 
 			desiredPoint)
-		
+	
 	if idPath.is_empty() == false and currentPath.size() < 1:
+		firstTile = true
 		currentPath = idPath
 
 func isPassablePoint(point) -> bool:
@@ -121,6 +135,29 @@ func canSeeTile(point) -> bool:
 	if(ray.is_colliding() and rayNE.is_colliding() and rayNW.is_colliding() and raySE.is_colliding() and raySW.is_colliding()):
 		return false
 	return true
+
+func giveStatus(status):
+	for effect in statusEffects:
+		if effect.statusName == status.statusName:
+			effect._merge(status)
+			return
+	statusEffects.append(status)
+	status._onInflicted(self)
+
+func clearStatus(status):
+	statusEffects.erase(status)
+
+func checkTurnStartEffects():
+	for effect in statusEffects:
+		effect._onTurnStart(self)
+
+func checkTurnEndEffects():
+	for effect in statusEffects:
+		effect._onTurnEnd(self)
+
+func checkRoundEffects():
+	for effect in statusEffects:
+		effect._onRound(self)
 
 func getMovementPoints() -> Array:
 	return currentPath

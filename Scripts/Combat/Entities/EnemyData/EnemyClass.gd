@@ -36,6 +36,21 @@ func _init():
 	
 	super()
 
+func setPath(desiredPoint) -> void:
+	var idPath = []
+	
+	if moving:
+		pass
+	else:
+		
+		idPath = AStarGridAI.get_id_path(
+			map.getEntityTile(self), 
+			desiredPoint)
+	
+	if idPath.is_empty() == false and currentPath.size() < 1:
+		firstTile = true
+		currentPath = idPath
+
 func decideDrawMin():
 	var APCost = 0
 	
@@ -74,17 +89,21 @@ func decideMove():
 	
 	#Quick check that it's not already in a good position
 	if !targetRing.has(selfTile):
+		var minCost = 0
 		var closestPath = null
-		minDistance = 0
 		
 		for pos in targetRing:
 			if(closestTarget.canSeeTile(pos) and map.getEntityTile(pos) == null):
-				var pathTo = AStarGrid.get_id_path(selfTile, pos)
+				var path = AStarGridAI.get_id_path(selfTile, pos)
+				var cost = 0
 				
-				if(minDistance >= pathTo.size() or closestPath == null):
-					if(AStarGrid.is_in_boundsv(pos)):
-							minDistance = pathTo.size()
-							closestPath = pathTo
+				for point in path:
+					cost += AStarGridAI.get_point_weight_scale(point)
+				
+				if(minCost >= cost or closestPath == null):
+					if(AStarGridAI.is_in_boundsv(pos)):
+						minCost = cost
+						closestPath = path
 		
 		
 		
@@ -93,6 +112,9 @@ func decideMove():
 		
 		movesList.append([possibleMoves.MOVE, closestPath[closestPath.size()-1]])
 		
+		await get_tree().process_frame
+		advanceMoves.emit()
+	else:
 		await get_tree().process_frame
 		advanceMoves.emit()
 

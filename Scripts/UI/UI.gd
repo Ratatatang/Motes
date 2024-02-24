@@ -92,7 +92,6 @@ func _on_DrawButton_pressed():
 	updateCardsLabel()
 
 func _on_end_turn_pressed():
-	%Services.unloadCharacter()
 	%Services.advanceTurn()
 
 func _on_move_pressed():
@@ -104,6 +103,7 @@ func _on_move_pressed():
 func _on_shuffle_pressed():
 	%Services.shuffleDeck()
 	disableShuffle()
+	updateCardsLabel()
 
 func _on_area_2d_mouse_entered():
 	if(raiseDisabled == true):

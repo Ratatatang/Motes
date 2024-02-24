@@ -4,7 +4,8 @@ signal AIAdvance
 
 
 var AStarGrid : AStarGrid2D
-var AStarGridCharactersPassable : AStarGrid2D
+var AStarGridAI : AStarGrid2D
+var AStarGridAIPassable : AStarGrid2D
 
 var selectedCharacter
 var selectedCard
@@ -24,11 +25,17 @@ func _ready():
 	AStarGrid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	AStarGrid.update()
 	
-	AStarGridCharactersPassable = AStarGrid2D.new() 
-	AStarGridCharactersPassable.cell_size = Vector2(64, 64)
-	AStarGridCharactersPassable.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
-	AStarGridCharactersPassable.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
-	AStarGridCharactersPassable.update()
+	AStarGridAI = AStarGrid2D.new() 
+	AStarGridAI.cell_size = Vector2(64, 64)
+	AStarGridAI.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
+	AStarGridAI.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
+	AStarGridAI.update()
+	
+	AStarGridAIPassable = AStarGrid2D.new() 
+	AStarGridAIPassable.cell_size = Vector2(64, 64)
+	AStarGridAIPassable.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
+	AStarGridAIPassable.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
+	AStarGridAIPassable.update()
 	
 	randomize()
 	var text = FileAccess.open("res://Scripts/Cards/CardData/CardDirectory.json", FileAccess.READ)
@@ -46,9 +53,13 @@ func updateAStar():
 	AStarGrid.region = %Environment.get_used_rect()
 	AStarGrid.update()
 	
-	AStarGridCharactersPassable.clear()
-	AStarGridCharactersPassable.region = %Environment.get_used_rect()
-	AStarGridCharactersPassable.update()
+	AStarGridAI.clear()
+	AStarGridAI.region = %Environment.get_used_rect()
+	AStarGridAI.update()
+	
+	AStarGridAIPassable.clear()
+	AStarGridAIPassable.region = %Environment.get_used_rect()
+	AStarGridAIPassable.update()
 	
 	for x in %Environment.get_used_rect().size.x:
 		for y in %Environment.get_used_rect().size.y:
@@ -59,13 +70,25 @@ func updateAStar():
 			
 			if tileData == null or tileData.get_custom_data("impassable") == true:
 				AStarGrid.set_point_solid(tilePos)
-				AStarGridCharactersPassable.set_point_solid(tilePos)
+				AStarGridAI.set_point_solid(tilePos)
+				AStarGridAIPassable.set_point_solid(tilePos)
 			else:
 				AStarGrid.set_point_solid(tilePos, false)
-				AStarGridCharactersPassable.set_point_solid(tilePos, false)
+				AStarGridAI.set_point_solid(tilePos, false)
+				AStarGridAIPassable.set_point_solid(tilePos)
 			
 			if %Environment.getTileEntity(tilePos) != null:
 				AStarGrid.set_point_solid(tilePos)
+				AStarGridAI.set_point_solid(tilePos)
+			
+			if %Environment.getTileData(tilePos) != null:
+				var tileBias = 0
+				
+				for effect in %Environment.getTileData(tilePos):
+					tileBias += effect.bias
+					
+				AStarGridAI.set_point_weight_scale(tilePos, tileBias)
+				AStarGridAIPassable.set_point_weight_scale(tilePos, tileBias)
 
 func beginGame():
 	updateAStar()
@@ -75,17 +98,24 @@ func beginGame():
 	currentTurn = 0
 
 func advanceTurn():
+	selectedCharacter.checkTurnEndEffects()
+	
 	if(currentTurn < entityTurnOrder.size()-1):
 		currentTurn += 1
+		unloadCharacter()
 		loadCharacter(entityTurnOrder[currentTurn])
+		selectedCharacter.checkTurnStartEffects()
 	else:
 		advanceRound()
 
 func advanceRound():
 	for character in entityTurnOrder:
 		character.refreshAP()
-	
+		character.checkRoundEffects()
+
+	unloadCharacter()
 	loadCharacter(entityTurnOrder[0])
+	selectedCharacter.checkTurnStartEffects()
 	currentTurn = 0
 
 func selectedMoveTo(tilePos):
@@ -208,18 +238,20 @@ func drawCard():
 		if(getHand().size() < getMaxHandSize()):
 			if(enoughAP(1)):
 				selectedCharacter.drawCard()
+				SFXHandler.playSFX(load("res://Assets/Cards/SFX/CardFlip.wav"), self)
 				decrementAP(1)
 				%UI.drawCard(getHand().back())
 	
 	if(getCurDeck().size() == 0):
 		%UI.enableShuffle()
 
-func AIDrawCard():
-	if(getCurDeck().size() > 0):
-		if(getHand().size() < getMaxHandSize()):
-			if(enoughAP(1)):
-				selectedCharacter.drawCard()
-				decrementAP(1)
+func AIDrawCard(num):
+	for i in num:
+		if(getCurDeck().size() > 0):
+			if(getHand().size() < getMaxHandSize()):
+				if(enoughAP(1)):
+					selectedCharacter.drawCard()
+					decrementAP(1)
 
 func shuffleDeck():
 	var newDeck = getDeck().duplicate()
@@ -289,7 +321,6 @@ func executeAI():
 		executeAIMoves()
 		await AIAdvance
 	
-	unloadCharacter()
 	advanceTurn()
 
 func executeAIMoves():
@@ -300,7 +331,7 @@ func executeAIMoves():
 				AIMoveTo(move[1])
 				await selectedCharacter.finishedMoving
 			1:
-				AIDrawCard()
+				AIDrawCard(move[1])
 			2:
 				AIUseCard(move[1], move[2])
 				await %ScreenAnimations.animation_finished
@@ -312,8 +343,11 @@ func executeAIMoves():
 func getAStar():
 	return AStarGrid
 
-func getAStarCharactersPassable():
-	return AStarGridCharactersPassable
+func getAStarAI():
+	return AStarGridAI
+
+func getAStarGridAIPassable():
+	return AStarGridAIPassable
 
 func getCardsRefrence():
 	return cardsRefrence

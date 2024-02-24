@@ -1,5 +1,7 @@
 {
 	"Ignite": "res://Scripts/Cards/CardData/Fire/Ignite.gd",
 	"FireArrow": "res://Scripts/Cards/CardData/Fire/FireArrow.gd",
-	"Firebomb": "res://Scripts/Cards/CardData/Fire/Firebomb.gd"
+	"Firebomb": "res://Scripts/Cards/CardData/Fire/Firebomb.gd",
+	"RingOfFire": "res://Scripts/Cards/CardData/Fire/RingOfFire.gd",
+	"Firewall": "res://Scripts/Cards/CardData/Fire/Firewall.gd",
 }

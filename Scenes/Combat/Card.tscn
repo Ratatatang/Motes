@@ -1,12 +1,16 @@
-[gd_scene load_steps=12 format=3 uid="uid://cm7uxw0cq0ymo"]
+[gd_scene load_steps=16 format=3 uid="uid://cm7uxw0cq0ymo"]
 
 [ext_resource type="Script" path="res://Scripts/Cards/CardController.gd" id="1_5rub8"]
 [ext_resource type="Script" path="res://Scripts/Cards/Card.gd" id="2_etir8"]
+[ext_resource type="Texture2D" uid="uid://dlmet04b4ilft" path="res://Assets/Cards/cardLabel.png" id="3_srvut"]
 [ext_resource type="Texture2D" uid="uid://cwq2iv3rf0cu" path="res://Assets/Cards/CardFront.png" id="3_xpgng"]
-[ext_resource type="FontFile" uid="uid://b8u7jxcjx70ak" path="res://Assets/Fonts/PixelFont.tres" id="4_p3ex8"]
+[ext_resource type="FontFile" uid="uid://dmj5d176hngh2" path="res://Assets/Fonts/Connection-II.ttf" id="4_i5lyf"]
 [ext_resource type="Texture2D" uid="uid://2g32erb0i5i7" path="res://Assets/Cards/CardFrame.png" id="4_xse4l"]
-[ext_resource type="Texture2D" uid="uid://3uo6qspe6ry4" path="res://Assets/Cards/CardImages/missingCard.png" id="5_h57qs"]
+[ext_resource type="Texture2D" uid="uid://jyk8aahbldnn" path="res://Assets/Cards/ElementSymbols/Fire.png" id="5_aghio"]
 [ext_resource type="Texture2D" uid="uid://4rd7tn4yi1a5" path="res://Assets/Cards/CardBack.png" id="5_ogprk"]
+[ext_resource type="Texture2D" uid="uid://bqfersks6xtk8" path="res://Assets/Cards/ChanceLabel.png" id="6_v3ke2"]
+[ext_resource type="Texture2D" uid="uid://clmhjp3p1xylg" path="res://Assets/Cards/AccuracyLabel2.png" id="7_gtv3g"]
+[ext_resource type="Texture2D" uid="uid://cimuldtckak4e" path="res://Assets/Cards/CardImages/Fire/Ignite.png" id="10_726vb"]
 
 [sub_resource type="Animation" id="Animation_ucyjo"]
 length = 0.001
@@ -147,6 +151,7 @@ offset_left = 52.992
 offset_top = 75.816
 offset_right = -1072.0
 offset_bottom = -524.072
+mouse_filter = 1
 script = ExtResource("1_5rub8")
 
 [node name="Card" type="Node2D" parent="."]
@@ -165,53 +170,106 @@ offset_right = 100.0
 offset_bottom = 124.0
 script = ExtResource("2_etir8")
 
+[node name="CostLabel" type="Sprite2D" parent="Card/Card"]
+position = Vector2(46, 10)
+texture = ExtResource("3_srvut")
+
+[node name="APCost" type="RichTextLabel" parent="Card/Card/CostLabel"]
+offset_left = -46.0
+offset_top = -8.0
+offset_right = 52.0
+offset_bottom = 13.0
+scale = Vector2(0.9, 0.9)
+mouse_filter = 1
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("4_i5lyf")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "5"
+text_direction = 2
+
+[node name="ElementLabel" type="Sprite2D" parent="Card/Card"]
+position = Vector2(46, 40)
+texture = ExtResource("3_srvut")
+
+[node name="Element" type="Sprite2D" parent="Card/Card/ElementLabel"]
+position = Vector2(49, -10)
+texture = ExtResource("5_aghio")
+offset = Vector2(-15.7714, 9.90476)
+
+[node name="ChanceLabel" type="Sprite2D" parent="Card/Card"]
+position = Vector2(46, 70)
+texture = ExtResource("3_srvut")
+
+[node name="CastChance" type="RichTextLabel" parent="Card/Card/ChanceLabel"]
+offset_left = -44.0
+offset_top = -8.0
+offset_right = 37.0
+offset_bottom = 12.0
+scale = Vector2(0.9, 0.9)
+mouse_filter = 1
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("4_i5lyf")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "100"
+scroll_active = false
+text_direction = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Card/Card/ChanceLabel"]
+position = Vector2(36, 1)
+scale = Vector2(1.4, 1.4)
+texture = ExtResource("6_v3ke2")
+
+[node name="RangeLabel" type="Sprite2D" parent="Card/Card"]
+position = Vector2(46, 100)
+texture = ExtResource("3_srvut")
+
+[node name="Range" type="RichTextLabel" parent="Card/Card/RangeLabel"]
+offset_left = -44.0
+offset_top = -8.0
+offset_right = 37.0
+offset_bottom = 12.0
+scale = Vector2(0.9, 0.9)
+mouse_filter = 1
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("4_i5lyf")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "5
+"
+scroll_active = false
+text_direction = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Card/Card/RangeLabel"]
+position = Vector2(36, 1)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("7_gtv3g")
+
 [node name="CardSprite" type="Sprite2D" parent="Card/Card"]
+self_modulate = Color(0.658824, 0.0509804, 0.0627451, 1)
 position = Vector2(53, 69)
 scale = Vector2(1.14583, 1.01429)
 texture = ExtResource("3_xpgng")
 
 [node name="CardFrame" type="Sprite2D" parent="Card/Card"]
-position = Vector2(53, 69)
+position = Vector2(52.9998, 69.0003)
 scale = Vector2(1.14583, 1.01429)
 texture = ExtResource("4_xse4l")
 
-[node name="Element" type="Sprite2D" parent="Card/Card"]
-position = Vector2(109, 6)
-scale = Vector2(0.625, 0.5625)
-offset = Vector2(-15.7714, 9.90476)
-
-[node name="PercentChance" type="RichTextLabel" parent="Card/Card"]
-layout_mode = 0
-offset_left = 89.0
-offset_top = 26.0
-offset_right = 109.0
-offset_bottom = 41.0
-scale = Vector2(0.9, 0.9)
-mouse_filter = 1
-theme_override_fonts/normal_font = ExtResource("4_p3ex8")
-theme_override_font_sizes/normal_font_size = 12
-bbcode_enabled = true
-
-[node name="APCost" type="RichTextLabel" parent="Card/Card"]
-layout_mode = 0
-offset_left = 89.8572
-offset_top = 43.0
-offset_right = 120.857
-offset_bottom = 66.0
-scale = Vector2(1.1, 1.1)
-mouse_filter = 1
-theme_override_fonts/normal_font = ExtResource("4_p3ex8")
-theme_override_font_sizes/normal_font_size = 12
-bbcode_enabled = true
-
 [node name="Name" type="RichTextLabel" parent="Card/Card"]
 layout_mode = 0
-offset_left = 3.0
-offset_top = 3.71429
-offset_right = 75.0
-offset_bottom = 20.7143
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 130.0
+offset_bottom = 27.0
+scale = Vector2(0.8, 0.8)
 mouse_filter = 1
-theme_override_fonts/normal_font = ExtResource("4_p3ex8")
+theme_override_fonts/normal_font = ExtResource("4_i5lyf")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[center]Ignite[/center]"
+scroll_active = false
 
 [node name="Description" type="RichTextLabel" parent="Card/Card"]
 visible = false
@@ -221,12 +279,13 @@ offset_top = 95.0
 offset_right = 111.0
 offset_bottom = 135.0
 mouse_filter = 1
-theme_override_fonts/normal_font = ExtResource("4_p3ex8")
+theme_override_fonts/normal_font = ExtResource("4_i5lyf")
+theme_override_font_sizes/normal_font_size = 20
 
 [node name="Picture" type="Sprite2D" parent="Card/Card"]
-position = Vector2(43, 59)
+position = Vector2(52.9998, 59.0003)
 scale = Vector2(1.125, 1.07813)
-texture = ExtResource("5_h57qs")
+texture = ExtResource("10_726vb")
 
 [node name="Timer" type="Timer" parent="Card/Card"]
 

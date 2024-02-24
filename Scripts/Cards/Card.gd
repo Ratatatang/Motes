@@ -15,12 +15,13 @@ func loadCard():
 # updates all the displays on the card to reflect the data stored
 
 func updateData():
-	$Name.text = cardData.displayName
+	$Name.text = "[center]"+cardData.displayName+"[/center]"
 	$Description.text = cardData.description
-	$Element.texture = load("res://Assets/Cards/ElementSymbols/"+cardData.element+".png")
+	$ElementLabel/Element.texture = load("res://Assets/Cards/ElementSymbols/"+cardData.element+".png")
 	$Picture.texture = load("res://Assets/Cards/CardImages/Fire/"+cardData.name+".png")
-	$APCost.text = str(cardData.cost)
-	$PercentChance.text = str(cardData.castChance)
+	$CostLabel/APCost.text = str(cardData.cost)
+	$ChanceLabel/CastChance.text = str(cardData.castChance)
+	$RangeLabel/Range.text = str(cardData.range)
 	$CardSprite.self_modulate = cardData.color
 	
 
@@ -72,12 +73,23 @@ func _on_Card_mouse_entered():
 		var tween = create_tween()
 		get_parent().z_index = 1
 		tween.tween_property(self, "position", Vector2(self.returnPos.x, self.returnPos.y-20.0), 0.1).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT_IN)
+		
+		tween.tween_property($CostLabel, "position", Vector2(70+(7*$CostLabel/APCost.text.length()), 10), 0.1)
+		tween.tween_property($ElementLabel, "position", Vector2(85, 40), 0.1)
+		tween.tween_property($ChanceLabel, "position", Vector2(77+(10*$ChanceLabel/CastChance.text.length()), 70), 0.1)
+		tween.tween_property($RangeLabel, "position", Vector2(80+(10*$RangeLabel/Range.text.length()), 100), 0.1)
 
 func _on_Card_mouse_exited():
 	if(disabled == false and selected == false):
 		var tween = create_tween()
 		get_parent().z_index = 0
-		tween.tween_property(self, "position", returnPos, 0.1).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT_IN) 
+		tween.tween_property(self, "position", returnPos, 0.1).set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT_IN)
+		
+		tween.tween_property($CostLabel, "position", Vector2(46, 10), 0.1)
+		tween.tween_property($ElementLabel, "position", Vector2(46, 40), 0.1)
+		tween.tween_property($ChanceLabel, "position", Vector2(46, 70), 0.1)
+		tween.tween_property($RangeLabel, "position", Vector2(46, 100), 0.1)
+		
 
 func _on_pressed():
 	if(disabled == false):
