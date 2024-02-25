@@ -39,6 +39,7 @@ func drawCard(data):
 	var loadedCard = load(cardScene).instantiate()
 	loadedCard.passData(data)
 	loadedCard.connect("cardUsed", Callable(self, "useCard"))
+	loadedCard.connect("cardInspect", Callable(self, "cardInspect"))
 	%Hand.add_child(loadedCard)
 	loadedCard.moveTo()
 
@@ -66,6 +67,12 @@ func useCard(card):
 		%Services.drawValidTargets(card)
 		setDown()
 		visible = false
+
+func cardInspect(card):
+	%Combat.setAction(4)
+	%Services.inspectCard(card)
+	setDown()
+	visible = false
 
 func disableMove():
 	$Buttons/Move.disabled = true

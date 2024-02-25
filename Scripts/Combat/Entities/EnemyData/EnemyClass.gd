@@ -66,7 +66,6 @@ func decideDrawMin():
 func decideMove():
 	var averageRange
 	var selfTile = map.getEntityTile(self)
-	var APCost = 0
 	
 	averageRange = calculateAverageRange()
 	

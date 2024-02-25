@@ -16,7 +16,8 @@ func loadCard():
 
 func updateData():
 	$Name.text = "[center]"+cardData.displayName+"[/center]"
-	$Description.text = cardData.description
+	$Description.text = "[center]"+cardData.description+"[/center]"
+	$ExpandedDescription/Description.text = "[center]"+cardData.expandedDescription+"[/center]"
 	$ElementLabel/Element.texture = load("res://Assets/Cards/ElementSymbols/"+cardData.element+".png")
 	$Picture.texture = load("res://Assets/Cards/CardImages/Fire/"+cardData.name+".png")
 	$CostLabel/APCost.text = str(cardData.cost)
@@ -66,7 +67,23 @@ func getTargeting():
 	
 func getValidTargets():
 	return cardData.validTargets
+
+func showLabels():
+	var tween = create_tween()
 	
+	tween.tween_property($CostLabel, "position", Vector2(70+(7*$CostLabel/APCost.text.length()), 10), 0.1)
+	tween.tween_property($ElementLabel, "position", Vector2(85, 40), 0.1)
+	tween.tween_property($ChanceLabel, "position", Vector2(77+(10*$ChanceLabel/CastChance.text.length()), 70), 0.1)
+	tween.tween_property($RangeLabel, "position", Vector2(80+(10*$RangeLabel/Range.text.length()), 100), 0.1)
+
+func hideLabels():
+	var tween = create_tween()
+	
+	tween.tween_property($CostLabel, "position", Vector2(46, 10), 0.01)
+	tween.tween_property($ElementLabel, "position", Vector2(46, 40), 0.01)
+	tween.tween_property($ChanceLabel, "position", Vector2(46, 70), 0.01)
+	tween.tween_property($RangeLabel, "position", Vector2(46, 100), 0.01)
+
 # these 2 move the card when you hover over it / move out of it
 func _on_Card_mouse_entered():
 	if(disabled == false and selected == false):
@@ -89,8 +106,10 @@ func _on_Card_mouse_exited():
 		tween.tween_property($ElementLabel, "position", Vector2(46, 40), 0.1)
 		tween.tween_property($ChanceLabel, "position", Vector2(46, 70), 0.1)
 		tween.tween_property($RangeLabel, "position", Vector2(46, 100), 0.1)
-		
 
-func _on_pressed():
+func _on_gui_input(event):
 	if(disabled == false):
-		cardMaster.cardUsed.emit(self)
+		if(event.is_action_pressed("leftClick")):
+			cardMaster.cardUsed.emit(self)
+		if(event.is_action_pressed("rightClick")):
+			cardMaster.cardInspect.emit(cardData)

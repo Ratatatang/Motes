@@ -26,3 +26,7 @@ res://Scripts/Combat/Entities/EntityClass.gd
 res://Scripts/Combat/CombatMaster.gd
 res://Scripts/Combat/Board/BoardFX.gd
 res://Scripts/Cards/CardData/Fire/Ignite.gd
+res://Scripts/Global/GlobalFX.gd
+res://Scripts/Cards/CardData/Fire/Cauterize.gd
+res://Scripts/Cards/CardData/Fire/Firebomb.gd
+res://Scripts/Cards/CardData/CardClass.gd

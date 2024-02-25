@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://ciugbodw8mi37"]
+[gd_scene load_steps=25 format=3 uid="uid://ciugbodw8mi37"]
 
 [ext_resource type="Script" path="res://Scripts/Combat/CombatServices.gd" id="1_4mlhq"]
 [ext_resource type="Script" path="res://Scripts/Combat/CombatMaster.gd" id="1_dhfxj"]
@@ -10,7 +10,6 @@
 [ext_resource type="Script" path="res://Scripts/Combat/CameraController.gd" id="6_fci4t"]
 [ext_resource type="Script" path="res://Scripts/UI/UI.gd" id="7_1n7qw"]
 [ext_resource type="Texture2D" uid="uid://4rd7tn4yi1a5" path="res://Assets/Cards/CardBack.png" id="7_r3m1s"]
-[ext_resource type="FontFile" path="res://Assets/Fonts/PixelFont.tres" id="8_uirdl"]
 [ext_resource type="Texture2D" uid="uid://cgwm6p4ij0hor" path="res://Assets/UI/buttonsBacking.png" id="12_qvul0"]
 [ext_resource type="PackedScene" uid="uid://cm7uxw0cq0ymo" path="res://Scenes/Combat/Card.tscn" id="12_sgxv5"]
 
@@ -1091,7 +1090,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%AnimationCard:mouse_filter")
+tracks/2/path = NodePath("AnimationCard:mouse_filter")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -1103,7 +1102,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("%AnimationCard:size")
+tracks/3/path = NodePath("AnimationCard:size")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -1111,6 +1110,54 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(80, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AnimationCard:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(550, 917)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("AnimationCard:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("ColorRect:color")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.411765, 0.411765, 0.411765, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("ColorRect:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_3dexj"]
@@ -1149,7 +1196,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%AnimationCard:size")
+tracks/2/path = NodePath("AnimationCard:size")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -1158,10 +1205,157 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector2(80, 3.05176e-05)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("%AnimationCard:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_m0xhm"]
+resource_name = "inspectCard"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationCard:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(320, 917), Vector2(320, 199), Vector2(320, 231)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationCard:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2.7, 2.7)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimationCard")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.55),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"flipInspect"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ColorRect:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.411765, 0.411765, 0.411765, 0), Color(0.411765, 0.411765, 0.411765, 0.647059)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ColorRect:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_c3r6n"]
+resource_name = "cancelInspect"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationCard:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(320, 199), Vector2(-512, 199)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationCard:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2.7, 2.7)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimationCard")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.05),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"coverInspect"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ColorRect:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.411765, 0.411765, 0.411765, 0.647059), Color(0.411765, 0.411765, 0.411765, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ColorRect:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ms5we"]
 _data = {
 "RESET": SubResource("Animation_uwwqy"),
+"cancelInspect": SubResource("Animation_c3r6n"),
+"inspectCard": SubResource("Animation_m0xhm"),
 "useCard": SubResource("Animation_3dexj")
 }
 
@@ -1228,21 +1422,25 @@ scale = Vector2(1.2, 1.2)
 texture = ExtResource("7_r3m1s")
 
 [node name="CardsLabel" type="RichTextLabel" parent="Node2D/Combat/UI/UI/CardBack"]
-offset_left = -39.0
-offset_top = -61.0
-offset_right = 59.0
-offset_bottom = -29.0
-theme_override_fonts/normal_font = ExtResource("8_uirdl")
-theme_override_font_sizes/normal_font_size = 12
-text = "Cards Left:  6"
+offset_left = -39.1667
+offset_top = -64.1667
+offset_right = 253.833
+offset_bottom = -10.1667
+scale = Vector2(0.28, 0.28)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 40
+text = "Cards Left: "
 
 [node name="APLabel" type="RichTextLabel" parent="Node2D/Combat/UI/UI/CardBack"]
-offset_left = -38.3333
-offset_top = 50.0
-offset_right = 59.6667
-offset_bottom = 82.0
-theme_override_fonts/normal_font = ExtResource("8_uirdl")
-theme_override_font_sizes/normal_font_size = 12
+offset_left = -39.0
+offset_top = 47.0
+offset_right = 247.0
+offset_bottom = 107.0
+scale = Vector2(0.28, 0.28)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 40
 text = "AP:  30/30"
 
 [node name="Buttons" type="Control" parent="Node2D/Combat/UI/UI"]
@@ -1320,6 +1518,15 @@ shape = SubResource("RectangleShape2D_gb65e")
 
 [node name="ScreenFX" type="CanvasLayer" parent="Node2D/Combat"]
 
+[node name="ColorRect" type="ColorRect" parent="Node2D/Combat/ScreenFX"]
+visible = false
+offset_left = -156.0
+offset_top = -64.0
+offset_right = 1335.0
+offset_bottom = 774.0
+mouse_filter = 1
+color = Color(0.411765, 0.411765, 0.411765, 0)
+
 [node name="ScreenAnimations" type="AnimationPlayer" parent="Node2D/Combat/ScreenFX"]
 unique_name_in_owner = true
 libraries = {
@@ -1328,10 +1535,20 @@ libraries = {
 
 [node name="AnimationCard" parent="Node2D/Combat/ScreenFX" instance=ExtResource("12_sgxv5")]
 unique_name_in_owner = true
-offset_left = 937.992
-offset_top = 1145.82
-offset_right = -187.0
-offset_bottom = 412.928
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -26.0
+offset_top = 593.0
+offset_right = 54.0
+offset_bottom = 593.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+disableUse = true
 
 [connection signal="pressed" from="Node2D/Combat/UI/UI/Buttons/EndTurn" to="Node2D/Combat/UI/UI" method="_on_end_turn_pressed"]
 [connection signal="pressed" from="Node2D/Combat/UI/UI/Buttons/Draw" to="Node2D/Combat/UI/UI" method="_on_DrawButton_pressed"]

@@ -204,6 +204,12 @@ func cancelCard():
 	%Combat.setAction(1)
 	clearTargetedTiles()
 
+func cancelInspect():
+	%ScreenAnimations.play("cancelInspect")
+	await %ScreenAnimations.animation_finished
+	%UI.visible = true
+	%Combat.setAction(1)
+
 func loadCharacter(entity):
 	selectedCharacter = entity
 	%Environment.highlightEntity(selectedCharacter)
@@ -340,6 +346,10 @@ func executeAIMoves():
 	await get_tree().process_frame
 	AIAdvance.emit()
 
+func inspectCard(card):
+	%AnimationCard.passData(card)
+	%ScreenAnimations.play("inspectCard")
+
 func getAStar():
 	return AStarGrid
 
@@ -391,3 +401,6 @@ func decrementAP(num : int):
 
 func damage(num : int, type = null):
 	selectedCharacter.damage(num, type)
+
+func heal(num : int):
+	selectedCharacter.heal(num)

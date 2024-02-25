@@ -4,15 +4,16 @@ func _init():
 	super()
 	displayName = "Fire  Arrow"
 	name = "FireArrow"
-	description = "Launches a bolt of flame that does some damage, and ignites."
+	description = "A bolt of flame that does some damage."
+	expandedDescription = "A bolt of flame.[/center]\n\n[center]Does 5 Fire damage to an enemy."
 	castChance = 100
-	cost = 5
-	range = 5
+	cost = 3
+	range = 3
 	
 	AITags = ["Damage"]
 	
-	enemyEffect = func (tile: Vector2i, entity: Entity, selfEntity: Entity):
-		entity.damage(5, "Fire")
+	enemyEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity):
+		_entity.damage(5, "Fire")
 	
 	targeting = [enemyEffect]
 	validTargets = ["Enemy"]

@@ -142,6 +142,7 @@ func giveStatus(status):
 			effect._merge(status)
 			return
 	statusEffects.append(status)
+	GlobalFX.displayInflictedText("Inflicted with "+status.statusName+"!", global_position)
 	status._onInflicted(self)
 
 func clearStatus(status):
@@ -165,9 +166,16 @@ func getMovementPoints() -> Array:
 func setTeam(newTeam : String) -> void:
 	team = newTeam
 
+func heal(healAmount) -> void:
+	curHP += healAmount
+	GlobalFX.displayHealNumber(healAmount, global_position)
+	
+	if(curHP > maxHP):
+		curHP = maxHP
+
 func damage(damageAmount, type) -> void:
 	curHP -= damageAmount
-	GlobalFX.displayDamageNumber(damageAmount, global_position)
+	GlobalFX.displayDamageNumber(damageAmount, global_position, type)
 	
 	if(curHP <= 0):
 		curHP = 0

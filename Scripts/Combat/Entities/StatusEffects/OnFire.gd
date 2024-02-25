@@ -1,7 +1,7 @@
 extends StatusEffect
 
 func _init():
-	statusName = "On Fire"
+	statusName = "Burning"
 
 func _onTurnStart(entity):
 	entity.damage(1, "Fire")

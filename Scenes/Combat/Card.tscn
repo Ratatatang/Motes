@@ -1,10 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://cm7uxw0cq0ymo"]
+[gd_scene load_steps=17 format=3 uid="uid://cm7uxw0cq0ymo"]
 
 [ext_resource type="Script" path="res://Scripts/Cards/CardController.gd" id="1_5rub8"]
 [ext_resource type="Script" path="res://Scripts/Cards/Card.gd" id="2_etir8"]
 [ext_resource type="Texture2D" uid="uid://dlmet04b4ilft" path="res://Assets/Cards/cardLabel.png" id="3_srvut"]
 [ext_resource type="Texture2D" uid="uid://cwq2iv3rf0cu" path="res://Assets/Cards/CardFront.png" id="3_xpgng"]
-[ext_resource type="FontFile" uid="uid://dmj5d176hngh2" path="res://Assets/Fonts/Connection-II.ttf" id="4_i5lyf"]
 [ext_resource type="Texture2D" uid="uid://2g32erb0i5i7" path="res://Assets/Cards/CardFrame.png" id="4_xse4l"]
 [ext_resource type="Texture2D" uid="uid://jyk8aahbldnn" path="res://Assets/Cards/ElementSymbols/Fire.png" id="5_aghio"]
 [ext_resource type="Texture2D" uid="uid://4rd7tn4yi1a5" path="res://Assets/Cards/CardBack.png" id="5_ogprk"]
@@ -49,6 +48,30 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Card/Card/Description:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Card/Card/ExpandedDescription:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_o7app"]
@@ -133,11 +156,171 @@ tracks/2/keys = {
 "values": [true]
 }
 
+[sub_resource type="Animation" id="Animation_c2hlm"]
+resource_name = "flipInspect"
+length = 0.4
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(2.7, 2.7), Vector2(0.01, 2.7), Vector2(2.7, 2.7)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Card/Card/Backside:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Card/Card/Description:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Card/Card")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"showLabels"
+}]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Card/Card/ExpandedDescription:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.25, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_s8x3p"]
+resource_name = "coverInspect"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(2.7, 2.7), Vector2(0.01, 2.7), Vector2(2.7, 2.7)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Card/Card/Backside:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Card/Card/Description:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Card/Card")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"hideLabels"
+}]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Card/Card/ExpandedDescription:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_btvl0"]
 _data = {
 "RESET": SubResource("Animation_ucyjo"),
 "cover": SubResource("Animation_o7app"),
-"flip": SubResource("Animation_ef8ym")
+"coverInspect": SubResource("Animation_s8x3p"),
+"flip": SubResource("Animation_ef8ym"),
+"flipInspect": SubResource("Animation_c2hlm")
 }
 
 [node name="Card" type="Control"]
@@ -168,6 +351,8 @@ offset_left = -6.0
 offset_top = -13.0
 offset_right = 100.0
 offset_bottom = 124.0
+mouse_filter = 1
+mouse_force_pass_scroll_events = false
 script = ExtResource("2_etir8")
 
 [node name="CostLabel" type="Sprite2D" parent="Card/Card"]
@@ -175,15 +360,14 @@ position = Vector2(46, 10)
 texture = ExtResource("3_srvut")
 
 [node name="APCost" type="RichTextLabel" parent="Card/Card/CostLabel"]
-offset_left = -46.0
-offset_top = -8.0
-offset_right = 52.0
-offset_bottom = 13.0
-scale = Vector2(0.9, 0.9)
+offset_left = -44.1481
+offset_top = -11.0
+offset_right = 170.852
+offset_bottom = 45.0
+scale = Vector2(0.4, 0.4)
 mouse_filter = 1
 theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_fonts/normal_font = ExtResource("4_i5lyf")
-theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/normal_font_size = 40
 bbcode_enabled = true
 text = "5"
 text_direction = 2
@@ -202,18 +386,16 @@ position = Vector2(46, 70)
 texture = ExtResource("3_srvut")
 
 [node name="CastChance" type="RichTextLabel" parent="Card/Card/ChanceLabel"]
-offset_left = -44.0
-offset_top = -8.0
-offset_right = 37.0
-offset_bottom = 12.0
-scale = Vector2(0.9, 0.9)
+offset_left = -46.0
+offset_top = -11.0
+offset_right = 142.0
+offset_bottom = 45.0
+scale = Vector2(0.4, 0.4)
 mouse_filter = 1
 theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_fonts/normal_font = ExtResource("4_i5lyf")
-theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/normal_font_size = 40
 bbcode_enabled = true
-text = "100"
-scroll_active = false
+text = "5"
 text_direction = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="Card/Card/ChanceLabel"]
@@ -226,19 +408,16 @@ position = Vector2(46, 100)
 texture = ExtResource("3_srvut")
 
 [node name="Range" type="RichTextLabel" parent="Card/Card/RangeLabel"]
-offset_left = -44.0
-offset_top = -8.0
-offset_right = 37.0
-offset_bottom = 12.0
-scale = Vector2(0.9, 0.9)
+offset_left = -46.0
+offset_top = -11.0
+offset_right = 142.0
+offset_bottom = 45.0
+scale = Vector2(0.4, 0.4)
 mouse_filter = 1
 theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_fonts/normal_font = ExtResource("4_i5lyf")
-theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/normal_font_size = 40
 bbcode_enabled = true
-text = "5
-"
-scroll_active = false
+text = "5"
 text_direction = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="Card/Card/RangeLabel"]
@@ -260,27 +439,30 @@ texture = ExtResource("4_xse4l")
 [node name="Name" type="RichTextLabel" parent="Card/Card"]
 layout_mode = 0
 offset_left = 1.0
-offset_top = 1.0
-offset_right = 130.0
-offset_bottom = 27.0
-scale = Vector2(0.8, 0.8)
+offset_top = -1.55555
+offset_right = 260.0
+offset_bottom = 54.4444
+scale = Vector2(0.4, 0.4)
 mouse_filter = 1
-theme_override_fonts/normal_font = ExtResource("4_i5lyf")
-theme_override_font_sizes/normal_font_size = 20
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 40
 bbcode_enabled = true
 text = "[center]Ignite[/center]"
 scroll_active = false
 
 [node name="Description" type="RichTextLabel" parent="Card/Card"]
-visible = false
 layout_mode = 0
-offset_left = 10.0
-offset_top = 95.0
-offset_right = 111.0
-offset_bottom = 135.0
+offset_top = 97.0
+offset_right = 478.0
+offset_bottom = 279.0
+scale = Vector2(0.22, 0.22)
 mouse_filter = 1
-theme_override_fonts/normal_font = ExtResource("4_i5lyf")
-theme_override_font_sizes/normal_font_size = 20
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "[center]Lights a tile and anything on it on fire for 3 turns.[/center]"
 
 [node name="Picture" type="Sprite2D" parent="Card/Card"]
 position = Vector2(52.9998, 59.0003)
@@ -294,11 +476,33 @@ position = Vector2(53, 69)
 scale = Vector2(1.146, 1.014)
 texture = ExtResource("5_ogprk")
 
+[node name="ExpandedDescription" type="ColorRect" parent="Card/Card"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = 162.0
+offset_top = 5.0
+offset_right = 339.0
+offset_bottom = 137.0
+color = Color(0.305882, 0.305882, 0.305882, 0.964706)
+
+[node name="Description" type="RichTextLabel" parent="Card/Card/ExpandedDescription"]
+offset_top = 2.0
+offset_right = 709.0
+offset_bottom = 523.0
+scale = Vector2(0.25, 0.25)
+mouse_filter = 1
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "[center]Lights a tile and anything on it on fire for 3 turns.[/center]"
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_btvl0")
 }
 
+[connection signal="gui_input" from="Card/Card" to="Card/Card" method="_on_gui_input"]
 [connection signal="mouse_entered" from="Card/Card" to="Card/Card" method="_on_Card_mouse_entered"]
 [connection signal="mouse_exited" from="Card/Card" to="Card/Card" method="_on_Card_mouse_exited"]
 [connection signal="pressed" from="Card/Card" to="Card/Card" method="_on_pressed"]

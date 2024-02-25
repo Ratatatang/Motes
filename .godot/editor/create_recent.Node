@@ -1,12 +1,12 @@
+RichTextLabel
+ColorRect
+Button
 Sprite2D
 AnimationPlayer
 CanvasLayer
 StaticBody2D
 DampedSpringJoint2D
 CollisionShape2D
-Button
-RichTextLabel
-ColorRect
 Area2D
 Camera2D
 CharacterBody2D

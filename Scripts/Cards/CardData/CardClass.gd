@@ -5,6 +5,7 @@ var element : String
 var displayName : String
 var name : String
 var description : String
+var expandedDescription : String
 var image
 var castChance : int
 var range : int = 5
@@ -16,19 +17,19 @@ var targeting
 var validTargets
 var AITags
 
-var tileEffect = func (tile: Vector2i, entity: Entity, selfEntity: Entity):
+var tileEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity):
 	pass
 	
-var enemyEffect = func (tile: Vector2i, entity: Entity, selfEntity: Entity):
+var enemyEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity):
 	pass
 
-var selfEffect = func (tile: Vector2i, entity: Entity, selfEntity: Entity):
+var selfEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity):
 	pass
 
-var allyEffect = func (tile: Vector2i, entity: Entity, selfEntity: Entity):
+var allyEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity):
 	pass
 
-var tileEffectEffect = func (tile: Vector2i, entity: Entity, selfEntity: Entity):
+var tileEffectEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity):
 	pass
 
 func getElement() -> String:
@@ -41,7 +42,10 @@ func getDisplayName() -> String:
 	return displayName
 
 func getDescription() -> String:
-	return element
+	return description
+
+func getExpandedDescription() -> String:
+	return expandedDescription
 
 func getCost() -> int:
 	return cost
@@ -60,6 +64,9 @@ func setDisplayName(new_name) -> void:
 
 func setDescription(new_description) -> void:
 	description = new_description
+
+func setExpandedDescription(new_description) -> void:
+	expandedDescription = new_description
 
 func setCastChance(new_cast_chance) -> void:
 	castChance = new_cast_chance
