@@ -120,9 +120,9 @@ func advanceRound():
 
 func selectedMoveTo(tilePos):
 	if(selectedCharacter.isPassablePoint(tilePos)):
-		if(enoughAP(selectedCharacter.getPath(tilePos).size()-1)):
+		if(enoughAP((selectedCharacter.getPath(tilePos).size()-1)*2)):
 			
-			decrementAP(selectedCharacter.getPath(tilePos).size()-1)
+			decrementAP((selectedCharacter.getPath(tilePos).size()-1)*2)
 			
 			disableLine()
 			%Environment.removeHighlight(selectedCharacter)
@@ -189,7 +189,8 @@ func AIUseCard(tilePos, card, entity = selectedCharacter):
 				%ScreenAnimations.play("useCard")
 				
 				for target in card.targeting:
-					target.call(tilePos, %Environment.getTileEntity(tilePos), entity)
+					if(%Environment.getTileEntity(tilePos) != null):
+						target.call(tilePos, %Environment.getTileEntity(tilePos), entity)
 				
 				getHand().erase(card)
 
@@ -206,6 +207,12 @@ func cancelCard():
 
 func cancelInspect():
 	%ScreenAnimations.play("cancelInspect")
+	await %ScreenAnimations.animation_finished
+	%UI.visible = true
+	%Combat.setAction(1)
+
+func cancelStatus():
+	%ScreenAnimations.play("cancelStatus")
 	await %ScreenAnimations.animation_finished
 	%UI.visible = true
 	%Combat.setAction(1)
@@ -270,14 +277,18 @@ func shuffleDeck():
 
 func drawValidTargets(card = selectedCard, entity = selectedCharacter):
 	var validTiles = []
+	var emptyTiles = []
 	var tiles = %Environment.getTileCircle(%Environment.getEntityTile(entity), card.getRange())
 	
 	for tile in tiles:
-		if(entity.canTargetTile(tile, selectedCard.getValidTargets())):
-			validTiles.append(tile)
+		if(entity.canSeeTile(tile)):
+			if(entity.canTargetTile(tile, selectedCard.getValidTargets())):
+				validTiles.append(tile)
+			else:
+				emptyTiles.append(tile)
 			targetedTiles.append(tile)
 	
-	%Environment.targetTiles(validTiles)
+	%Environment.targetTiles(validTiles, emptyTiles)
 
 func clearTargetedTiles():
 	clearMouseTargets()
@@ -293,9 +304,12 @@ func checkMouseTargets(mouseTile):
 	clearMouseTargets()
 	if targetedTiles.has(mouseTile):
 		for tile in selectedCard.getAreaOfEffect():
+			
 			var tileIteration = mouseTile + tile
+			
 			if(AStarGrid.is_in_boundsv(tileIteration)):
-				targetTiles.append(tileIteration)
+				if(!%Environment.isTileSolid(tileIteration)):
+					targetTiles.append(tileIteration)
 		
 		mouseTargetTiles(targetTiles)
 
@@ -349,6 +363,10 @@ func executeAIMoves():
 func inspectCard(card):
 	%AnimationCard.passData(card)
 	%ScreenAnimations.play("inspectCard")
+
+func openStatus():
+	%StatusList.loadStatusIcons(selectedCharacter.statusEffects)
+	%ScreenAnimations.play("inspectStatus")
 
 func getAStar():
 	return AStarGrid

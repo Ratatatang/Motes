@@ -1,6 +1,7 @@
 class_name StatusEffect
 
 var statusName
+var statusIcon
 var timer = 3
 var countdown = 0
 

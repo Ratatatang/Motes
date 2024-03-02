@@ -56,6 +56,12 @@ func getMouseTile():
 		return Vector2i.MIN
 	return pos
 
+func isTileSolid(tile):
+	var tileData = get_cell_tile_data(0, tile)
+	if tileData.get_custom_data("impassable") == true:
+		return true
+	return false
+
 #Get a cicle area around a tile
 func getTileCircle(pos : Vector2, radius) -> Array:
 	var tiles = []
@@ -76,8 +82,9 @@ func getTileRing(pos : Vector2, radius) -> Array:
 
 	return tiles
 
-func targetTiles(tiles):
+func targetTiles(tiles, emptyTiles):
 	set_cells_terrain_connect(1, tiles, 0, 0, true)
+	set_cells_terrain_connect(1, emptyTiles, 0, 2, true)
 
 func loadTileVFX(pos, effect):
 	var VFX = load(effect.VFX).instantiate()

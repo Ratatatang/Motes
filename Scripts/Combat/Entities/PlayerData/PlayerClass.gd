@@ -4,7 +4,7 @@ class_name PlayerPawn
 @onready var line = $Line2D
 
 func _init():
-	deck = ["Ignite", "Ignite", "Ignite", "Ignite", "Ignite", "FireArrow", "FireArrow", "FireArrow", "FireArrow", "FireArrow", "Firebomb", "Firebomb", "Firebomb", "RingOfFire", "RingOfFire"]
+	deck = ["Ignite", "Ignite", "Ignite", "Ignite", "Ignite", "FireArrow", "FireArrow", "FireArrow", "FireArrow", "FireArrow", "Firebomb", "Firebomb", "Firebomb", "RingOfFire"]
 	maxHandSize = 8
 	maxAP = 30
 	maxHP = 20

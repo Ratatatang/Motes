@@ -16,7 +16,8 @@ func _init():
 	
 	tileEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity):
 		for tileIteration in areaOfEffect:
-			MasterInfo.currentLevelMap.setTileData(_tile+tileIteration, "res://Scripts/Combat/TileEffects/Burning.gd")
+			if(_selfEntity.canTargetTile(_tile+tileIteration, validTargets)):
+				MasterInfo.currentLevelMap.setTileData(_tile+tileIteration, "res://Scripts/Combat/TileEffects/Burning.gd")
 	
 	targeting = [tileEffect]
 	validTargets = ["Tile"]

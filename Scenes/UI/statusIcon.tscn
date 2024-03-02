@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://xur6x7cn0j4g"]
+
+[ext_resource type="Script" path="res://Scripts/UI/statusIcon.gd" id="1_m0d8a"]
+[ext_resource type="Texture2D" uid="uid://ctfoiixh7uo2d" path="res://Assets/UI/StatusIcons/statusBacking.png" id="1_xr1oe"]
+[ext_resource type="Texture2D" uid="uid://p3rw206y4t68" path="res://Assets/UI/StatusIcons/Burning.png" id="2_s385a"]
+
+[node name="statusIcon" type="Control"]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_m0d8a")
+
+[node name="statusIcon" type="Sprite2D" parent="."]
+texture = ExtResource("1_xr1oe")
+
+[node name="Status" type="Sprite2D" parent="statusIcon"]
+position = Vector2(-36, 0)
+texture = ExtResource("2_s385a")
+
+[node name="Name" type="RichTextLabel" parent="statusIcon"]
+offset_left = -27.0
+offset_top = -6.0
+offset_right = 178.0
+offset_bottom = 54.0
+scale = Vector2(0.22, 0.22)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "[center] Burning [/center]"
+
+[node name="TurnsLeft" type="RichTextLabel" parent="statusIcon"]
+offset_left = 19.0
+offset_top = -8.0
+offset_right = 309.0
+offset_bottom = 52.0
+scale = Vector2(0.12, 0.12)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 40
+text = "Turns Left:"
+
+[node name="Turns" type="RichTextLabel" parent="statusIcon"]
+offset_left = 26.0
+offset_top = -5.0
+offset_right = 316.0
+offset_bottom = 55.0
+scale = Vector2(0.3, 0.3)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 40
+text = "1"
