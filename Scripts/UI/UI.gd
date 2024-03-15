@@ -79,6 +79,13 @@ func cardInspect(card):
 	setDown()
 	visible = false
 
+func enableUI():
+	visible = true
+	var tween = create_tween()
+	var moveTo = position
+	position += Vector2(0, 35)
+	tween.tween_property(self, "position", moveTo, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
 func disableMove():
 	$Buttons/Move.disabled = true
 
@@ -104,7 +111,10 @@ func _on_DrawButton_pressed():
 	updateCardsLabel()
 
 func _on_end_turn_pressed():
-	%Services.advanceTurn()
+	if !MasterInfo.singleplayer:
+		%Services.advanceTurn.rpc_id(1)
+	else:
+		%Services.advanceTurn()
 
 func _on_move_pressed():
 	%Combat.setAction(2)

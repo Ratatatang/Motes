@@ -4,7 +4,7 @@ func _init():
 	super()
 	displayName = "Firebomb"
 	name = "Firebomb"
-	description = "A ball of fire. lights a cross of tiles ablaze."
+	description = "A ball of fire. Lights a cross of tiles ablaze."
 	expandedDescription = "A ball of fire and rocks.\n\nLights a cross of tiles ablaze for 3 turns."
 	castChance = 100
 	cost = 5
@@ -14,7 +14,7 @@ func _init():
 	
 	AITags = ["Damage", "Ignite"]
 	
-	tileEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity):
+	tileEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int):
 		for tileIteration in areaOfEffect:
 			if(_selfEntity.canTargetTile(_tile+tileIteration, validTargets)):
 				MasterInfo.currentLevelMap.setTileData(_tile+tileIteration, "res://Scripts/Combat/TileEffects/Burning.gd")

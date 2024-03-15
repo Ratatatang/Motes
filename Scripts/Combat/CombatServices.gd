@@ -18,6 +18,8 @@ var mouseTargets = []
 var entityTurnOrder = []
 var currentTurn = 0
 
+var areaRotation = 0
+
 func _ready():
 	AStarGrid = AStarGrid2D.new() 
 	AStarGrid.cell_size = Vector2(64, 64)
@@ -48,6 +50,7 @@ func _ready():
 
 	cardsRefrence = json.get_data()
 
+@rpc("any_peer", "call_local")
 func updateAStar():
 	AStarGrid.clear()
 	AStarGrid.region = %Environment.get_used_rect()
@@ -91,7 +94,9 @@ func updateAStar():
 				AStarGridAIPassable.set_point_weight_scale(tilePos, tileBias)
 
 func beginGame():
-	updateAStar()
+	updateAStar.rpc()
+	currentTurn = 0
+	
 	
 	%Camera.moveTo(%Environment.getEntityTile(entityTurnOrder[0])*64)
 	loadCharacter(entityTurnOrder[0])
@@ -121,26 +126,19 @@ func advanceRound():
 func selectedMoveTo(tilePos):
 	if(selectedCharacter.isPassablePoint(tilePos)):
 		if(enoughAP((selectedCharacter.getPath(tilePos).size()-1)*2)):
-			
-			decrementAP((selectedCharacter.getPath(tilePos).size()-1)*2)
-			
 			disableLine()
-			%Environment.removeHighlight(selectedCharacter)
-			
-			selectedCharacter.setPath(tilePos)
-			
 			%UI.disableMove()
 			%UI.disableCards()
-			%UI.visible = true
-			
+			%UI.enableUI()
+				
 			%Combat.setAction(1)
-		
-			await(selectedCharacter.finishedMoving)
 			
-			updateAStar()
-			
-			%Environment.highlightEntity(selectedCharacter)
-			
+			if MasterInfo.singleplayer:
+				await(moveTo(tilePos, selectedCharacter))
+			else:
+				while(await(moveTo(tilePos, selectedCharacter))):
+					print("a")
+				
 			%UI.enableMove()
 			%UI.enableCards()
 		else:
@@ -151,32 +149,34 @@ func selectedMoveTo(tilePos):
 func AIMoveTo(tilePos):
 	if(selectedCharacter.isPassablePoint(tilePos)):
 		if(enoughAP(selectedCharacter.getPath(tilePos).size()-1)):
-			
-			decrementAP(selectedCharacter.getPath(tilePos).size()-1)
-			%Environment.removeHighlight(selectedCharacter)
-			selectedCharacter.setPath(tilePos)
-			
-			await(selectedCharacter.finishedMoving)
-			
-			%Environment.highlightEntity(selectedCharacter)
+			moveTo(tilePos, selectedCharacter)
 
-func useCard(tilePos, entity = selectedCharacter, card = selectedCard):
-	if(%Environment.getTileCircle(%Environment.getEntityTile(entity), card.getRange()).has(tilePos)):
-		if(entity.canTargetTile(tilePos, card.getValidTargets())):
-			if(enoughAP(card.getCost())):
-				decrementAP(card.getCost())
+func moveTo(tilePos, entity):
+	decrementAP(entity.getPath(tilePos).size()-1)
+	%Environment.removeHighlight(entity)
+	entity.setPath(tilePos)
+
+	await(entity.finishedMoving)
+	
+	updateAStar.rpc()
+	%Environment.highlightEntity(entity)
+
+func selectedUseCard(tilePos):
+	if(%Environment.getTileCircle(%Environment.getEntityTile(selectedCharacter), selectedCard.getRange()).has(tilePos)):
+		if(selectedCharacter.canTargetTile(tilePos, selectedCard.getValidTargets())):
+			if(enoughAP(selectedCard.getCost())):
+				decrementAP(selectedCard.getCost())
 				%UI.updateLabels()
 				
-				for target in card.getTargeting():
-					target.call(tilePos, %Environment.getTileEntity(tilePos), entity)
+				useCard(tilePos, selectedCharacter, selectedCard.cardData)
 				
 				%Combat.setAction(1)
-				%UI.visible = true
+				%UI.enableUI()
 				
-				getHand().erase(card.cardData)
-				card.freeSelf()
+				getHand().erase(selectedCard.cardData)
+				selectedCard.freeSelf()
 				
-				updateAStar()
+				updateAStar.rpc()
 				clearTargetedTiles()
 
 func AIUseCard(tilePos, card, entity = selectedCharacter):
@@ -188,44 +188,64 @@ func AIUseCard(tilePos, card, entity = selectedCharacter):
 				%AnimationCard.passData(card)
 				%ScreenAnimations.play("useCard")
 				
-				for target in card.targeting:
-					if(%Environment.getTileEntity(tilePos) != null):
-						target.call(tilePos, %Environment.getTileEntity(tilePos), entity)
+				useCard(tilePos, selectedCharacter, selectedCard)
 				
 				getHand().erase(card)
 
+func useCard(tilePos, entity, card):
+	for target in card.targeting:
+		target.call(tilePos, %Environment.getTileEntity(tilePos), entity, areaRotation)
+
 func cancelMove():
 	disableLine()
-	%UI.visible = true 
+	%UI.enableUI() 
 	%Combat.setAction(1)
 	selectedCard = null
 
 func cancelCard():
-	%UI.visible = true
+	%UI.enableUI()
 	%Combat.setAction(1)
 	clearTargetedTiles()
 
 func cancelInspect():
 	%ScreenAnimations.play("cancelInspect")
 	await %ScreenAnimations.animation_finished
-	%UI.visible = true
+	%UI.enableUI()
 	%Combat.setAction(1)
 
 func cancelStatus():
 	%ScreenAnimations.play("cancelStatus")
 	await %ScreenAnimations.animation_finished
-	%UI.visible = true
+	%UI.enableUI()
 	%Combat.setAction(1)
 
+@rpc("any_peer")
 func loadCharacter(entity):
+	if MasterInfo.singleplayer:
+		loadCharacterSingleplayer(entity)
+	else:
+		if entity.playerID == multiplayer.get_unique_id():
+			selectedCharacter = entity
+			%Environment.highlightEntity(selectedCharacter)
+			moveCameraToTile(%Environment.getEntityTile(entity))
+	
+			updateAStar.rpc()
+			
+			%UI.enableUI()
+			%UI.loadHand(selectedCharacter)
+			%UI.updateLabels()
+		else:
+			loadCharacter.rpc_id(entity.playerID, entity)
+
+func loadCharacterSingleplayer(entity):
 	selectedCharacter = entity
 	%Environment.highlightEntity(selectedCharacter)
 	moveCameraToTile(%Environment.getEntityTile(entity))
 	
-	updateAStar()
+	updateAStar.rpc()
 	
-	if(entity.team == "Player"):
-		%UI.visible = true
+	if(!entity.isAI):
+		%UI.enableUI()
 		%UI.loadHand(selectedCharacter)
 		%UI.updateLabels()
 	else:
@@ -285,7 +305,8 @@ func drawValidTargets(card = selectedCard, entity = selectedCharacter):
 			if(entity.canTargetTile(tile, selectedCard.getValidTargets())):
 				validTiles.append(tile)
 			else:
-				emptyTiles.append(tile)
+				if AStarGrid.is_in_boundsv(tile):
+					emptyTiles.append(tile)
 			targetedTiles.append(tile)
 	
 	%Environment.targetTiles(validTiles, emptyTiles)
@@ -303,8 +324,17 @@ func checkMouseTargets(mouseTile):
 	
 	clearMouseTargets()
 	if targetedTiles.has(mouseTile):
-		for tile in selectedCard.getAreaOfEffect():
-			
+		var areaTiles = selectedCard.getAreaOfEffect()
+		
+		if(selectedCard.getAOERotations()):
+			if(areaRotation > areaTiles.size()-1):
+				areaRotation = 0
+			areaTiles = areaTiles[areaRotation]
+		else:
+			areaRotation = 0
+		
+		for tile in areaTiles:
+				
 			var tileIteration = mouseTile + tile
 			
 			if(AStarGrid.is_in_boundsv(tileIteration)):
@@ -330,7 +360,10 @@ func clearMouseTargets():
 		%Environment.erase_cell(1, tile)
 	
 	drawValidTargets()
-			
+
+func rotateAOE():
+	areaRotation += 1
+
 func moveCameraToTile(tile):
 	%Camera.tweenTo(Vector2(tile)*64)
 

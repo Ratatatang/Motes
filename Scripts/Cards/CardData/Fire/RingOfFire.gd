@@ -14,7 +14,7 @@ func _init():
 	
 	AITags = ["Damage", "Ignite"]
 	
-	tileEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity):
+	tileEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int):
 		for tileIteration in areaOfEffect:
 			if(_selfEntity.canTargetTile(_tile+tileIteration, validTargets)):
 				MasterInfo.currentLevelMap.setTileData(_tile+tileIteration, "res://Scripts/Combat/TileEffects/Burning.gd")

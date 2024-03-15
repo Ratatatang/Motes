@@ -11,25 +11,26 @@ var castChance : int
 var range : int = 5
 var cost : int = 5
 
+var AOERotations : bool = false
 var areaOfEffect : Array = [Vector2i.ZERO]
 
 var targeting
 var validTargets
 var AITags
 
-var tileEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity):
+var tileEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int):
 	pass
 	
-var enemyEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity):
+var enemyEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int):
 	pass
 
-var selfEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity):
+var selfEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int):
 	pass
 
-var allyEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity):
+var allyEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int):
 	pass
 
-var tileEffectEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity):
+var tileEffectEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int):
 	pass
 
 func getElement() -> String:
@@ -53,6 +54,15 @@ func getCost() -> int:
 func getCastChance() -> int:
 	return castChance
 
+func getTargeting():
+	return targeting
+
+func getValidTargets():
+	return validTargets
+
+func getAOERotations() -> bool:
+	return false
+
 func setElement(new_element) -> void:
 	element = new_element
 
@@ -73,3 +83,6 @@ func setCastChance(new_cast_chance) -> void:
 
 func setCost(new_cost) -> void:
 	cost = new_cost
+	
+func setAOERotations(new_setting) -> void:
+	AOERotations = new_setting

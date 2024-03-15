@@ -68,6 +68,9 @@ func getTargeting():
 func getValidTargets():
 	return cardData.validTargets
 
+func getAOERotations():
+	return cardData.AOERotations
+
 func showLabels():
 	var tween = create_tween()
 	

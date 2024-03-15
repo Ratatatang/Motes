@@ -1,0 +1,124 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbimfm4648uwu"]
+
+[ext_resource type="Script" path="res://Scripts/MainMenu/HostGameScreen.gd" id="1_owpxy"]
+[ext_resource type="Texture2D" uid="uid://ckrxfwvem1yis" path="res://Assets/MainMenu/MapScreenshots/housemap.png" id="2_gjwo5"]
+
+[node name="HostGameScreen" type="Node2D"]
+script = ExtResource("1_owpxy")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Buttons" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Host" type="Button" parent="Buttons"]
+layout_mode = 0
+offset_left = -556.0
+offset_top = -306.0
+offset_right = -447.0
+offset_bottom = -242.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "Host"
+
+[node name="Join" type="Button" parent="Buttons"]
+layout_mode = 0
+offset_left = -420.0
+offset_top = -306.0
+offset_right = -311.0
+offset_bottom = -242.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "Join"
+
+[node name="Start" type="Button" parent="Buttons"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -285.0
+offset_top = -306.0
+offset_right = -176.0
+offset_bottom = -242.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 32
+text = "Start"
+
+[node name="Name" type="LineEdit" parent="Buttons"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -556.0
+offset_top = -216.0
+offset_right = 29.0
+offset_bottom = -153.0
+scale = Vector2(0.65, 0.65)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 40
+placeholder_text = "Name"
+
+[node name="ScrollGamemodeLeft" type="Button" parent="Buttons"]
+layout_mode = 0
+offset_left = -138.0
+offset_top = 58.0
+offset_right = -98.0
+offset_bottom = 124.0
+text = "<-"
+
+[node name="ScrollGamemodeRight" type="Button" parent="Buttons"]
+layout_mode = 0
+offset_left = 490.0
+offset_top = 58.0
+offset_right = 530.0
+offset_bottom = 124.0
+text = "->"
+
+[node name="Map" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MapScreenshot" type="TextureRect" parent="Map"]
+layout_mode = 0
+offset_left = -138.0
+offset_top = -303.0
+offset_right = 1532.0
+offset_bottom = 391.0
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_gjwo5")
+
+[node name="MapName" type="RichTextLabel" parent="Map"]
+layout_mode = 0
+offset_left = -138.0
+offset_top = -26.0
+offset_right = 530.0
+offset_bottom = 40.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "[center]Map: House[/center]"
+
+[node name="Gamemode" type="RichTextLabel" parent="Map"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -98.0
+offset_top = 58.0
+offset_right = 490.0
+offset_bottom = 124.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 40
+bbcode_enabled = true
+text = "[center]Free-For-All[/center]"
+
+[connection signal="pressed" from="Buttons/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="Buttons/Join" to="." method="_on_join_pressed"]
+[connection signal="pressed" from="Buttons/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Buttons/ScrollGamemodeLeft" to="." method="_on_scroll_gamemode_left"]
+[connection signal="pressed" from="Buttons/ScrollGamemodeRight" to="." method="_on_scroll_gamemode_right"]

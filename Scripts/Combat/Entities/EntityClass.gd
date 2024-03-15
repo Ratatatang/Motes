@@ -34,6 +34,7 @@ var moving : bool
 
 var team : String
 var isAI : bool = false
+var playerID : int
 
 var statusEffects = []
 var firstTile = true

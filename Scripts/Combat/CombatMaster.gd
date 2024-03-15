@@ -8,17 +8,37 @@ enum actions {
 	INSPECTING,
 	STATUS
 }
+
+enum gamemodes {
+	FFA,
+	TEAMS
+}
+
 var currentAction = actions.NONE
 
+var playerScene = "res://Scenes/Combat/Board/Entities/Player.tscn"
+
 func _ready():
-	%Environment.addEntity(load("res://Scenes/Combat/Board/Entities/Player.tscn"), Vector2(13, 5))
-	%Environment.addEntity(load("res://Scenes/Combat/Board/Entities/Player.tscn"), Vector2(21, 5))
-	%Environment.addEntity(load("res://Scenes/Combat/Board/Entities/Enemy.tscn"), Vector2(23, 5), "Enemy1")
 	%UI.visible = false
-	%Services.beginGame()
 	
+	if multiplayer.is_server():
+		var i = 0
+		for key in MasterInfo.playerIDs.keys():
+			var startingPoint = %Environment.getRandomStartPoint(i)
+			%Environment.addEntity(playerScene, startingPoint, MasterInfo.playerIDs.get(key), key)
+			
+			for id in MasterInfo.playerIDs.keys():
+				if id != 1:
+					%Environment.addEntity.rpc_id(id, playerScene, startingPoint, MasterInfo.playerIDs.get(key), key)
+		
+		%Services.beginGame()
+		
 func _input(event):
 	if(currentAction == actions.CARD):
+		if event.is_action_pressed("rotate"):
+			%Services.rotateAOE()
+			%Services.checkMouseTargets(%Environment.getMouseTile())
+			
 		if event is InputEventMouseMotion:
 			%Services.checkMouseTargets(%Environment.getMouseTile())
 	
@@ -30,7 +50,7 @@ func _input(event):
 					%Services.selectedMoveTo(%Environment.getMouseTile())
 			
 				actions.CARD:
-					%Services.useCard(%Environment.getMouseTile())
+					%Services.selectedUseCard(%Environment.getMouseTile())
 				
 	elif event.is_action_pressed("rightClick"):
 		
