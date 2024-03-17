@@ -97,7 +97,6 @@ func beginGame():
 	updateAStar.rpc()
 	currentTurn = 0
 	
-	
 	%Camera.moveTo(%Environment.getEntityTile(entityTurnOrder[0])*64)
 	loadCharacter(entityTurnOrder[0])
 	currentTurn = 0
@@ -123,6 +122,7 @@ func advanceRound():
 	selectedCharacter.checkTurnStartEffects()
 	currentTurn = 0
 
+@rpc("any_peer")
 func selectedMoveTo(tilePos):
 	if(selectedCharacter.isPassablePoint(tilePos)):
 		if(enoughAP((selectedCharacter.getPath(tilePos).size()-1)*2)):
@@ -133,11 +133,7 @@ func selectedMoveTo(tilePos):
 				
 			%Combat.setAction(1)
 			
-			if MasterInfo.singleplayer:
-				await(moveTo(tilePos, selectedCharacter))
-			else:
-				while(await(moveTo(tilePos, selectedCharacter))):
-					print("a")
+			await(moveTo(tilePos, selectedCharacter))
 				
 			%UI.enableMove()
 			%UI.enableCards()
@@ -160,6 +156,9 @@ func moveTo(tilePos, entity):
 	
 	updateAStar.rpc()
 	%Environment.highlightEntity(entity)
+
+func remoteMoveOnPath(path, entityPos):
+	pass
 
 func selectedUseCard(tilePos):
 	if(%Environment.getTileCircle(%Environment.getEntityTile(selectedCharacter), selectedCard.getRange()).has(tilePos)):
@@ -224,18 +223,16 @@ func loadCharacter(entity):
 	if MasterInfo.singleplayer:
 		loadCharacterSingleplayer(entity)
 	else:
-		if entity.playerID == multiplayer.get_unique_id():
-			selectedCharacter = entity
-			%Environment.highlightEntity(selectedCharacter)
-			moveCameraToTile(%Environment.getEntityTile(entity))
+		selectedCharacter = entity
+		%Environment.highlightEntity(selectedCharacter)
+		moveCameraToTile(%Environment.getEntityTile(entity))
 	
-			updateAStar.rpc()
+		updateAStar.rpc()
 			
-			%UI.enableUI()
-			%UI.loadHand(selectedCharacter)
-			%UI.updateLabels()
-		else:
-			loadCharacter.rpc_id(entity.playerID, entity)
+		%UI.enableUI()
+		%UI.loadHand(selectedCharacter)
+		%UI.updateLabels()
+
 
 func loadCharacterSingleplayer(entity):
 	selectedCharacter = entity

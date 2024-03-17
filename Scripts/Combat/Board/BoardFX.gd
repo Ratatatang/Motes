@@ -29,7 +29,7 @@ func _ready():
 	entityGrid = grid.duplicate(true)
 
 @rpc("any_peer")
-func addEntity(entity, gridPos, team = "Player", playerID = 1):
+func addEntity(entity, gridPos, team = "Player"):
 	var newEntity = load(entity).instantiate()
 	
 	newEntity.AStarGrid = %Services.getAStar()
@@ -37,7 +37,6 @@ func addEntity(entity, gridPos, team = "Player", playerID = 1):
 	newEntity.AStarGridAI = %Services.getAStarAI()
 	newEntity.cardsRef = %Services.getCardsRefrence()
 	newEntity.map = self
-	newEntity.playerID = playerID
 	newEntity.setTeam(team)
 	newEntity.global_position = gridPos*64
 	

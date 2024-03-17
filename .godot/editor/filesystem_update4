@@ -9,3 +9,7 @@ res://Scenes/Global/MasterInfo.tscn
 res://Scripts/Combat/Entities/PlayerData/PlayerClass.gd
 res://Scripts/Cards/CardData/CardDirectory.json
 res://Scripts/Cards/CardData/Fire/Cauterize.gd
+res://Scripts/Combat/CombatServices.gd
+res://Scripts/Combat/Entities/EntityClass.gd
+res://Scripts/Combat/CombatMaster.gd
+res://Scripts/Combat/Board/BoardFX.gd

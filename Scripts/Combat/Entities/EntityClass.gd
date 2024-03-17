@@ -37,7 +37,7 @@ var isAI : bool = false
 var playerID : int
 
 var statusEffects = []
-var firstTile = true
+var firstTile = true 
 
 func _init():
 	curDeck = deck.duplicate()
@@ -71,6 +71,7 @@ func _physics_process(delta):
 		
 		if(currentPath.is_empty() == false):
 			targetPosition = currentPath.front()*64
+			
 		else:
 			moving = false
 			finishedMoving.emit()

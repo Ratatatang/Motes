@@ -25,11 +25,7 @@ func _ready():
 		var i = 0
 		for key in MasterInfo.playerIDs.keys():
 			var startingPoint = %Environment.getRandomStartPoint(i)
-			%Environment.addEntity(playerScene, startingPoint, MasterInfo.playerIDs.get(key), key)
-			
-			for id in MasterInfo.playerIDs.keys():
-				if id != 1:
-					%Environment.addEntity.rpc_id(id, playerScene, startingPoint, MasterInfo.playerIDs.get(key), key)
+			%Environment.addEntity(playerScene, startingPoint, MasterInfo.playerIDs.get(key))
 		
 		%Services.beginGame()
 		
@@ -47,7 +43,10 @@ func _input(event):
 			
 			match currentAction:
 				actions.MOVING:
-					%Services.selectedMoveTo(%Environment.getMouseTile())
+					if MasterInfo.singleplayer or multiplayer.get_unique_id() == 1:
+						%Services.selectedMoveTo(%Environment.getMouseTile())
+					else:
+						%Services.selectedMoveTo.rpc_id(1, %Environment.getMouseTile())
 			
 				actions.CARD:
 					%Services.selectedUseCard(%Environment.getMouseTile())

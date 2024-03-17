@@ -1799,7 +1799,6 @@ shape = SubResource("RectangleShape2D_m5kpx")
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Node2D/Combat/CameraBounds"]
 position = Vector2(-151, 698.5)
 shape = SubResource("RectangleShape2D_lpri0")
-disabled = true
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="Node2D/Combat/CameraBounds"]
 position = Vector2(2326, 741.5)
