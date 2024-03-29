@@ -71,6 +71,9 @@ func getValidTargets():
 func getAOERotations():
 	return cardData.AOERotations
 
+func packageToDict():
+	return cardData.packageToDict()
+
 func showLabels():
 	var tween = create_tween()
 	

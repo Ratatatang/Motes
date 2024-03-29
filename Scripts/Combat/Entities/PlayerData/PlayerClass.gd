@@ -14,7 +14,7 @@ func _init():
 func _physics_process(delta):
 	super(delta)
 	
-	if(line.visible):
+	if(line.visible and !moving):
 		line.clear_points()
 		
 		for point in getPath(map.getMouseTile()):

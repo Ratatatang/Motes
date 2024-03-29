@@ -1,9 +1,10 @@
+extends Node2D
 class_name TileEffect
 
-var name : String
-var duration : int
-var bias : int = 0
-var VFX
+var effectName : String
+
+@export var duration : int
+@export var bias : int = 0
 
 func merge(data):
 	pass

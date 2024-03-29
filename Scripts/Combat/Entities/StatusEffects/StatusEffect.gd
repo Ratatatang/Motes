@@ -1,9 +1,10 @@
+extends Node
 class_name StatusEffect
 
 var statusName
 var statusIcon
-var timer = 3
-var countdown = 0
+@export var timer = 3
+@export var countdown = 0
 
 func _merge(effect):
 	pass

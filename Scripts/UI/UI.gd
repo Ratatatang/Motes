@@ -21,10 +21,12 @@ func _input(event):
 			_on_area_2d_mouse_entered()
 			raiseIgnore = true
 
+@rpc("any_peer")
 func updateLabels():
 	updateAPLabel()
 	updateCardsLabel()
 
+@rpc("any_peer")
 func updateAPLabel():
 	$CardBack/APLabel.text = "AP:  "+str(%Services.getCurAP())+"/"+str(%Services.getMaxAP())
 	
@@ -62,8 +64,14 @@ func loadHand(entity):
 	for card in %Hand.get_children():
 		card.queue_free()
 	
+	if multiplayer.get_unique_id() != 1:
+		entity.hand.clear()
+		for card in entity.packagedHand:
+			entity.hand.append(MasterInfo.unpackageCard(card))
+		
 	for card in entity.hand:
 		drawCard(card)
+		
 
 func useCard(card):
 	if(!cardsDisabled):
@@ -79,29 +87,37 @@ func cardInspect(card):
 	setDown()
 	visible = false
 
+@rpc("any_peer")
 func enableUI():
 	visible = true
 	var tween = create_tween()
 	var moveTo = position
 	position += Vector2(0, 35)
 	tween.tween_property(self, "position", moveTo, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	updateLabels()
 
+@rpc("any_peer")
 func disableMove():
 	$Buttons/Move.disabled = true
 
+@rpc("any_peer")
 func enableMove():
 	$Buttons/Move.disabled = false
 
+@rpc("any_peer")
 func disableCards():
 	cardsDisabled = true
 
+@rpc("any_peer")
 func enableCards():
 	cardsDisabled = false
 
+@rpc("any_peer")
 func enableShuffle():
 	$Buttons/Draw.visible = false
 	$Buttons/Shuffle.visible = true
-	
+
+@rpc("any_peer")
 func disableShuffle():
 	$Buttons/Draw.visible = true
 	$Buttons/Shuffle.visible = false

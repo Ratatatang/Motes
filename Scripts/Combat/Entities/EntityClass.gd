@@ -6,13 +6,15 @@ signal finishedMoving
 @export var speed = 1
 
 @export var deck : Array[String]
-var curDeck : Array[String]
+@export var curDeck : Array[String]
 var hand : Array = []
 @export var maxHandSize : int = 8
 @export var maxAP : int = 30
-var curAP : int
+@export var curAP : int
 @export var maxHP : int = 20
-var curHP : int
+@export var curHP : int
+
+@export var packagedHand : Array = []
 
 @onready var ray = $RayCast2D
 @onready var rayNW = $RayCast2D2
@@ -22,7 +24,6 @@ var curHP : int
 @onready var rays = [ray, rayNW, rayNE, raySW, raySE]
 
 var map : LevelMap
-var cardsRef : Dictionary
 
 var AStarGrid : AStarGrid2D
 var AStarGridAI : AStarGrid2D
@@ -32,12 +33,13 @@ var currentPath : Array[Vector2i]
 var targetPosition : Vector2
 var moving : bool
 
-var team : String
-var isAI : bool = false
-var playerID : int
+@export var team : String
+@export var isAI : bool = false
+@export var entityID : int
+var parentID : int
 
-var statusEffects = []
-var firstTile = true 
+@export var statusEffects = []
+@export var firstTile = true 
 
 func _init():
 	curDeck = deck.duplicate()
@@ -60,14 +62,15 @@ func _physics_process(delta):
 			map.removeTileEntity(self)
 			map.setTileEntity(Vector2i(position/64), self)
 			
-			if(!firstTile):
-				var tileEffects = map.getTileData(Vector2i(position/64))
-				
-				if(tileEffects != null):
-					for effect in tileEffects:
-						effect._walkedOn(self)
-			else:
-				firstTile = false
+			if(multiplayer.get_unique_id() == 1):
+				if(!firstTile):
+					var tileEffects = map.getTileData(Vector2i(position/64))
+					
+					if(tileEffects != null):
+						for effect in tileEffects:
+							effect._walkedOn(self)
+				else:
+					firstTile = false
 		
 		if(currentPath.is_empty() == false):
 			targetPosition = currentPath.front()*64
@@ -102,7 +105,8 @@ func getPath(desiredPoint) -> Array[Vector2i]:
 	return AStarGrid.get_id_path(map.getEntityTile(self), desiredPoint)
 
 func drawCard() -> void:
-	hand.append(load(cardsRef.get(curDeck.pop_front())).new())
+	hand.append(load(MasterInfo.cardsRefrence.get(curDeck.pop_front())).new())
+	packagedHand.append(hand.back().packageToDict())
 	
 func setRaysTarget(point) -> void:
 	for raycast in rays:
@@ -139,16 +143,35 @@ func canSeeTile(point) -> bool:
 	return true
 
 func giveStatus(status):
+	var statusNode = load(status).instantiate()
+	
 	for effect in statusEffects:
-		if effect.statusName == status.statusName:
+		if effect.statusName == statusNode.statusName:
 			effect._merge(status)
 			return
-	statusEffects.append(status)
-	GlobalFX.displayInflictedText("Inflicted with "+status.statusName+"!", global_position)
-	status._onInflicted(self)
+	
+	add_child(statusNode)
+	statusEffects.append(statusNode)
+	
+	if multiplayer.get_unique_id() == 1:
+		giveStatusRemote.rpc(status)
+	
+	GlobalFX.displayInflictedText("Inflicted with " + statusNode.statusName+"!", global_position)
+	statusNode._onInflicted(self)
+
+@rpc("any_peer")
+func giveStatusRemote(status):
+	var statusNode = load(status).instantiate()
+	
+	add_child(statusNode)
+	statusEffects.append(statusNode)
 
 func clearStatus(status):
-	statusEffects.erase(status)
+	for effect in statusEffects:
+		if effect.statusName == status.statusName:
+			statusEffects.erase(status)
+			status.queue_free()
+			return
 
 func checkTurnStartEffects():
 	for effect in statusEffects:

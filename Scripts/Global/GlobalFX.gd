@@ -7,7 +7,10 @@ var typeColors = {
 	"Fire": ["#D98321", "#000000"],
 }
 
-func displayInflictedText(text, position):
+@rpc("any_peer")
+func displayInflictedText(text, position, remote = false):
+	if !MasterInfo.singleplayer and !remote:
+		displayInflictedText.rpc(text, position, true)
 	var numberLabel = Label.new()
 	numberLabel.position = position+Vector2(randf_range(-20, 20), randf_range(-20, 20))
 	numberLabel.text = text
@@ -35,7 +38,10 @@ func displayInflictedText(text, position):
 	
 	numberLabel.queue_free()
 
-func displayDamageNumber(value, position, type = "None"):
+@rpc("any_peer")
+func displayDamageNumber(value, position, type = "None", remote = false):
+	if !MasterInfo.singleplayer and !remote:
+		displayDamageNumber.rpc(value, position, type, true)
 	var numberLabel = Label.new()
 	numberLabel.position = position+Vector2(randf_range(-20, 20), randf_range(-20, 20))
 	numberLabel.text = str(value)
@@ -64,7 +70,10 @@ func displayDamageNumber(value, position, type = "None"):
 	
 	numberLabel.queue_free()
 
-func displayHealingNumber(value, position):
+@rpc("any_peer")
+func displayHealingNumber(value, position, remote = false):
+	if !MasterInfo.singleplayer and !remote:
+		displayInflictedText.rpc(value, position, true)
 	var numberLabel = Label.new()
 	numberLabel.position = position+Vector2(randf_range(-20, 20), randf_range(-20, 20))
 	numberLabel.text = str(value)

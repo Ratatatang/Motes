@@ -13,7 +13,7 @@ func _init():
 	AITags = ["Damage", "Ignite"]
 	
 	tileEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int):
-		MasterInfo.currentLevelMap.setTileData(_tile, "res://Scripts/Combat/TileEffects/Burning.gd")
+		MasterInfo.currentLevelMap.setTileData(_tile, "res://Scenes/Combat/Board/Tiles/Effects/orangeFlame.tscn")
 	
 	targeting = [tileEffect]
 	validTargets = ["Tile"]

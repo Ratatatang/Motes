@@ -63,6 +63,9 @@ func getValidTargets():
 func getAOERotations() -> bool:
 	return false
 
+func getRange() -> int:
+	return range
+
 func setElement(new_element) -> void:
 	element = new_element
 
@@ -86,3 +89,22 @@ func setCost(new_cost) -> void:
 	
 func setAOERotations(new_setting) -> void:
 	AOERotations = new_setting
+
+
+func packageToDict() -> Dictionary:
+	var package = {}
+	package.merge({"element" : element})
+	package.merge({"displayName" : displayName})
+	package.merge({"name" : name})
+	package.merge({"description" : description})
+	package.merge({"expandedDescription" : expandedDescription})
+	package.merge({"image" : image})
+	package.merge({"castChance" : castChance})
+	package.merge({"range" : range})
+	package.merge({"cost" : cost})
+	package.merge({"AOERotations" : AOERotations})
+	package.merge({"areaOfEffect" : areaOfEffect})
+	package.merge({"validTargets" : element})
+	package.merge({"AITags" : AITags})
+	
+	return package

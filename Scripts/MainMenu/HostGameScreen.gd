@@ -72,6 +72,7 @@ func _on_host_pressed():
 		
 		multiplayer.set_multiplayer_peer(MasterInfo.peer)
 		sendPlayerInfo(multiplayer.get_unique_id(), %Name.text)
+		%Join.disabled = true
 		print("Waiting for players...")
 
 func _on_join_pressed():

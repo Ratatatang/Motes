@@ -21,12 +21,16 @@ var playerScene = "res://Scenes/Combat/Board/Entities/Player.tscn"
 func _ready():
 	%UI.visible = false
 	
-	if multiplayer.is_server():
+	if multiplayer.get_unique_id() == 1:
 		var i = 0
 		for key in MasterInfo.playerIDs.keys():
 			var startingPoint = %Environment.getRandomStartPoint(i)
-			%Environment.addEntity(playerScene, startingPoint, MasterInfo.playerIDs.get(key))
-		
+			var entityID = randi()
+			
+			%Environment.addEntity(playerScene, startingPoint, MasterInfo.playerIDs.get(key), key, entityID)
+			
+			for id in MasterInfo.playerIDs.keys():
+				%Environment.addEntity.rpc_id(id, playerScene, startingPoint, MasterInfo.playerIDs.get(key), key, entityID)
 		%Services.beginGame()
 		
 func _input(event):
@@ -46,10 +50,13 @@ func _input(event):
 					if MasterInfo.singleplayer or multiplayer.get_unique_id() == 1:
 						%Services.selectedMoveTo(%Environment.getMouseTile())
 					else:
-						%Services.selectedMoveTo.rpc_id(1, %Environment.getMouseTile())
+						%Services.remoteSelectedMoveTo.rpc_id(1, %Environment.getMouseTile())
 			
 				actions.CARD:
-					%Services.selectedUseCard(%Environment.getMouseTile())
+					if MasterInfo.singleplayer or multiplayer.get_unique_id() == 1:
+						%Services.selectedUseCard(%Environment.getMouseTile())
+					else:
+						%Services.remoteSelectedUseCard.rpc_id(1, %Environment.getMouseTile(), %Services.selectedCard.packageToDict(), %Services.areaRotation)
 				
 	elif event.is_action_pressed("rightClick"):
 		
@@ -82,5 +89,6 @@ func _input(event):
 				%Services.cancelStatus()
 
 #0: NONE, 1: SELECTING, 2: MOVING, 3: CARD, 4: INSPECTING, 5: STATUS
+@rpc("any_peer")
 func setAction(action : actions):
 	currentAction = action

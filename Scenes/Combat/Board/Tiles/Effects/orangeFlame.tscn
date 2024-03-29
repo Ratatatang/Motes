@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://im6ahx2vtcro"]
+[gd_scene load_steps=7 format=3 uid="uid://im6ahx2vtcro"]
 
 [ext_resource type="Texture2D" uid="uid://c84bjee1fpy72" path="res://Assets/Board/FX/burning.png" id="1_bsuf0"]
+[ext_resource type="Script" path="res://Scripts/Combat/TileEffects/Burning.gd" id="1_kh4sb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5711a"]
 atlas = ExtResource("1_bsuf0")
@@ -24,9 +25,23 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="OrangeFlame" type="AnimatedSprite2D"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_m2mdx"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:duration")
+properties/1/spawn = false
+properties/1/replication_mode = 2
+
+[node name="orangeFlame" type="Node2D"]
+script = ExtResource("1_kh4sb")
+
+[node name="OrangeFlame" type="AnimatedSprite2D" parent="."]
 scale = Vector2(1.9, 1.9)
 sprite_frames = SubResource("SpriteFrames_f8hfs")
 autoplay = "default"
 frame = 1
 frame_progress = 0.149837
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_m2mdx")

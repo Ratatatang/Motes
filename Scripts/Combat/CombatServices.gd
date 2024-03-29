@@ -10,17 +10,17 @@ var AStarGridAIPassable : AStarGrid2D
 var selectedCharacter
 var selectedCard
 
-var cardsRefrence
-
 var targetedTiles = []
 var mouseTargets = []
 
 var entityTurnOrder = []
-var currentTurn = 0
+@export var currentTurn = 0
 
 var areaRotation = 0
 
 func _ready():
+	currentTurn = 0
+	
 	AStarGrid = AStarGrid2D.new() 
 	AStarGrid.cell_size = Vector2(64, 64)
 	AStarGrid.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
@@ -38,17 +38,6 @@ func _ready():
 	AStarGridAIPassable.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
 	AStarGridAIPassable.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	AStarGridAIPassable.update()
-	
-	randomize()
-	var text = FileAccess.open("res://Scripts/Cards/CardData/CardDirectory.json", FileAccess.READ)
-	var json = JSON.new()
-	var parse_result = json.parse(text.get_as_text())
-
-	if parse_result != OK:
-		print("Error %s reading cards directory." % parse_result)
-		return
-
-	cardsRefrence = json.get_data()
 
 @rpc("any_peer", "call_local")
 func updateAStar():
@@ -94,13 +83,14 @@ func updateAStar():
 				AStarGridAIPassable.set_point_weight_scale(tilePos, tileBias)
 
 func beginGame():
-	updateAStar.rpc()
-	currentTurn = 0
-	
-	%Camera.moveTo(%Environment.getEntityTile(entityTurnOrder[0])*64)
-	loadCharacter(entityTurnOrder[0])
-	currentTurn = 0
+	if MasterInfo.singleplayer:
+		loadCharacter()
+		updateAStar()
+	else:
+		print(entityTurnOrder[0].parentID)
+		loadCharacter.rpc_id(entityTurnOrder[0].parentID)
 
+@rpc("any_peer", "call_local")
 func advanceTurn():
 	selectedCharacter.checkTurnEndEffects()
 	
@@ -116,11 +106,12 @@ func advanceRound():
 	for character in entityTurnOrder:
 		character.refreshAP()
 		character.checkRoundEffects()
-
+	
+	currentTurn = 0
 	unloadCharacter()
 	loadCharacter(entityTurnOrder[0])
 	selectedCharacter.checkTurnStartEffects()
-	currentTurn = 0
+
 
 @rpc("any_peer")
 func selectedMoveTo(tilePos):
@@ -138,9 +129,32 @@ func selectedMoveTo(tilePos):
 			%UI.enableMove()
 			%UI.enableCards()
 		else:
-			selectedCharacter.invalidMovement()
+			invalidMovement()
 	else:
-		selectedCharacter.invalidMovement()
+		invalidMovement()
+
+@rpc("any_peer")
+func remoteSelectedMoveTo(tilePos):
+	var parentID = selectedCharacter.parentID
+	
+	if(selectedCharacter.isPassablePoint(tilePos)):
+		if(enoughAP((selectedCharacter.getPath(tilePos).size()-1)*2)):
+			
+			disableLine.rpc_id(parentID)
+			%UI.disableMove.rpc_id(parentID)
+			%UI.disableCards.rpc_id(parentID)
+			%UI.enableUI.rpc_id(parentID)
+				
+			%Combat.setAction.rpc_id(parentID, 1)
+			
+			await(remoteMoveTo(tilePos, selectedCharacter, parentID))
+				
+			%UI.enableMove.rpc_id(parentID)
+			%UI.enableCards.rpc_id(parentID)
+		else:
+			invalidMovement.rpc_id(parentID)
+	else:
+		invalidMovement.rpc_id(parentID)
 
 func AIMoveTo(tilePos):
 	if(selectedCharacter.isPassablePoint(tilePos)):
@@ -157,15 +171,22 @@ func moveTo(tilePos, entity):
 	updateAStar.rpc()
 	%Environment.highlightEntity(entity)
 
-func remoteMoveOnPath(path, entityPos):
-	pass
+func remoteMoveTo(tilePos, entity, parentID):
+	decrementAP(entity.getPath(tilePos).size()-1)
+	%UI.updateAPLabel.rpc_id(parentID)
+	%Environment.removeHighlightTile.rpc_id(parentID, %Environment.getEntityTile(entity))
+	entity.setPath(tilePos)
+
+	await(entity.finishedMoving)
+	
+	updateAStar.rpc()
+	%Environment.highlightTile.rpc_id(parentID, %Environment.getEntityTile(entity))
 
 func selectedUseCard(tilePos):
 	if(%Environment.getTileCircle(%Environment.getEntityTile(selectedCharacter), selectedCard.getRange()).has(tilePos)):
 		if(selectedCharacter.canTargetTile(tilePos, selectedCard.getValidTargets())):
 			if(enoughAP(selectedCard.getCost())):
 				decrementAP(selectedCard.getCost())
-				%UI.updateLabels()
 				
 				useCard(tilePos, selectedCharacter, selectedCard.cardData)
 				
@@ -177,6 +198,27 @@ func selectedUseCard(tilePos):
 				
 				updateAStar.rpc()
 				clearTargetedTiles()
+
+@rpc("any_peer")
+func remoteSelectedUseCard(tilePos, cardData, rotation):
+	var parentID = selectedCharacter.parentID
+	var card = MasterInfo.unpackageCard(cardData)
+
+	if(%Environment.getTileCircle(%Environment.getEntityTile(selectedCharacter), card.getRange()).has(tilePos)):
+		if(selectedCharacter.canTargetTile(tilePos, card.getValidTargets())):
+			if(enoughAP(card.getCost())):
+				decrementAP(card.getCost())
+				%UI.updateLabels.rpc_id(parentID)
+				
+				useCard(tilePos, selectedCharacter, card, rotation)
+				
+				%Combat.setAction.rpc_id(parentID, 1)
+				%UI.enableUI.rpc_id(parentID)
+				
+				freeSelectedCard.rpc_id(parentID)
+				
+				updateAStar.rpc()
+				clearTargetedTiles.rpc_id(parentID)
 
 func AIUseCard(tilePos, card, entity = selectedCharacter):
 	if(%Environment.getTileCircle(%Environment.getEntityTile(entity), card.range).has(tilePos)):
@@ -191,9 +233,9 @@ func AIUseCard(tilePos, card, entity = selectedCharacter):
 				
 				getHand().erase(card)
 
-func useCard(tilePos, entity, card):
+func useCard(tilePos, entity, card, rotation = areaRotation):
 	for target in card.targeting:
-		target.call(tilePos, %Environment.getTileEntity(tilePos), entity, areaRotation)
+		target.call(tilePos, %Environment.getTileEntity(tilePos), entity, rotation)
 
 func cancelMove():
 	disableLine()
@@ -218,20 +260,24 @@ func cancelStatus():
 	%UI.enableUI()
 	%Combat.setAction(1)
 
-@rpc("any_peer")
-func loadCharacter(entity):
+@rpc("any_peer", "call_local")
+func loadCharacter(entity = entityTurnOrder[currentTurn]):
 	if MasterInfo.singleplayer:
 		loadCharacterSingleplayer(entity)
 	else:
 		selectedCharacter = entity
-		%Environment.highlightEntity(selectedCharacter)
-		moveCameraToTile(%Environment.getEntityTile(entity))
-	
-		updateAStar.rpc()
+		
+		if multiplayer.get_unique_id() == entity.parentID:
+			%Environment.highlightEntity(selectedCharacter)
+			moveCameraToTile(%Environment.getEntityTile(entity))
+		
+			updateAStar.rpc()
 			
-		%UI.enableUI()
-		%UI.loadHand(selectedCharacter)
-		%UI.updateLabels()
+			%UI.enableUI()
+			%UI.loadHand(selectedCharacter)
+			%UI.updateLabels()
+		else:
+			loadCharacter.rpc_id(entity.parentID)
 
 
 func loadCharacterSingleplayer(entity):
@@ -248,11 +294,23 @@ func loadCharacterSingleplayer(entity):
 	else:
 		executeAI()
 
+@rpc("any_peer")
 func unloadCharacter():
-	if(selectedCharacter != null):
-		%Environment.removeHighlight(selectedCharacter)
+	if MasterInfo.singleplayer:
+		if selectedCharacter != null:
+			%Environment.removeHighlight(selectedCharacter)
+			%UI.visible = false
+		
+	elif(selectedCharacter != null):
+		if selectedCharacter.parentID != multiplayer.get_unique_id():
+			var parentID = selectedCharacter.parentID
+			
+			unloadCharacter.rpc_id(parentID)
+			%Environment.removeHighlightTile.rpc_id(parentID, %Environment.getEntityTile(selectedCharacter))
+		else:
+			%UI.visible = false
+		
 	selectedCharacter = null
-	%UI.visible = false
 
 func loadCard(card):
 	selectedCard = card
@@ -260,8 +318,13 @@ func loadCard(card):
 func enableLine():
 	selectedCharacter.enableLine()
 
+@rpc("any_peer")
 func disableLine():
 	selectedCharacter.disableLine()
+
+@rpc("any_peer")
+func invalidMovement():
+	selectedCharacter.invalidMovement()
 
 func drawCard():
 	if(getCurDeck().size() > 0):
@@ -308,6 +371,7 @@ func drawValidTargets(card = selectedCard, entity = selectedCharacter):
 	
 	%Environment.targetTiles(validTiles, emptyTiles)
 
+@rpc("any_peer")
 func clearTargetedTiles():
 	clearMouseTargets()
 	for tile in targetedTiles:
@@ -398,6 +462,11 @@ func openStatus():
 	%StatusList.loadStatusIcons(selectedCharacter.statusEffects)
 	%ScreenAnimations.play("inspectStatus")
 
+@rpc("any_peer")
+func freeSelectedCard():
+	getHand().erase(selectedCard.cardData)
+	selectedCard.freeSelf()
+
 func getAStar():
 	return AStarGrid
 
@@ -406,9 +475,6 @@ func getAStarAI():
 
 func getAStarGridAIPassable():
 	return AStarGridAIPassable
-
-func getCardsRefrence():
-	return cardsRefrence
 
 
 func getDeck():
