@@ -60,14 +60,14 @@ func getRandomStartPoint(team):
 func highlightEntity(entity):
 	set_cell(1, getEntityTile(entity), 2, Vector2i(0, 3))
 
-@rpc("any_peer")
+@rpc("any_peer", "call_local")
 func highlightTile(tilePos):
 	set_cell(1, tilePos, 2, Vector2i(0, 3))
 
 func removeHighlight(entity):
 	erase_cell(1, getEntityTile(entity))
 
-@rpc("any_peer")
+@rpc("any_peer", "call_local")
 func removeHighlightTile(tilePos):
 	erase_cell(1, tilePos)
 

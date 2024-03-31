@@ -88,6 +88,11 @@ func _input(event):
 			actions.STATUS:
 				%Services.cancelStatus()
 
+@rpc("any_peer")
+func cardUsed(card):
+	%AnimationCard.passEncoded.rpc(card)
+	%AnimationCard.playUseCard.rpc()
+
 #0: NONE, 1: SELECTING, 2: MOVING, 3: CARD, 4: INSPECTING, 5: STATUS
 @rpc("any_peer")
 func setAction(action : actions):

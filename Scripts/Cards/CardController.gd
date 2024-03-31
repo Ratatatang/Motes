@@ -15,11 +15,23 @@ func moveTo():
 
 func getData():
 	return $Card/Card.cardData
-	
+
 func passData(cardData):
 	$Card/Card.cardData = cardData
 	$Card/Card.cardMaster = self
 	$Card/Card.updateData()
+
+@rpc("any_peer")
+func passEncoded(encoded):
+	var cardData = MasterInfo.unpackageCard(encoded)
+	
+	$Card/Card.cardData = cardData
+	$Card/Card.cardMaster = self
+	$Card/Card.updateData()
+
+@rpc("any_peer")
+func playUseCard():
+	%ScreenAnimations.play("useCard")
 
 func flipCard():
 	$AnimationPlayer.play("flip")

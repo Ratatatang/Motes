@@ -13,3 +13,8 @@ res://Scripts/Combat/Entities/EntityClass.gd
 res://Scripts/MainMenu/HostGameScreen.gd
 res://Scripts/Combat/CombatServices.gd
 res://Scripts/UI/UI.gd
+res://Scripts/Cards/CardController.gd
+res://Scripts/Combat/CombatMaster.gd
+res://Scripts/Combat/Board/BoardFX.gd
+res://Scripts/Cards/CardData/Water/WaterCardClass.gd
+res://Scripts/Cards/CardData/Fire/FireCardClass.gd

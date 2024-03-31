@@ -1,3 +1,6 @@
+CollisionPolygon3D
+MultiMeshInstance3D
+CollisionShape3D
 MultiplayerSynchronizer
 Node
 MultiplayerSpawner
@@ -10,5 +13,3 @@ RichTextLabel
 Control
 TextureRect
 Sprite2D
-Camera2D
-CollisionShape2D

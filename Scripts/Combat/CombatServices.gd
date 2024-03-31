@@ -172,8 +172,8 @@ func moveTo(tilePos, entity):
 	%Environment.highlightEntity(entity)
 
 func remoteMoveTo(tilePos, entity, parentID):
-	decrementAP(entity.getPath(tilePos).size()-1)
-	%UI.updateAPLabel.rpc_id(parentID)
+	var AP = entity.getPath(tilePos).size()-1
+	decrementAP.rpc_id(parentID, AP)
 	%Environment.removeHighlightTile.rpc_id(parentID, %Environment.getEntityTile(entity))
 	entity.setPath(tilePos)
 
@@ -190,6 +190,9 @@ func selectedUseCard(tilePos):
 				
 				useCard(tilePos, selectedCharacter, selectedCard.cardData)
 				
+				if !MasterInfo.singleplayer:
+					%Combat.cardUsed(selectedCard.cardData.packageToDict())
+				
 				%Combat.setAction(1)
 				%UI.enableUI()
 				
@@ -203,14 +206,15 @@ func selectedUseCard(tilePos):
 func remoteSelectedUseCard(tilePos, cardData, rotation):
 	var parentID = selectedCharacter.parentID
 	var card = MasterInfo.unpackageCard(cardData)
+	var cost = card.getCost()
 
 	if(%Environment.getTileCircle(%Environment.getEntityTile(selectedCharacter), card.getRange()).has(tilePos)):
 		if(selectedCharacter.canTargetTile(tilePos, card.getValidTargets())):
-			if(enoughAP(card.getCost())):
-				decrementAP(card.getCost())
-				%UI.updateLabels.rpc_id(parentID)
+			if(enoughAP(cost)):
+				decrementAP.rpc_id(parentID, cost)
 				
 				useCard(tilePos, selectedCharacter, card, rotation)
+				%Combat.cardUsed.rpc_id(parentID, cardData)
 				
 				%Combat.setAction.rpc_id(parentID, 1)
 				%UI.enableUI.rpc_id(parentID)
@@ -509,6 +513,7 @@ func incrementAP(num : int):
 	selectedCharacter.incrementAP(num)
 	%UI.updateAPLabel()
 
+@rpc("any_peer")
 func decrementAP(num : int):
 	selectedCharacter.decrementAP(num)
 	%UI.updateAPLabel()
