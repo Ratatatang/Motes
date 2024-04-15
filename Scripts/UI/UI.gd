@@ -43,11 +43,6 @@ func drawCard(data):
 	loadedCard.connect("cardUsed", Callable(self, "useCard"))
 	loadedCard.connect("cardInspect", Callable(self, "cardInspect"))
 	%Hand.add_child(loadedCard)
-	if(%Hand.get_child_count() > 9):
-		for card in %Hand.get_children():
-			var offset = 3*(%Hand.get_child_count())
-			card.custom_minimum_size = Vector2(80, 0)-Vector2(offset, 0)
-			
 	loadedCard.moveTo()
 
 func moveCard(card):
@@ -168,5 +163,8 @@ func _on_area_2d_mouse_entered():
 		await tween.finished
 		currentlyDown = true
 
-
-
+func _on_cards_history_pressed():
+	%Combat.setAction(6)
+	%Services.openCardsHistory()
+	setDown()
+	visible = false

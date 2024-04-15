@@ -6,7 +6,8 @@ enum actions {
 	MOVING,
 	CARD,
 	INSPECTING,
-	STATUS
+	STATUS,
+	HISTORY
 }
 
 enum gamemodes {
@@ -87,13 +88,35 @@ func _input(event):
 				
 			actions.STATUS:
 				%Services.cancelStatus()
+			
+			actions.HISTORY:
+				%Services.cancelHistory()
 
 @rpc("any_peer")
 func cardUsed(card):
 	%AnimationCard.passEncoded.rpc(card)
 	%AnimationCard.playUseCard.rpc()
 
-#0: NONE, 1: SELECTING, 2: MOVING, 3: CARD, 4: INSPECTING, 5: STATUS
+#0: NONE, 1: SELECTING, 2: MOVING, 3: CARD, 4: INSPECTING, 5: STATUS, 6: HISTORY
 @rpc("any_peer")
 func setAction(action : actions):
 	currentAction = action
+	
+	match currentAction:
+		actions.SELECTING:
+			%Camera.cameraLocked = false
+			
+		actions.MOVING:
+			%Camera.cameraLocked = false
+				
+		actions.CARD:
+			%Camera.cameraLocked = false
+				
+		actions.INSPECTING:
+			%Camera.cameraLocked = true
+				
+		actions.STATUS:
+			%Camera.cameraLocked = true
+			
+		actions.HISTORY:
+			%Camera.cameraLocked = true

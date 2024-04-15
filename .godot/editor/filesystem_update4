@@ -1,5 +1,4 @@
 res://Scenes/Master.tscn
-res://Scripts/Combat/Master.gd
 res://Scenes/Combat/Board/Entities/Enemy.tscn
 res://Scenes/Combat/Card.tscn
 res://Scenes/Combat/Board/Entities/Player.tscn
@@ -9,12 +8,10 @@ res://Scenes/MainMenu/HostGameScreen.tscn
 res://Scenes/Global/MasterInfo.tscn
 res://Scenes/Combat/Board/Tiles/Effects/orangeFlame.tscn
 res://Scenes/Combat/Board/Entities/StatusEffects/onFire.tscn
-res://Scripts/Combat/Entities/EntityClass.gd
-res://Scripts/MainMenu/HostGameScreen.gd
-res://Scripts/Combat/CombatServices.gd
-res://Scripts/UI/UI.gd
+res://Scenes/MainMenu/PlayerListing.tscn
 res://Scripts/Cards/CardController.gd
+res://Scripts/CardsList.gd
+res://Scripts/Cards/Card.gd
+res://Scripts/Combat/CameraController.gd
+res://Scripts/UI/UI.gd
 res://Scripts/Combat/CombatMaster.gd
-res://Scripts/Combat/Board/BoardFX.gd
-res://Scripts/Cards/CardData/Water/WaterCardClass.gd
-res://Scripts/Cards/CardData/Fire/FireCardClass.gd

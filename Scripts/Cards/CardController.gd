@@ -21,6 +21,9 @@ func passData(cardData):
 	$Card/Card.cardMaster = self
 	$Card/Card.updateData()
 
+func moveLabels():
+	$Card/Card.moveLabels()
+
 @rpc("any_peer")
 func passEncoded(encoded):
 	var cardData = MasterInfo.unpackageCard(encoded)
@@ -32,6 +35,9 @@ func passEncoded(encoded):
 @rpc("any_peer")
 func playUseCard():
 	%ScreenAnimations.play("useCard")
+
+func uncoverCard():
+	$Card/Card/Backside.visible = false
 
 func flipCard():
 	$AnimationPlayer.play("flip")

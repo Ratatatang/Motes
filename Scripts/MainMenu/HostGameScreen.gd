@@ -3,6 +3,8 @@ extends Node2D
 @export var address = "127.0.0.1"
 @export var port = 8910
 
+var playerListing = load("res://Scenes/MainMenu/PlayerListing.tscn")
+
 enum gamemodes {
 	FFA,
 	TEAMS
@@ -16,6 +18,9 @@ func _ready():
 	multiplayer.peer_disconnected.connect(playerDisconnect)
 	multiplayer.connected_to_server.connect(connectToServer)
 	multiplayer.connection_failed.connect(connectionFailed)
+	
+	if "--server" in OS.get_cmdline_args():
+		hostDedicated()
 
 func playerConnect(id):
 	print("Player Connected: "+ str(id))
@@ -26,6 +31,7 @@ func playerDisconnect(id):
 func connectToServer():
 	print("Connected to server!")
 	%Start.disabled = true
+	%Join.disabled = true
 	sendPlayerInfo.rpc_id(1, multiplayer.get_unique_id(), %Name.text)
 
 func connectionFailed():
@@ -35,7 +41,15 @@ func connectionFailed():
 func sendPlayerInfo(id, playerID):
 	if !MasterInfo.playerIDs.has(id):
 		MasterInfo.playerIDs.merge({id: playerID})
-	
+		
+		var newPlayer = playerListing.instantiate()
+		newPlayer.setPlayerName(playerID)
+		
+		if id == 1:
+			newPlayer.togglePlayerHost(true)
+		
+		%PlayersList.add_child(newPlayer)
+
 	if multiplayer.is_server():
 		for i in MasterInfo.playerIDs.keys():
 			sendPlayerInfo.rpc(i, MasterInfo.playerIDs.get(i))
@@ -50,13 +64,13 @@ func checkGamemode():
 		gamemode = gamemodesList.size()-1
 	if(gamemode > gamemodesList.size()-1):
 		gamemode = 0
-	
+		
 	match gamemodesList[gamemode]:
 		#gamemode.FFA
 		0:
 			%Gamemode.text = "[center]Free-For-All[/center]"
-			
-		#gamemode.TEAMs
+		
+		#gamemode.TEAMS
 		1:
 			%Gamemode.text = "[center]Teams[/center]"
 
@@ -75,6 +89,18 @@ func _on_host_pressed():
 		%Join.disabled = true
 		print("Waiting for players...")
 
+func hostDedicated():
+	MasterInfo.singleplayer = false
+	MasterInfo.peer = ENetMultiplayerPeer.new()
+	var error = MasterInfo.peer.create_server(port, 2)
+		
+	if error != OK:
+		print("Cannot Host! Error: "+error)
+		return
+		
+	multiplayer.set_multiplayer_peer(MasterInfo.peer)
+	print("Waiting for players...")
+
 func _on_join_pressed():
 	if %Name.text != "":
 		MasterInfo.singleplayer = false
@@ -86,7 +112,7 @@ func _on_join_pressed():
 func _on_start_pressed():
 	if MasterInfo.singleplayer:
 		MasterInfo.playerIDs.merge({1: "player"})
-	
+		
 	await RenderingServer.frame_post_draw
 	startGame.rpc()
 

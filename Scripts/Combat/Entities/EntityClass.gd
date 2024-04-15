@@ -107,17 +107,19 @@ func getPath(desiredPoint) -> Array[Vector2i]:
 func drawCard() -> void:
 	hand.append(load(MasterInfo.cardsRefrence.get(curDeck.pop_front())).new())
 	packagedHand.append(hand.back().packageToDict())
-	
+
 func setRaysTarget(point) -> void:
 	for raycast in rays:
 		raycast.target_position = (point*64)-Vector2i(position)
 		raycast.force_raycast_update()
 		
-func canTargetTile(point, targeting) -> bool:
-	setRaysTarget(point)
+func canTargetTile(point, targeting, LOS = true) -> bool:
 	
-	if(ray.is_colliding() and rayNE.is_colliding() and rayNW.is_colliding() and raySE.is_colliding() and raySW.is_colliding()):
-		return false
+	if(LOS):
+		setRaysTarget(point)
+	
+		if(ray.is_colliding() and rayNE.is_colliding() and rayNW.is_colliding() and raySE.is_colliding() and raySW.is_colliding()):
+			return false
 				
 	for target in targeting:
 		if(target == "Tile"):

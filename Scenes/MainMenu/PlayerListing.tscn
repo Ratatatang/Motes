@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://d4gj6dpnocjds"]
+
+[ext_resource type="Script" path="res://Scripts/MainMenu/PlayerListing.gd" id="1_7uvjn"]
+
+[node name="PlayerListing" type="Label"]
+custom_minimum_size = Vector2(0, 35)
+text = "Figgity"
+script = ExtResource("1_7uvjn")
+
+[node name="HostLabel" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_top = 21.0
+offset_right = 40.0
+offset_bottom = 44.0
+scale = Vector2(0.6, 0.6)
+theme_override_colors/font_color = Color(0.776471, 0.776471, 0.776471, 0.698039)
+text = "Host"
+clip_text = true

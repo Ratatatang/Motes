@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+var cameraLocked = false
+
 const SPEED = 600.0
 
 var zoomSpeed: float = 0.05
@@ -8,10 +10,10 @@ var zoomMax: float = 2.0
 var dragSensitivity: float = 1.0
 
 func _input(event):
-	if event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_MIDDLE):
+	if event is InputEventMouseMotion and Input.is_mouse_button_pressed(MOUSE_BUTTON_MIDDLE) and !cameraLocked:
 		position -= event.relative * dragSensitivity / %Camera2D.zoom
 		
-	if event is InputEventMouseButton:
+	if event is InputEventMouseButton and !cameraLocked:
 		
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			%Camera2D.zoom += Vector2(zoomSpeed, zoomSpeed)
@@ -27,13 +29,14 @@ func _physics_process(delta):
 	inputVector.y = Input.get_axis("up", "down")
 	inputVector.normalized()
 
-	if inputVector:
-		velocity = inputVector * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.y = move_toward(velocity.y, 0, SPEED)
+	if !cameraLocked:
+		if inputVector:
+			velocity = inputVector * SPEED
+		else:
+			velocity.x = move_toward(velocity.x, 0, SPEED)
+			velocity.y = move_toward(velocity.y, 0, SPEED)
 
-	move_and_slide()
+		move_and_slide()
 
 func moveTo(newPosition):
 	position = newPosition

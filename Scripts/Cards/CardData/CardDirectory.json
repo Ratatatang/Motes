@@ -5,4 +5,6 @@
 	"RingOfFire": "res://Scripts/Cards/CardData/Fire/RingOfFire.gd",
 	"Firewall": "res://Scripts/Cards/CardData/Fire/Firewall.gd",
 	"Cauterize": "res://Scripts/Cards/CardData/Fire/Cauterize.gd",
+	
+	"Freeze": "res://Scripts/Cards/CardData/Water/Freeze.gd",
 }

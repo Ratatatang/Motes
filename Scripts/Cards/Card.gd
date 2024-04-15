@@ -15,11 +15,11 @@ func loadCard():
 # updates all the displays on the card to reflect the data stored
 
 func updateData():
-	$Name.text = "[center]"+cardData.displayName+"[/center]"
-	$Description.text = "[center]"+cardData.description+"[/center]"
-	$ExpandedDescription/Description.text = "[center]"+cardData.expandedDescription+"[/center]"
-	$ElementLabel/Element.texture = load("res://Assets/Cards/ElementSymbols/"+cardData.element+".png")
-	$Picture.texture = load("res://Assets/Cards/CardImages/Fire/"+cardData.name+".png")
+	$Name.text = "[center]%s[/center]" % cardData.displayName
+	$Description.text = "[center]%s[/center]" % cardData.description
+	$ExpandedDescription/Description.text = "[center]%s[/center]" % cardData.expandedDescription
+	$ElementLabel/Element.texture = load("res://Assets/Cards/ElementSymbols/%s.png" % cardData.element)
+	$Picture.texture = load("res://Assets/Cards/CardImages/%s/%s.png" % [cardData.element, cardData.name])
 	$CostLabel/APCost.text = str(cardData.cost)
 	$ChanceLabel/CastChance.text = str(cardData.castChance)
 	$RangeLabel/Range.text = str(cardData.range)
@@ -73,6 +73,12 @@ func getAOERotations():
 
 func packageToDict():
 	return cardData.packageToDict()
+
+func moveLabels():
+	$CostLabel.position = Vector2(70+(7*$CostLabel/APCost.text.length()), 10)
+	$ElementLabel.position = Vector2(85, 40)
+	$ChanceLabel.position = Vector2(77+(10*$ChanceLabel/CastChance.text.length()), 70)
+	$RangeLabel.position = Vector2(80+(10*$RangeLabel/Range.text.length()), 100)
 
 func showLabels():
 	var tween = create_tween()

@@ -17,7 +17,7 @@ func _init():
 	
 	tileEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int):
 		for tileIteration in areaOfEffect[currentRotation]:
-			if(_selfEntity.canTargetTile(_tile+tileIteration, validTargets)):
+			if(_selfEntity.canTargetTile(_tile+tileIteration, validTargets, false)):
 				MasterInfo.currentLevelMap.setTileData(_tile+tileIteration, "res://Scenes/Combat/Board/Tiles/Effects/orangeFlame.tscn")
 	
 	targeting = [tileEffect]

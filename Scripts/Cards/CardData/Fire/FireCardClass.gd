@@ -3,10 +3,10 @@ class_name FireCard
 
 #Replace orange with hex value
 var fireColor : String = "Orange"
-var color : String = "a80d10"
 
 func _init():
 	element = "Fire"
+	color = "a80d10"
 
 func getFireColor() -> String:
 	return fireColor
@@ -36,6 +36,7 @@ func packageToDict() -> Dictionary:
 	package.merge({"areaOfEffect" : areaOfEffect})
 	package.merge({"validTargets" : element})
 	package.merge({"AITags" : AITags})
+	package.merge({"color" : color})
 	package.merge({"fireColor" : fireColor})
 	
 	return package

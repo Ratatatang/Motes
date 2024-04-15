@@ -18,6 +18,8 @@ var entityTurnOrder = []
 
 var areaRotation = 0
 
+var cardsHistory = []
+
 func _ready():
 	currentTurn = 0
 	
@@ -212,14 +214,14 @@ func remoteSelectedUseCard(tilePos, cardData, rotation):
 		if(selectedCharacter.canTargetTile(tilePos, card.getValidTargets())):
 			if(enoughAP(cost)):
 				decrementAP.rpc_id(parentID, cost)
-				
+				 
 				useCard(tilePos, selectedCharacter, card, rotation)
 				%Combat.cardUsed.rpc_id(parentID, cardData)
 				
 				%Combat.setAction.rpc_id(parentID, 1)
 				%UI.enableUI.rpc_id(parentID)
 				
-				freeSelectedCard.rpc_id(parentID)
+				freeSelectedCard.rpc_id(parentID, cardData)
 				
 				updateAStar.rpc()
 				clearTargetedTiles.rpc_id(parentID)
@@ -240,6 +242,8 @@ func AIUseCard(tilePos, card, entity = selectedCharacter):
 func useCard(tilePos, entity, card, rotation = areaRotation):
 	for target in card.targeting:
 		target.call(tilePos, %Environment.getTileEntity(tilePos), entity, rotation)
+	
+	cardsHistory.append(card)
 
 func cancelMove():
 	disableLine()
@@ -260,6 +264,12 @@ func cancelInspect():
 
 func cancelStatus():
 	%ScreenAnimations.play("cancelStatus")
+	await %ScreenAnimations.animation_finished
+	%UI.enableUI()
+	%Combat.setAction(1)
+
+func cancelHistory():
+	%ScreenAnimations.play("cancelHistory")
 	await %ScreenAnimations.animation_finished
 	%UI.enableUI()
 	%Combat.setAction(1)
@@ -313,6 +323,9 @@ func unloadCharacter():
 			%Environment.removeHighlightTile.rpc_id(parentID, %Environment.getEntityTile(selectedCharacter))
 		else:
 			%UI.visible = false
+			
+			if multiplayer.get_unique_id() == 1:
+				%Environment.removeHighlight(selectedCharacter)
 		
 	selectedCharacter = null
 
@@ -362,6 +375,10 @@ func shuffleDeck():
 func drawValidTargets(card = selectedCard, entity = selectedCharacter):
 	var validTiles = []
 	var emptyTiles = []
+	
+	if card == null:
+		return
+	
 	var tiles = %Environment.getTileCircle(%Environment.getEntityTile(entity), card.getRange())
 	
 	for tile in tiles:
@@ -466,10 +483,14 @@ func openStatus():
 	%StatusList.loadStatusIcons(selectedCharacter.statusEffects)
 	%ScreenAnimations.play("inspectStatus")
 
+func openCardsHistory():
+	%CardsList.loadCardsHistory(cardsHistory)
+	%ScreenAnimations.play("openHistory")
+
 @rpc("any_peer")
-func freeSelectedCard():
-	getHand().erase(selectedCard.cardData)
+func freeSelectedCard(cardData):
 	selectedCard.freeSelf()
+	getPackagedHand().erase(cardData)
 
 func getAStar():
 	return AStarGrid
@@ -489,6 +510,9 @@ func getCurDeck():
 
 func getHand():
 	return selectedCharacter.hand
+
+func getPackagedHand():
+	return selectedCharacter.packagedHand
 
 func getMaxHandSize():
 	return selectedCharacter.maxHandSize

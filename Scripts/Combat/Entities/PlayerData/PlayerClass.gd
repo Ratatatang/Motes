@@ -5,7 +5,7 @@ class_name PlayerPawn
 
 func _init():
 	deck = ["Ignite", "Ignite", "Ignite", "Ignite", "Ignite", "FireArrow", "FireArrow", "FireArrow", "FireArrow", "FireArrow", "Firebomb", "Firebomb", "Firebomb", "RingOfFire", "RingOfFire", "Firewall", "Firewall"]
-	#deck = ["Cauterize", "Cauterize", "Cauterize", "Cauterize", "Cauterize", "Cauterize", "Cauterize", "Cauterize", "Cauterize", "Cauterize", "Cauterize", "Cauterize", "Cauterize", "Cauterize", "Cauterize"]
+	#deck = ["Freeze", "Freeze", "Freeze", "Freeze", "Freeze", "Freeze", "Freeze", "Freeze", "Freeze", "Freeze", "Freeze", "Freeze", "Freeze", "Freeze", "Freeze"]
 	maxHandSize = 8
 	maxAP = 30
 	maxHP = 20
@@ -28,4 +28,4 @@ func enableLine() -> void:
 	$AnimationPlayer.play("reset")
 
 func disableLine() -> void:
-	line.visible = false
+	line.visible = false 

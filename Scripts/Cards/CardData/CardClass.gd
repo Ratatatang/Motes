@@ -18,6 +18,8 @@ var targeting
 var validTargets
 var AITags
 
+var color : String
+
 var tileEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int):
 	pass
 	
@@ -106,5 +108,6 @@ func packageToDict() -> Dictionary:
 	package.merge({"areaOfEffect" : areaOfEffect})
 	package.merge({"validTargets" : element})
 	package.merge({"AITags" : AITags})
+	package.merge({"color" : color})
 	
 	return package

@@ -1,10 +1,9 @@
 extends CardClass
 class_name WaterCard
 
-var color : String = "548FD5"
-
 func _init():
 	element = "Water"
+	color = "548FD5"
 
 func getColor() -> String:
 	return color
@@ -28,5 +27,6 @@ func packageToDict() -> Dictionary:
 	package.merge({"areaOfEffect" : areaOfEffect})
 	package.merge({"validTargets" : element})
 	package.merge({"AITags" : AITags})
+	package.merge({"color" : color})
 	
 	return package
