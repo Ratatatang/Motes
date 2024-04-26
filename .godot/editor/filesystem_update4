@@ -9,9 +9,7 @@ res://Scenes/Global/MasterInfo.tscn
 res://Scenes/Combat/Board/Tiles/Effects/orangeFlame.tscn
 res://Scenes/Combat/Board/Entities/StatusEffects/onFire.tscn
 res://Scenes/MainMenu/PlayerListing.tscn
-res://Scripts/Cards/CardController.gd
-res://Scripts/CardsList.gd
-res://Scripts/Cards/Card.gd
-res://Scripts/Combat/CameraController.gd
-res://Scripts/UI/UI.gd
 res://Scripts/Combat/CombatMaster.gd
+res://Scripts/Combat/CombatServices.gd
+res://Scripts/MainMenu/HostGameScreen.gd
+res://Scripts/MainMenu/PlayerListing.gd

@@ -9,8 +9,9 @@ var SFXVolume = 1.0
 
 var peer
 var playerIDs = {}
-var customGamemode
 var singleplayer = true
+
+var gameInfo
 
 var cardsRefrence
 
@@ -25,14 +26,6 @@ func _ready():
 		return
 
 	cardsRefrence = json.get_data()
-
-class customGameInfo:
-	var gamemode
-	var playerTeams
-	
-	func _init(newGamemode, newPlayerTeams):
-		gamemode = newGamemode
-		playerTeams = newPlayerTeams
 
 func unpackageCard(package):
 	var card = load(cardsRefrence.get(package.get("name"))).new()

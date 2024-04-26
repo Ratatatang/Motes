@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://d4gj6dpnocjds"]
+[gd_scene load_steps=3 format=3 uid="uid://d4gj6dpnocjds"]
 
 [ext_resource type="Script" path="res://Scripts/MainMenu/PlayerListing.gd" id="1_7uvjn"]
+[ext_resource type="Texture2D" uid="uid://c55bhj2wyg5pq" path="res://Assets/MainMenu/GameSettings/TeamIcons/RedTeam.png" id="2_3ep4v"]
 
 [node name="PlayerListing" type="Label"]
 custom_minimum_size = Vector2(0, 35)
@@ -17,3 +18,14 @@ scale = Vector2(0.6, 0.6)
 theme_override_colors/font_color = Color(0.776471, 0.776471, 0.776471, 0.698039)
 text = "Host"
 clip_text = true
+
+[node name="Team" type="TextureButton" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 187.0
+offset_right = 251.0
+offset_bottom = 64.0
+scale = Vector2(0.5, 0.5)
+texture_normal = ExtResource("2_3ep4v")
+
+[connection signal="pressed" from="Team" to="." method="_on_team_pressed"]

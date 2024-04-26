@@ -8,7 +8,7 @@ func _init():
 	expandedDescription = "Create a wall of flame 3 tiles long that burns for 3 turns."
 	castChance = 100
 	cost = 6
-	range = 3
+	range = 4
 	
 	AOERotations = true
 	areaOfEffect = [[Vector2i.ZERO, Vector2i(0, 1), Vector2i(0, -1)], [Vector2i.ZERO, Vector2i(1, 0), Vector2i(-1, 0)]]

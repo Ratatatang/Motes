@@ -10,11 +10,6 @@ enum actions {
 	HISTORY
 }
 
-enum gamemodes {
-	FFA,
-	TEAMS
-}
-
 var currentAction = actions.NONE
 
 var playerScene = "res://Scenes/Combat/Board/Entities/Player.tscn"
@@ -23,15 +18,41 @@ func _ready():
 	%UI.visible = false
 	
 	if multiplayer.get_unique_id() == 1:
-		var i = 0
-		for key in MasterInfo.playerIDs.keys():
-			var startingPoint = %Environment.getRandomStartPoint(i)
+		var gamemode = MasterInfo.gameInfo[0]
+		
+		for id in MasterInfo.playerIDs.keys():
+			var playerInfo = MasterInfo.gameInfo[1].get(id)
+			
+			var playerID = MasterInfo.playerIDs.get(id)
+			var team
+			var startingPoint
+			
+			match gamemode:
+				"FreeForAll":
+					team = playerID
+					startingPoint = %Environment.getRandomStartPoint(randi_range(0, 4))
+				"Teams":
+					team = playerInfo[0]
+					
+					match team:
+						"Red":
+							startingPoint = %Environment.getRandomStartPoint(0)
+						"Blue":
+							startingPoint = %Environment.getRandomStartPoint(1)
+						"Green":
+							startingPoint = %Environment.getRandomStartPoint(2)
+						"Yellow":
+							startingPoint = %Environment.getRandomStartPoint(4)
+			
 			var entityID = randi()
 			
-			%Environment.addEntity(playerScene, startingPoint, MasterInfo.playerIDs.get(key), key, entityID)
+			%Environment.addEntity(playerScene, startingPoint, team, id, entityID)
 			
-			for id in MasterInfo.playerIDs.keys():
-				%Environment.addEntity.rpc_id(id, playerScene, startingPoint, MasterInfo.playerIDs.get(key), key, entityID)
+			for pid in MasterInfo.playerIDs.keys():
+				%Environment.addEntity.rpc_id(pid, playerScene, startingPoint, team, id, entityID)
+		
+		#%Environment.addEntity("res://Scenes/Combat/Board/Entities/Enemy.tscn", %Environment.getRandomStartPoint(randi_range(0, 4)), "tweerbf")
+		
 		%Services.beginGame()
 		
 func _input(event):
@@ -73,6 +94,9 @@ func _input(event):
 				
 			actions.STATUS:
 				%Services.cancelStatus()
+			
+			actions.HISTORY:
+				%Services.cancelHistory()
 	
 	elif event.is_action_pressed("escape"):
 		

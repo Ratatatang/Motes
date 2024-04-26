@@ -235,7 +235,7 @@ func AIUseCard(tilePos, card, entity = selectedCharacter):
 				%AnimationCard.passData(card)
 				%ScreenAnimations.play("useCard")
 				
-				useCard(tilePos, selectedCharacter, selectedCard)
+				useCard(tilePos, selectedCharacter, card)
 				
 				getHand().erase(card)
 
@@ -243,7 +243,7 @@ func useCard(tilePos, entity, card, rotation = areaRotation):
 	for target in card.targeting:
 		target.call(tilePos, %Environment.getTileEntity(tilePos), entity, rotation)
 	
-	cardsHistory.append(card)
+	cardsHistory.append([card, entity])
 
 func cancelMove():
 	disableLine()
@@ -282,9 +282,9 @@ func loadCharacter(entity = entityTurnOrder[currentTurn]):
 		selectedCharacter = entity
 		
 		if multiplayer.get_unique_id() == entity.parentID:
+			
 			%Environment.highlightEntity(selectedCharacter)
 			moveCameraToTile(%Environment.getEntityTile(entity))
-		
 			updateAStar.rpc()
 			
 			%UI.enableUI()

@@ -1900,6 +1900,7 @@ shape = SubResource("CircleShape2D_fwjjm")
 
 [node name="UI" type="Control" parent="Node2D/Combat/UI"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_top = 555.0
@@ -1944,15 +1945,6 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 5
 theme_override_font_sizes/normal_font_size = 40
 text = "AP:  30/30"
-
-[node name="CardsHistory" type="TextureButton" parent="Node2D/Combat/UI/UI"]
-layout_mode = 0
-offset_left = 118.0
-offset_top = 180.0
-offset_right = 182.0
-offset_bottom = 244.0
-scale = Vector2(0.5, 0.5)
-texture_normal = ExtResource("13_ln8h3")
 
 [node name="Buttons" type="Control" parent="Node2D/Combat/UI/UI"]
 layout_mode = 3
@@ -2020,6 +2012,16 @@ mouse_filter = 1
 action_mode = 0
 text = "Status"
 
+[node name="CardsHistory" type="TextureButton" parent="Node2D/Combat/UI/UI/Buttons"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -6.0
+offset_top = 202.0
+offset_right = 58.0
+offset_bottom = 266.0
+scale = Vector2(0.5, 0.5)
+texture_normal = ExtResource("13_ln8h3")
+
 [node name="RaiseArea" type="Area2D" parent="Node2D/Combat/UI/UI"]
 position = Vector2(77, -99)
 scale = Vector2(1.04, 2.04)
@@ -2052,10 +2054,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -26.0
-offset_top = 593.0
-offset_right = 54.0
-offset_bottom = 593.0
+offset_left = 550.0
+offset_top = 917.0
+offset_right = 630.0
+offset_bottom = 917.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -2094,11 +2096,11 @@ script = ExtResource("17_ntqgl")
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_htd1i")
 
-[connection signal="pressed" from="Node2D/Combat/UI/UI/CardsHistory" to="Node2D/Combat/UI/UI" method="_on_cards_history_pressed"]
 [connection signal="pressed" from="Node2D/Combat/UI/UI/Buttons/EndTurn" to="Node2D/Combat/UI/UI" method="_on_end_turn_pressed"]
 [connection signal="pressed" from="Node2D/Combat/UI/UI/Buttons/Draw" to="Node2D/Combat/UI/UI" method="_on_DrawButton_pressed"]
 [connection signal="pressed" from="Node2D/Combat/UI/UI/Buttons/Shuffle" to="Node2D/Combat/UI/UI" method="_on_shuffle_pressed"]
 [connection signal="pressed" from="Node2D/Combat/UI/UI/Buttons/Move" to="Node2D/Combat/UI/UI" method="_on_move_pressed"]
 [connection signal="pressed" from="Node2D/Combat/UI/UI/Buttons/Status" to="Node2D/Combat/UI/UI" method="_on_status_pressed"]
+[connection signal="pressed" from="Node2D/Combat/UI/UI/Buttons/CardsHistory" to="Node2D/Combat/UI/UI" method="_on_cards_history_pressed"]
 [connection signal="mouse_entered" from="Node2D/Combat/UI/UI/RaiseArea" to="Node2D/Combat/UI/UI" method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Node2D/Combat/UI/UI/RaiseArea" to="Node2D/Combat/UI/UI" method="_on_area_2d_mouse_exited"]

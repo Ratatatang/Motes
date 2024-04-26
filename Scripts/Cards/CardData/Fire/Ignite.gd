@@ -8,7 +8,7 @@ func _init():
 	expandedDescription = "Lights a tile and anything on it on fire for 3 turns."
 	castChance = 100
 	cost = 3
-	range = 4
+	range = 5
 	
 	AITags = ["Damage", "Ignite"]
 	

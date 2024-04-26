@@ -8,7 +8,7 @@ func loadCardsHistory(cardsHistory):
 	
 	for card in cardsHistory:
 		var newCard = cardPath.instantiate()
-		newCard.passData(card)
+		newCard.passData(card[0])
 		newCard.uncoverCard()
 		newCard.moveLabels()
 		newCard.disableUse = true

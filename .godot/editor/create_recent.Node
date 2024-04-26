@@ -1,8 +1,10 @@
-ScrollContainer
+MultiplayerSynchronizer
+Button
 TextureButton
-Line2D
-Label
 RichTextLabel
+Label
+ScrollContainer
+Line2D
 VBoxContainer
 VScrollBar
 TabBar
@@ -10,5 +12,3 @@ TabContainer
 ColorRect
 Control
 CollisionPolygon3D
-MultiMeshInstance3D
-CollisionShape3D
