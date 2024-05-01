@@ -1,5 +1,5 @@
-res://Scenes/Master.tscn
 res://Scenes/Combat/Board/Entities/Enemy.tscn
+res://Scripts/Global/GlobalFX.gd
 res://Scenes/Combat/Card.tscn
 res://Scenes/Combat/Board/Entities/Player.tscn
 res://Scenes/Global/GlobalFX.tscn
@@ -8,8 +8,9 @@ res://Scenes/MainMenu/HostGameScreen.tscn
 res://Scenes/Global/MasterInfo.tscn
 res://Scenes/Combat/Board/Tiles/Effects/orangeFlame.tscn
 res://Scenes/Combat/Board/Entities/StatusEffects/onFire.tscn
+res://Scenes/Master.tscn
 res://Scenes/MainMenu/PlayerListing.tscn
-res://Scripts/Combat/CombatMaster.gd
-res://Scripts/Combat/CombatServices.gd
 res://Scripts/MainMenu/HostGameScreen.gd
-res://Scripts/MainMenu/PlayerListing.gd
+res://Scripts/Combat/CombatMaster.gd
+res://Scripts/Combat/Board/BoardFX.gd
+res://Scripts/Combat/CombatServices.gd

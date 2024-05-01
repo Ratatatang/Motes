@@ -1,6 +1,44 @@
-[gd_scene load_steps=2 format=3 uid="uid://cyegpgns5rb3o"]
+[gd_scene load_steps=3 format=3 uid="uid://cyegpgns5rb3o"]
 
 [ext_resource type="Script" path="res://Scripts/Combat/Entities/EnemyData/EnemyClass.gd" id="1_647va"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_um3ix"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:curHP")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:curAP")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:entityID")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath(".:firstTile")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+properties/5/path = NodePath(".:team")
+properties/5/spawn = true
+properties/5/replication_mode = 2
+properties/6/path = NodePath(".:isAI")
+properties/6/spawn = true
+properties/6/replication_mode = 2
+properties/7/path = NodePath(".:curDeck")
+properties/7/spawn = true
+properties/7/replication_mode = 2
+properties/8/path = NodePath(".:maxAP")
+properties/8/spawn = true
+properties/8/replication_mode = 2
+properties/9/path = NodePath(".:maxHandSize")
+properties/9/spawn = true
+properties/9/replication_mode = 2
+properties/10/path = NodePath(".:maxHP")
+properties/10/spawn = true
+properties/10/replication_mode = 2
+properties/11/path = NodePath(".:packagedHand")
+properties/11/spawn = true
+properties/11/replication_mode = 1
 
 [node name="Enemy" type="CharacterBody2D"]
 script = ExtResource("1_647va")
@@ -41,3 +79,6 @@ position = Vector2(32, 48)
 target_position = Vector2(0, 0)
 collision_mask = 32
 hit_from_inside = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_um3ix")

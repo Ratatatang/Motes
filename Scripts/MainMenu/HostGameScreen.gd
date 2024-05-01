@@ -15,6 +15,8 @@ func _ready():
 	
 	if "--server" in OS.get_cmdline_args():
 		hostDedicated()
+	
+	sendPlayerInfo(1, "You")
 
 func playerConnect(id):
 	print("Player Connected: "+ str(id))
@@ -24,23 +26,42 @@ func playerDisconnect(id):
 
 func connectToServer():
 	print("Connected to server!")
+		
 	%Start.disabled = true
 	%Join.disabled = true
+	%AddAIPlayer.disabled = true
 	$Buttons/ScrollGamemodeLeft.visible = false
 	$Buttons/ScrollGamemodeRight.visible = false
+	
+	for child in %PlayersList.get_children():
+			child.queue_free()
+		
+	MasterInfo.playerIDs = {}
+	
 	sendPlayerInfo.rpc_id(1, multiplayer.get_unique_id(), %Name.text)
 
 func connectionFailed():
 	print("Failed to connect to server!")
 
 @rpc("any_peer")
-func sendPlayerInfo(id, playerID):
-	if !MasterInfo.playerIDs.has(id):
-		MasterInfo.playerIDs.merge({id: playerID})
+func sendPlayerInfo(id, playerID, AIPlayer = false):
+	if !MasterInfo.playerIDs.has(id) or id == 0:
+		
+		if id == 0:
+			if MasterInfo.playerIDs.has(0):
+				if !MasterInfo.playerIDs.get(0).has(playerID):
+					MasterInfo.playerIDs.get(0).append(playerID)
+				else:
+					return
+			else:
+				MasterInfo.playerIDs.merge({id: [playerID]})
+		else:
+			MasterInfo.playerIDs.merge({id: playerID})
 		
 		var newPlayer = playerListing.instantiate()
 		newPlayer.setPlayerName(playerID)
 		newPlayer.id = id
+		newPlayer.AIPlayer = AIPlayer
 		
 		if id == 1:
 			newPlayer.togglePlayerHost(true)
@@ -52,10 +73,17 @@ func sendPlayerInfo(id, playerID):
 				newPlayer.toggleTeams(true)
 		
 		%PlayersList.add_child(newPlayer)
-
+	
 	if multiplayer.is_server():
 		for i in MasterInfo.playerIDs.keys():
+			if i == 0:
+				continue
+				
 			sendPlayerInfo.rpc(i, MasterInfo.playerIDs.get(i))
+		
+		if MasterInfo.playerIDs.has(0):
+			for AI in MasterInfo.playerIDs.get(0):
+				sendPlayerInfo.rpc(0, AI)
 
 @rpc("any_peer", "call_local")
 func startGame():
@@ -92,9 +120,16 @@ func _on_host_pressed():
 			print("Cannot Host! Error: "+error)
 			return
 		
+		for child in %PlayersList.get_children():
+			child.queue_free()
+		
+		MasterInfo.playerIDs = {}
+		
+		sendPlayerInfo(1, %Name.text)
+		
 		multiplayer.set_multiplayer_peer(MasterInfo.peer)
-		sendPlayerInfo(multiplayer.get_unique_id(), %Name.text)
 		%Join.disabled = true
+		%Host.disabled = true
 		print("Waiting for players...")
 
 func hostDedicated():
@@ -118,13 +153,16 @@ func _on_join_pressed():
 		multiplayer.set_multiplayer_peer(MasterInfo.peer)
 
 func _on_start_pressed():
-	if MasterInfo.singleplayer:
-		MasterInfo.playerIDs.merge({1: "player"})
-	
 	var playerInfo = {}
 	
 	for player in %PlayersList.get_children():
-		playerInfo.merge({player.id: player.packageInfo()})
+		if player.id == 0:
+			if playerInfo.has(0):
+				playerInfo.get(0).append(player.packageInfo())
+			else:
+				playerInfo.merge({0: [player.packageInfo()]})
+		else:
+			playerInfo.merge({player.id: player.packageInfo()})
 	
 	MasterInfo.gameInfo = [gamemodesList[gamemode], playerInfo]
 	
@@ -148,23 +186,12 @@ func _on_scroll_gamemode_right():
 		_on_scroll_gamemode_right.rpc()
 
 func _on_add_ai_player_pressed():
-	var newPlayer = playerListing.instantiate()
-	newPlayer.AIPlayer = true
-	
 	var AIPlayers = 0
 	for player in %PlayersList.get_children():
 		if(player.AIPlayer):
 			AIPlayers += 1
 	
 	if AIPlayers == 0:
-		newPlayer.setPlayerName("AI Player")
+		sendPlayerInfo(0, "AI Player", true)
 	else:
-		newPlayer.setPlayerName("AI Player " + str(AIPlayers))
-		
-	match gamemodesList[gamemode]:
-		"FreeForAll":
-			newPlayer.toggleTeams(false)
-		"Teams":
-			newPlayer.toggleTeams(true)
-		
-	%PlayersList.add_child(newPlayer)
+		sendPlayerInfo(0, "AI Player " + str(AIPlayers), true)

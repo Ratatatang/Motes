@@ -13,6 +13,7 @@ enum actions {
 var currentAction = actions.NONE
 
 var playerScene = "res://Scenes/Combat/Board/Entities/Player.tscn"
+var enemyScene = "res://Scenes/Combat/Board/Entities/Enemy.tscn"
 
 func _ready():
 	%UI.visible = false
@@ -21,9 +22,12 @@ func _ready():
 		var gamemode = MasterInfo.gameInfo[0]
 		
 		for id in MasterInfo.playerIDs.keys():
-			var playerInfo = MasterInfo.gameInfo[1].get(id)
+			
+			if id == 0:
+				continue
 			
 			var playerID = MasterInfo.playerIDs.get(id)
+			var playerInfo = MasterInfo.gameInfo[1].get(id)
 			var team
 			var startingPoint
 			
@@ -46,13 +50,41 @@ func _ready():
 			
 			var entityID = randi()
 			
-			%Environment.addEntity(playerScene, startingPoint, team, id, entityID)
+			%Environment.addEntity.rpc(playerScene, startingPoint, id, team, entityID)
+		
+		if MasterInfo.playerIDs.has(0):
 			
-			for pid in MasterInfo.playerIDs.keys():
-				%Environment.addEntity.rpc_id(pid, playerScene, startingPoint, team, id, entityID)
-		
-		#%Environment.addEntity("res://Scenes/Combat/Board/Entities/Enemy.tscn", %Environment.getRandomStartPoint(randi_range(0, 4)), "tweerbf")
-		
+			var AIInfo = MasterInfo.gameInfo[1].get(0)
+			var id = 0
+			
+			for AI in MasterInfo.playerIDs.get(0):
+				var playerInfo = AIInfo[id]
+				var team
+				var startingPoint
+			
+				match gamemode:
+					"FreeForAll":
+						team = AI
+						startingPoint = %Environment.getRandomStartPoint(randi_range(0, 4))
+					"Teams":
+						team = playerInfo[0]
+					
+						match team:
+							"Red":
+								startingPoint = %Environment.getRandomStartPoint(0)
+							"Blue":
+								startingPoint = %Environment.getRandomStartPoint(1)
+							"Green":
+								startingPoint = %Environment.getRandomStartPoint(2)
+							"Yellow":
+								startingPoint = %Environment.getRandomStartPoint(4)
+			
+				var entityID = randi()
+			
+				%Environment.addEntity.rpc(enemyScene, startingPoint, 0, team, entityID)
+				
+				id += 1
+			
 		%Services.beginGame()
 		
 func _input(event):

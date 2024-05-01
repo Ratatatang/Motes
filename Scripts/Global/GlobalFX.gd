@@ -15,6 +15,7 @@ func displayInflictedText(text, position, remote = false):
 	numberLabel.position = position+Vector2(randf_range(-20, 20), randf_range(-20, 20))
 	numberLabel.text = text
 	numberLabel.z_index = 5
+	numberLabel.scale = Vector2(1.5, 1.5)
 	
 	numberLabel.label_settings = LabelSettings.new()
 	numberLabel.label_settings.font_color = "#FFFFFF"
@@ -46,6 +47,7 @@ func displayDamageNumber(value, position, type = "None", remote = false):
 	numberLabel.position = position+Vector2(randf_range(-20, 20), randf_range(-20, 20))
 	numberLabel.text = str(value)
 	numberLabel.z_index = 5
+	numberLabel.scale = Vector2(1.5, 1.5)
 	
 	numberLabel.label_settings = LabelSettings.new()
 	var colors = typeColors[type]
@@ -78,6 +80,7 @@ func displayHealingNumber(value, position, remote = false):
 	numberLabel.position = position+Vector2(randf_range(-20, 20), randf_range(-20, 20))
 	numberLabel.text = str(value)
 	numberLabel.z_index = 5
+	numberLabel.scale = Vector2(1.5, 1.5)
 	
 	numberLabel.label_settings = LabelSettings.new()
 	numberLabel.label_settings.font_color = "#13D300"

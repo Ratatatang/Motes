@@ -29,6 +29,10 @@ func updateLabels():
 @rpc("any_peer")
 func updateAPLabel():
 	$CardBack/APLabel.text = "AP:  "+str(%Services.getCurAP())+"/"+str(%Services.getMaxAP())
+
+@rpc("any_peer")
+func updateHPLabel():
+	$CardBack/HPLabel.text = "HP:  "+str(%Services.getCurHP())+"/"+str(%Services.getMaxHP())
 	
 func updateCardsLabel():
 	$CardBack/CardsLabel.text = "Cards Left:  "+str(%Services.getCurDeck().size())

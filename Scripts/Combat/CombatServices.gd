@@ -232,16 +232,16 @@ func AIUseCard(tilePos, card, entity = selectedCharacter):
 			if(enoughAP(card.cost)):
 				decrementAP(card.cost)
 				
-				%AnimationCard.passData(card)
-				%ScreenAnimations.play("useCard")
-				
 				useCard(tilePos, selectedCharacter, card)
+				%Combat.cardUsed(card.packageToDict())
 				
 				getHand().erase(card)
 
 func useCard(tilePos, entity, card, rotation = areaRotation):
 	for target in card.targeting:
 		target.call(tilePos, %Environment.getTileEntity(tilePos), entity, rotation)
+		%UI.updateAPLabel()
+		%UI.updateHPLabel()
 	
 	cardsHistory.append([card, entity])
 
@@ -290,8 +290,13 @@ func loadCharacter(entity = entityTurnOrder[currentTurn]):
 			%UI.enableUI()
 			%UI.loadHand(selectedCharacter)
 			%UI.updateLabels()
+		
+		elif entity.parentID == 0:
+			executeAI()
+			
 		else:
-			loadCharacter.rpc_id(entity.parentID)
+			var ID = entity.parentID
+			loadCharacter.rpc_id(ID)
 
 
 func loadCharacterSingleplayer(entity):
@@ -529,6 +534,8 @@ func getMaxHP():
 func getCurHP():
 	return selectedCharacter.curHP
 
+func getIsAI():
+	return selectedCharacter.isAI
 
 func enoughAP(num : int):
 	return selectedCharacter.enoughAP(num)
@@ -544,6 +551,8 @@ func decrementAP(num : int):
 
 func damage(num : int, type = null):
 	selectedCharacter.damage(num, type)
+	%UI.updateHPLabel()
 
 func heal(num : int):
 	selectedCharacter.heal(num)
+	%UI.updateHPLabel()

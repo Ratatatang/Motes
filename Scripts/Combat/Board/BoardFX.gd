@@ -28,8 +28,8 @@ func _ready():
 	dataGrid = grid.duplicate(true)
 	entityGrid = grid.duplicate(true)
 
-@rpc("any_peer")
-func addEntity(entity, gridPos, team = "Player", parentID = 1, randID = randi()):
+@rpc("any_peer", "call_local") 
+func addEntity(entity, gridPos, parentID, team = "Player", randID = randi()):
 	var newEntity = load(entity).instantiate()
 	
 	newEntity.AStarGrid = %Services.getAStar()
