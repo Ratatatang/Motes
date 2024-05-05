@@ -20,19 +20,19 @@ var AITags
 
 var color : String
 
-var tileEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int):
+var tileEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int, _tileEffect : Array):
 	pass
 	
-var enemyEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int):
+var enemyEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int, _tileEffect : Array):
 	pass
 
-var selfEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int):
+var selfEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int, _tileEffect : Array):
 	pass
 
-var allyEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int):
+var allyEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int, _tileEffect : Array):
 	pass
 
-var tileEffectEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int):
+var tileDataEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int, _tileEffect : Array):
 	pass
 
 func getElement() -> String:

@@ -81,6 +81,11 @@ func updateAStar():
 				for effect in %Environment.getTileData(tilePos):
 					tileBias += effect.bias
 					
+					if effect.impassable:
+						AStarGrid.set_point_solid(tilePos)
+						AStarGridAI.set_point_solid(tilePos)
+						AStarGridAIPassable.set_point_solid(tilePos)
+					
 				AStarGridAI.set_point_weight_scale(tilePos, tileBias)
 				AStarGridAIPassable.set_point_weight_scale(tilePos, tileBias)
 
@@ -232,14 +237,24 @@ func AIUseCard(tilePos, card, entity = selectedCharacter):
 			if(enoughAP(card.cost)):
 				decrementAP(card.cost)
 				
+				#%AnimationCard.passData(card)
+				#%ScreenAnimations.play("useCard")
+				
 				useCard(tilePos, selectedCharacter, card)
-				%Combat.cardUsed(card.packageToDict())
 				
 				getHand().erase(card)
 
 func useCard(tilePos, entity, card, rotation = areaRotation):
+	var tileEntity = %Environment.getTileEntity(tilePos)
+	var tileData = %Environment.getTileData(tilePos)
+	
+	if tileEntity == null:
+		tileEntity = load("res://Scenes/Combat/Board/Entities/Player.tscn").instantiate()
+	if tileData == null:
+		tileData = []
+	
 	for target in card.targeting:
-		target.call(tilePos, %Environment.getTileEntity(tilePos), entity, rotation)
+		target.call(tilePos, tileEntity, entity, rotation, tileData)
 		%UI.updateAPLabel()
 		%UI.updateHPLabel()
 	

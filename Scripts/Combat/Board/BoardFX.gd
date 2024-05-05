@@ -138,7 +138,10 @@ func setTileDataRemote(pos, data):
 	loadedData.position = (pos*64)+Vector2i(32, 32)
 
 func getTileData(pos):
-	return dataGrid[pos]
+	if entityGrid.has(pos):
+		return dataGrid[pos]
+	else:
+		return null
 
 @rpc("any_peer")
 func removeTileEntity(entity):

@@ -25,7 +25,7 @@ offset_left = -557.0
 offset_top = -285.0
 offset_right = -156.0
 offset_bottom = 282.0
-current_tab = 3
+current_tab = 2
 
 [node name="Deck" type="TabBar" parent="SettingsTabs/TabContainer"]
 visible = false
@@ -60,7 +60,6 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 32
 
 [node name="Multiplayer" type="TabBar" parent="SettingsTabs/TabContainer"]
-visible = false
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
@@ -130,7 +129,32 @@ theme_override_font_sizes/font_size = 40
 text = "8910"
 placeholder_text = "Port"
 
+[node name="MaxPlayers" type="SpinBox" parent="SettingsTabs/TabContainer/Multiplayer"]
+visible = false
+layout_mode = 0
+offset_left = 23.0
+offset_top = 269.0
+offset_right = 106.063
+offset_bottom = 300.0
+min_value = 2.0
+max_value = 10.0
+value = 2.0
+
+[node name="MaxPlayerLabel" type="RichTextLabel" parent="SettingsTabs/TabContainer/Multiplayer"]
+visible = false
+layout_mode = 0
+offset_left = 11.0
+offset_top = 244.0
+offset_right = 245.0
+offset_bottom = 301.0
+scale = Vector2(0.4, 0.4)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/normal_font_size = 40
+text = "Max Players"
+
 [node name="Players" type="TabBar" parent="SettingsTabs/TabContainer"]
+visible = false
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8

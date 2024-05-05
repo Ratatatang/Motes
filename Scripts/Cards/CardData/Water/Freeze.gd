@@ -12,7 +12,7 @@ func _init():
 	
 	AITags = ["Damage", "Freeze"]
 	
-	tileEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int):
+	tileEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int, _tileEffect : Array):
 		pass
 	
 	targeting = [enemyEffect]

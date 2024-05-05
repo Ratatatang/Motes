@@ -5,6 +5,7 @@ var typeColors = {
 	null: ["#FFFFFF", "#000000"],
 	"None": ["#FFFFFF", "#000000"],
 	"Fire": ["#D98321", "#000000"],
+	"Water": ["#71C5D6", "#000000"]
 }
 
 @rpc("any_peer")

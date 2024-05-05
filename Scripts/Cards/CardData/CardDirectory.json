@@ -7,4 +7,8 @@
 	"Cauterize": "res://Scripts/Cards/CardData/Fire/Cauterize.gd",
 	
 	"Freeze": "res://Scripts/Cards/CardData/Water/Freeze.gd",
+	"IceBolt": "res://Scripts/Cards/CardData/Water/IceBolt.gd",
+	"IcePillar": "res://Scripts/Cards/CardData/Water/IcePillar.gd",
+	"IceLance": "res://Scripts/Cards/CardData/Water/IceLance.gd",
+	"IceWall": "res://Scripts/Cards/CardData/Water/IceWall.gd",
 }

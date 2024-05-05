@@ -1,7 +1,10 @@
+Sprite2D
+RichTextLabel
+SpinBox
+Node
 MultiplayerSynchronizer
 Button
 TextureButton
-RichTextLabel
 Label
 ScrollContainer
 Line2D
@@ -10,5 +13,3 @@ VScrollBar
 TabBar
 TabContainer
 ColorRect
-Control
-CollisionPolygon3D

@@ -131,9 +131,18 @@ func canTargetTile(point, targeting, LOS = true) -> bool:
 			
 		elif(target == "Enemy"):
 			var tileEntity = map.getTileEntity(point)
+			
 			if(tileEntity != null):
 				if(tileEntity.team != team):
 					return true
+		
+		elif(target == "Destructable"):
+			var tileEffects = map.getTileData(point)
+			
+			if tileEffects != null:
+				for effect in tileEffects:
+					if effect.destructable:
+						return true
 			
 	return false
 

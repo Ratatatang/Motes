@@ -12,7 +12,7 @@ func _init():
 	
 	AITags = ["Damage"]
 	
-	enemyEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int):
+	enemyEffect = func (_tile: Vector2i, _entity: Entity, _selfEntity: Entity, currentRotation : int, _tileEffect : Array):
 		if(_entity.curHP > _entity.maxHP/2):
 			_entity.damage(5, "Fire")
 		elif(_entity.curHP <= _entity.maxHP/2):
