@@ -1,8 +1,13 @@
 extends CardClass
 class_name FireCard
 
+var colorClasses = {
+	"Orange": 0
+}
+
 #Replace orange with hex value
 var fireColor : String = "Orange"
+var canChangeColor = true
 
 func _init():
 	element = "Fire"

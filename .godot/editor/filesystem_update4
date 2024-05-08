@@ -36,3 +36,10 @@ res://Scripts/Cards/CardData/Fire/Firewall.gd
 res://Scripts/Cards/CardData/Water/Freeze.gd
 res://Scripts/Cards/CardData/Fire/Ignite.gd
 res://Scripts/Cards/CardData/Fire/RingOfFire.gd
+res://Scripts/Cards/CardData/Fire/FireCardClass.gd
+res://Scripts/Cards/CardData/Fire/ColorClasses/FireColor.gd
+res://Scripts/Cards/CardData/Fire/ColorClasses/Blue.gd
+res://Scripts/Cards/CardData/Fire/ColorClasses/BlueFire.gd
+res://Scripts/Cards/CardData/Fire/ColorClasses/OrangeFire.gd
+res://Scripts/Combat/TileEffects/BlueBurning.gd
+res://Scripts/Combat/Entities/StatusEffects/OnBlueFire.gd
