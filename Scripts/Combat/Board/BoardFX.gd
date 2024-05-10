@@ -27,6 +27,8 @@ func _ready():
 	
 	dataGrid = grid.duplicate(true)
 	entityGrid = grid.duplicate(true)
+	
+	exportMap()
 
 @rpc("any_peer", "call_local") 
 func addEntity(entity, gridPos, parentID, team = "Player", randID = randi()):
@@ -108,11 +110,17 @@ func targetTiles(tiles, emptyTiles):
 	set_cells_terrain_connect(1, tiles, 0, 0, true)
 	set_cells_terrain_connect(1, emptyTiles, 0, 2, true)
 
+func advanceTileTimers():
+	for tile in dataGrid.values():
+		if tile != null and tile != []:
+			for effect in tile:
+				effect.advanceTimer()
+
 @rpc("any_peer")
 func setTileData(pos, data):
 	var loadedData = load(data).instantiate()
 	
-	if(dataGrid[pos] == null):
+	if(dataGrid[pos] == null or dataGrid[pos] == []):
 		dataGrid[pos] = [loadedData]
 		%GamePieces.add_child(loadedData)
 		loadedData.position = (pos*64)+Vector2i(32, 32)
@@ -142,6 +150,12 @@ func getTileData(pos):
 		return dataGrid[pos]
 	else:
 		return null
+
+func removeDataFromTile(data):
+	for tile in dataGrid.values():
+		if tile != null and tile != []:
+			if tile.has(data):
+				tile.erase(data)
 
 @rpc("any_peer")
 func removeTileEntity(entity):
@@ -181,3 +195,15 @@ func getEntityTile(entity):
 
 func getEntities() -> Array:
 	return entities
+
+func exportMap():
+	var cells = get_used_cells(0)
+	var cellIDs = get_used_cells_by_id(0)
+	
+	var mapData = [cells, cellIDs]
+	
+	var saveGame = FileAccess.open("user://savegame.save", FileAccess.WRITE)
+	
+	var jsonString = JSON.stringify(mapData)
+	
+	saveGame.store_line(jsonString)

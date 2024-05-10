@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cm7uxw0cq0ymo"]
+[gd_scene load_steps=19 format=3 uid="uid://cm7uxw0cq0ymo"]
 
 [ext_resource type="Script" path="res://Scripts/Cards/CardController.gd" id="1_5rub8"]
 [ext_resource type="Script" path="res://Scripts/Cards/Card.gd" id="2_etir8"]
@@ -9,7 +9,17 @@
 [ext_resource type="Texture2D" uid="uid://4rd7tn4yi1a5" path="res://Assets/Cards/CardBack.png" id="5_ogprk"]
 [ext_resource type="Texture2D" uid="uid://bqfersks6xtk8" path="res://Assets/Cards/ChanceLabel.png" id="6_v3ke2"]
 [ext_resource type="Texture2D" uid="uid://clmhjp3p1xylg" path="res://Assets/Cards/AccuracyLabel2.png" id="7_gtv3g"]
+[ext_resource type="Shader" path="res://Scripts/Cards/Card.gdshader" id="9_85ntu"]
 [ext_resource type="Texture2D" uid="uid://cimuldtckak4e" path="res://Assets/Cards/CardImages/Fire/Ignite.png" id="10_726vb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2fyqi"]
+resource_local_to_scene = true
+shader = ExtResource("9_85ntu")
+shader_parameter/new1 = Color(0.105882, 0.345098, 1, 1)
+shader_parameter/new2 = Color(0.419608, 0.603922, 1, 1)
+shader_parameter/new3 = Color(0.670588, 0.780392, 1, 1)
+shader_parameter/new4 = Color(0.8, 0.866667, 1, 1)
+shader_parameter/enabled = false
 
 [sub_resource type="Animation" id="Animation_ucyjo"]
 length = 0.001
@@ -465,6 +475,7 @@ bbcode_enabled = true
 text = "[center]Lights a tile and anything on it on fire for 3 turns.[/center]"
 
 [node name="Picture" type="Sprite2D" parent="Card/Card"]
+material = SubResource("ShaderMaterial_2fyqi")
 position = Vector2(52.9998, 59.0003)
 scale = Vector2(1.125, 1.07813)
 texture = ExtResource("10_726vb")

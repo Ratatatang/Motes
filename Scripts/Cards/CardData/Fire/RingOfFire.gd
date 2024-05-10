@@ -5,7 +5,7 @@ func _init():
 	displayName = "Ring of Fire"
 	name = "RingOfFire"
 	description = "Ignites a circle of fire around a tile."
-	expandedDescription = "Ignites a circle of fire around a tile for 3 turns."
+	expandedDescription = "Ignites a circle of fire around a tile for 3 rounds."
 	castChance = 100
 	cost = 7
 	range = 3

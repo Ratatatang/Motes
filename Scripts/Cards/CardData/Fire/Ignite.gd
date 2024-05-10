@@ -5,7 +5,7 @@ func _init():
 	displayName = "Ignite"
 	name = "Ignite"
 	description = "Lights a tile and anything on it on fire."
-	expandedDescription = "Lights a tile and anything on it on fire for 3 turns."
+	expandedDescription = "Lights a tile and anything on it on fire for 3 rounds."
 	castChance = 100
 	cost = 3
 	range = 5

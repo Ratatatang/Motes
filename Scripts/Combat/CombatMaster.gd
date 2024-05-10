@@ -52,6 +52,8 @@ func _ready():
 			
 			%Environment.addEntity.rpc(playerScene, startingPoint, id, team, entityID)
 		
+		%Environment.addEntity.rpc(playerScene, %Environment.getRandomStartPoint(0), 1, "teama", randi())
+		
 		if MasterInfo.playerIDs.has(0):
 			
 			var AIInfo = MasterInfo.gameInfo[1].get(0)

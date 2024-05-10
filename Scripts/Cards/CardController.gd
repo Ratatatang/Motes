@@ -14,7 +14,7 @@ func moveTo():
 	$AnimationPlayer.play("flip")
 
 func getData():
-	return $Card/Card.cardData
+	return $Card/Card.cardData 
 
 func passData(cardData):
 	$Card/Card.cardData = cardData

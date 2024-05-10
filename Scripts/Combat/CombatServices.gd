@@ -113,6 +113,7 @@ func advanceRound():
 	for character in entityTurnOrder:
 		character.refreshAP()
 		character.checkRoundEffects()
+		%Environment.advanceTileTimers()
 	
 	currentTurn = 0
 	unloadCharacter()

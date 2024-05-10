@@ -24,7 +24,6 @@ func updateData():
 	$ChanceLabel/CastChance.text = str(cardData.castChance)
 	$RangeLabel/Range.text = str(cardData.range)
 	$CardSprite.self_modulate = cardData.color
-	
 
 func moveTo():
 	global_position = Vector2(-469, 454)

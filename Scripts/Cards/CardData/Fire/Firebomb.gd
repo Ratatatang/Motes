@@ -5,7 +5,7 @@ func _init():
 	displayName = "Firebomb"
 	name = "Firebomb"
 	description = "A ball of fire. Lights a cross of tiles ablaze."
-	expandedDescription = "A ball of fire and rocks.\n\nLights a cross of tiles ablaze for 3 turns."
+	expandedDescription = "A ball of fire and rocks.\n\nLights a cross of tiles ablaze for 3 rounds."
 	castChance = 100
 	cost = 5
 	range = 3

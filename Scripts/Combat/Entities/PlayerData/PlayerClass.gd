@@ -5,7 +5,8 @@ class_name PlayerPawn
 
 func _init():
 	#deck = ["Ignite", "Ignite", "Ignite", "Ignite", "Ignite", "FireArrow", "FireArrow", "FireArrow", "FireArrow", "FireArrow", "Firebomb", "Firebomb", "Firebomb", "RingOfFire", "RingOfFire", "Firewall", "Firewall"]
-	deck = ["Freeze", "Freeze", "Freeze", "Freeze", "Freeze", "IcePillar", "IcePillar", "IcePillar", "IcePillar", "IcePillar", "IceBolt", "IceBolt", "IceBolt", "IceBolt", "IceBolt", "IceWall", "IceWall", "IceWall", "IceWall", "IceWall"]
+	#deck = ["Freeze", "Freeze", "Freeze", "Freeze", "Freeze", "IcePillar", "IcePillar", "IcePillar", "IcePillar", "IcePillar", "IceBolt", "IceBolt", "IceBolt", "IceBolt", "IceBolt", "IceWall", "IceWall", "IceWall", "IceWall", "IceWall"]
+	deck = ["FireArrow", "FireArrow", "FireArrow", "IceBolt", "IceBolt", "IceBolt", "Ignite", "Ignite", "Ignite", "IcePillar", "IcePillar", "IcePillar", "Firebomb", "Firebomb",  "RingOfFire", "RingOfFire", "Firewall", "Firewall", "IceWall", "IceWall"]
 	maxHandSize = 8
 	maxAP = 30
 	maxHP = 20

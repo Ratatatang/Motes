@@ -12,14 +12,10 @@ properties/1/spawn = false
 properties/1/replication_mode = 2
 properties/2/path = NodePath(".:health")
 properties/2/spawn = true
-properties/2/replication_mode = 2
+properties/2/replication_mode = 1
 
 [node name="iceWall" type="Node2D"]
 script = ExtResource("1_kn32o")
-duration = null
-bias = null
-curHP = null
-maxHP = null
 
 [node name="iceWall" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)

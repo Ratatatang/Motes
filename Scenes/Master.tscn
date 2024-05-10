@@ -18,6 +18,11 @@
 [ext_resource type="Texture2D" uid="uid://b0ysn17tln0ra" path="res://Assets/Cards/CardsHistory.png" id="13_ln8h3"]
 [ext_resource type="Script" path="res://Scripts/CardsList.gd" id="17_ntqgl"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_htd1i"]
+properties/0/path = NodePath("Node2D/Combat/Services:currentTurn")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p6nax"]
 texture = ExtResource("4_i6yc5")
 texture_region_size = Vector2i(64, 64)
@@ -1494,7 +1499,7 @@ tracks/1/keys = {
 tracks/2/type = "method"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("%CardsList")
+tracks/2/path = NodePath("ScrollContainer/CardsList")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -1799,7 +1804,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("%AnimationCard:scale")
+tracks/3/path = NodePath("AnimationCard:scale")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -1821,25 +1826,21 @@ _data = {
 "useCard": SubResource("Animation_3dexj")
 }
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_htd1i"]
-properties/0/path = NodePath("Node2D/Combat/Services:currentTurn")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-
 [node name="Master" type="Node2D"]
 script = ExtResource("1_sxo8n")
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_htd1i")
 
-[node name="Combat" type="Node2D" parent="Node2D"]
+[node name="Combat" type="Node2D" parent="."]
 unique_name_in_owner = true
 script = ExtResource("1_dhfxj")
 
-[node name="Services" type="Node" parent="Node2D/Combat"]
+[node name="Services" type="Node" parent="Combat"]
 unique_name_in_owner = true
 script = ExtResource("1_4mlhq")
 
-[node name="Environment" type="TileMap" parent="Node2D/Combat"]
+[node name="Environment" type="TileMap" parent="Combat"]
 unique_name_in_owner = true
 texture_filter = 3
 tile_set = SubResource("TileSet_8de48")
@@ -1851,54 +1852,54 @@ layer_1/name = "Highlights"
 layer_1/tile_data = PackedInt32Array()
 script = ExtResource("4_dbemq")
 
-[node name="GamePieces" type="Node2D" parent="Node2D/Combat/Environment"]
+[node name="GamePieces" type="Node2D" parent="Combat/Environment"]
 unique_name_in_owner = true
 
-[node name="GameFX" type="Node2D" parent="Node2D/Combat/Environment"]
+[node name="GameFX" type="Node2D" parent="Combat/Environment"]
 unique_name_in_owner = true
 
-[node name="WarFog" type="TileMap" parent="Node2D/Combat/Environment/GameFX"]
+[node name="WarFog" type="TileMap" parent="Combat/Environment/GameFX"]
 visible = false
 tile_set = SubResource("TileSet_8de48")
 rendering_quadrant_size = 64
 format = 2
 layer_0/tile_data = PackedInt32Array(0, 65541, 0, 3, 65541, 0, 9, 65541, 0, 8, 65541, 0, 7, 65541, 0, 6, 65541, 0, 5, 65541, 0, 4, 65541, 0, 393216, 65541, 0, 327680, 65541, 0, 262144, 65541, 0, 65536, 65541, 0, 131072, 65541, 0, 196608, 65541, 0, 458752, 65541, 0, 524288, 65541, 0, 1, 65541, 0, 65537, 65541, 0, 131073, 65541, 0, 196609, 65541, 0, 262145, 65541, 0, 327681, 65541, 0, 393217, 65541, 0, 458753, 65541, 0, 524289, 65541, 0, 2, 65541, 0, 65538, 65541, 0, 131074, 65541, 0, 196610, 65541, 0, 262146, 65541, 0, 327682, 65541, 0, 393218, 65541, 0, 458754, 65541, 0, 524290, 65541, 0, 65539, 65541, 0, 131075, 65541, 0, 196611, 65541, 0, 262147, 65541, 0, 327683, 65541, 0, 393219, 65541, 0, 458755, 65541, 0, 524291, 65541, 0, 65540, 65541, 0, 131076, 65541, 0, 196612, 65541, 0, 262148, 65541, 0, 327684, 65541, 0, 393220, 65541, 0, 458756, 65541, 0, 524292, 65541, 0, 65541, 65541, 0, 131077, 65541, 0, 196613, 65541, 0, 262149, 65541, 0, 327685, 65541, 0, 393221, 65541, 0, 458757, 65541, 0, 524293, 65541, 0, 65542, 65541, 0, 131078, 65541, 0, 196614, 65541, 0, 262150, 65541, 0, 327686, 65541, 0, 393222, 65541, 0, 458758, 65541, 0, 524294, 65541, 0, 65543, 65541, 0, 131079, 65541, 0, 196615, 65541, 0, 262151, 65541, 0, 327687, 65541, 0, 393223, 65541, 0, 458759, 65541, 0, 524295, 65541, 0, 65544, 65541, 0, 131080, 65541, 0, 196616, 65541, 0, 262152, 65541, 0, 327688, 65541, 0, 393224, 65541, 0, 458760, 65541, 0, 524296, 65541, 0, 65545, 65541, 0, 131081, 65541, 0, 196617, 65541, 0, 262153, 65541, 0, 327689, 65541, 0, 393225, 65541, 0, 458761, 65541, 0, 524297, 65541, 0, 10, 65541, 0, 65546, 65541, 0, 131082, 65541, 0, 196618, 65541, 0, 262154, 65541, 0, 327690, 65541, 0, 393226, 65541, 0, 458762, 65541, 0, 524298, 65541, 0, 11, 65541, 0, 65547, 65541, 0, 131083, 65541, 0, 196619, 65541, 0, 262155, 65541, 0, 327691, 65541, 0, 393227, 65541, 0, 458763, 65541, 0, 524299, 65541, 0, 12, 65541, 0, 65548, 65541, 0, 131084, 65541, 0, 196620, 65541, 0, 262156, 65541, 0, 327692, 65541, 0, 393228, 65541, 0, 458764, 65541, 0, 524300, 65541, 0, 13, 65541, 0, 65549, 65541, 0, 131085, 65541, 0, 196621, 65541, 0, 262157, 65541, 0, 327693, 65541, 0, 393229, 65541, 0, 458765, 65541, 0, 524301, 65541, 0, 14, 65541, 0, 65550, 65541, 0, 131086, 65541, 0, 196622, 65541, 0, 262158, 65541, 0, 327694, 65541, 0, 393230, 65541, 0, 458766, 65541, 0, 524302, 65541, 0, 15, 65541, 0, 65551, 65541, 0, 131087, 65541, 0, 196623, 65541, 0, 262159, 65541, 0, 327695, 65541, 0, 393231, 65541, 0, 458767, 65541, 0, 524303, 65541, 0)
 
-[node name="CameraBounds" type="StaticBody2D" parent="Node2D/Combat"]
+[node name="CameraBounds" type="StaticBody2D" parent="Combat"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Combat/CameraBounds"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Combat/CameraBounds"]
 position = Vector2(1081, -151)
 shape = SubResource("RectangleShape2D_5us63")
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="Node2D/Combat/CameraBounds"]
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Combat/CameraBounds"]
 position = Vector2(1114, 1495)
 shape = SubResource("RectangleShape2D_m5kpx")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Node2D/Combat/CameraBounds"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Combat/CameraBounds"]
 position = Vector2(-151, 698.5)
 shape = SubResource("RectangleShape2D_lpri0")
 
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="Node2D/Combat/CameraBounds"]
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Combat/CameraBounds"]
 position = Vector2(2326, 741.5)
 shape = SubResource("RectangleShape2D_04n40")
 
-[node name="Camera" type="CharacterBody2D" parent="Node2D/Combat"]
+[node name="Camera" type="CharacterBody2D" parent="Combat"]
 unique_name_in_owner = true
 position = Vector2(1280, 320)
 script = ExtResource("6_fci4t")
 
-[node name="Camera2D" type="Camera2D" parent="Node2D/Combat/Camera"]
+[node name="Camera2D" type="Camera2D" parent="Combat/Camera"]
 unique_name_in_owner = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Combat/Camera"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Combat/Camera"]
 shape = SubResource("CircleShape2D_fwjjm")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Node2D/Combat/Camera"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Combat/Camera"]
 shape = SubResource("CircleShape2D_fwjjm")
 
-[node name="UI" type="CanvasLayer" parent="Node2D/Combat"]
+[node name="UI" type="CanvasLayer" parent="Combat"]
 
-[node name="UI" type="Control" parent="Node2D/Combat/UI"]
+[node name="UI" type="Control" parent="Combat/UI"]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 0
@@ -1908,7 +1909,7 @@ offset_bottom = 803.0
 mouse_filter = 1
 script = ExtResource("7_1n7qw")
 
-[node name="Hand" type="HBoxContainer" parent="Node2D/Combat/UI/UI"]
+[node name="Hand" type="HBoxContainer" parent="Combat/UI/UI"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 123.0
@@ -1918,12 +1919,12 @@ offset_bottom = 213.0
 scale = Vector2(0.965545, 1)
 alignment = 1
 
-[node name="CardBack" type="Sprite2D" parent="Node2D/Combat/UI/UI"]
+[node name="CardBack" type="Sprite2D" parent="Combat/UI/UI"]
 position = Vector2(63, 128)
 scale = Vector2(1.2, 1.2)
 texture = ExtResource("7_r3m1s")
 
-[node name="CardsLabel" type="RichTextLabel" parent="Node2D/Combat/UI/UI/CardBack"]
+[node name="CardsLabel" type="RichTextLabel" parent="Combat/UI/UI/CardBack"]
 offset_left = -39.1667
 offset_top = -64.1667
 offset_right = 253.833
@@ -1934,7 +1935,7 @@ theme_override_constants/outline_size = 5
 theme_override_font_sizes/normal_font_size = 40
 text = "Cards Left: "
 
-[node name="APLabel" type="RichTextLabel" parent="Node2D/Combat/UI/UI/CardBack"]
+[node name="APLabel" type="RichTextLabel" parent="Combat/UI/UI/CardBack"]
 offset_left = -39.0
 offset_top = 47.0
 offset_right = 247.0
@@ -1945,7 +1946,7 @@ theme_override_constants/outline_size = 5
 theme_override_font_sizes/normal_font_size = 40
 text = "AP:  30/30"
 
-[node name="HPLabel" type="RichTextLabel" parent="Node2D/Combat/UI/UI/CardBack"]
+[node name="HPLabel" type="RichTextLabel" parent="Combat/UI/UI/CardBack"]
 offset_left = -39.0
 offset_top = 33.6666
 offset_right = 247.0
@@ -1956,7 +1957,7 @@ theme_override_constants/outline_size = 5
 theme_override_font_sizes/normal_font_size = 40
 text = "HP:  20/20"
 
-[node name="Buttons" type="Control" parent="Node2D/Combat/UI/UI"]
+[node name="Buttons" type="Control" parent="Combat/UI/UI"]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 124.0
@@ -1964,11 +1965,11 @@ offset_top = -22.0
 offset_right = 164.0
 offset_bottom = 18.0
 
-[node name="buttonsBacking" type="Sprite2D" parent="Node2D/Combat/UI/UI/Buttons"]
+[node name="buttonsBacking" type="Sprite2D" parent="Combat/UI/UI/Buttons"]
 position = Vector2(958, 147)
 texture = ExtResource("12_qvul0")
 
-[node name="EndTurn" type="Button" parent="Node2D/Combat/UI/UI/Buttons"]
+[node name="EndTurn" type="Button" parent="Combat/UI/UI/Buttons"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.271
@@ -1979,7 +1980,7 @@ offset_right = 963.16
 offset_bottom = 87.48
 text = "Turn"
 
-[node name="Draw" type="Button" parent="Node2D/Combat/UI/UI/Buttons"]
+[node name="Draw" type="Button" parent="Combat/UI/UI/Buttons"]
 layout_mode = 0
 offset_left = 902.0
 offset_top = 105.0
@@ -1989,7 +1990,7 @@ mouse_filter = 1
 action_mode = 0
 text = "Draw"
 
-[node name="Shuffle" type="Button" parent="Node2D/Combat/UI/UI/Buttons"]
+[node name="Shuffle" type="Button" parent="Combat/UI/UI/Buttons"]
 visible = false
 layout_mode = 0
 offset_left = 901.0
@@ -2001,7 +2002,7 @@ mouse_filter = 1
 action_mode = 0
 text = "Shuffle"
 
-[node name="Move" type="Button" parent="Node2D/Combat/UI/UI/Buttons"]
+[node name="Move" type="Button" parent="Combat/UI/UI/Buttons"]
 layout_mode = 0
 offset_left = 902.0
 offset_top = 156.0
@@ -2011,7 +2012,7 @@ mouse_filter = 1
 action_mode = 0
 text = "Move"
 
-[node name="Status" type="Button" parent="Node2D/Combat/UI/UI/Buttons"]
+[node name="Status" type="Button" parent="Combat/UI/UI/Buttons"]
 layout_mode = 0
 offset_left = 963.0
 offset_top = 156.0
@@ -2022,7 +2023,7 @@ mouse_filter = 1
 action_mode = 0
 text = "Status"
 
-[node name="CardsHistory" type="TextureButton" parent="Node2D/Combat/UI/UI/Buttons"]
+[node name="CardsHistory" type="TextureButton" parent="Combat/UI/UI/Buttons"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = -6.0
@@ -2032,17 +2033,17 @@ offset_bottom = 266.0
 scale = Vector2(0.5, 0.5)
 texture_normal = ExtResource("13_ln8h3")
 
-[node name="RaiseArea" type="Area2D" parent="Node2D/Combat/UI/UI"]
+[node name="RaiseArea" type="Area2D" parent="Combat/UI/UI"]
 position = Vector2(77, -99)
 scale = Vector2(1.04, 2.04)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Combat/UI/UI/RaiseArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Combat/UI/UI/RaiseArea"]
 position = Vector2(504.5, 72.549)
 shape = SubResource("RectangleShape2D_gb65e")
 
-[node name="ScreenFX" type="CanvasLayer" parent="Node2D/Combat"]
+[node name="ScreenFX" type="CanvasLayer" parent="Combat"]
 
-[node name="ColorRect" type="ColorRect" parent="Node2D/Combat/ScreenFX"]
+[node name="ColorRect" type="ColorRect" parent="Combat/ScreenFX"]
 visible = false
 offset_left = -156.0
 offset_top = -64.0
@@ -2051,13 +2052,13 @@ offset_bottom = 774.0
 mouse_filter = 1
 color = Color(0.411765, 0.411765, 0.411765, 0)
 
-[node name="ScreenAnimations" type="AnimationPlayer" parent="Node2D/Combat/ScreenFX"]
+[node name="ScreenAnimations" type="AnimationPlayer" parent="Combat/ScreenFX"]
 unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_ms5we")
 }
 
-[node name="AnimationCard" parent="Node2D/Combat/ScreenFX" instance=ExtResource("12_sgxv5")]
+[node name="AnimationCard" parent="Combat/ScreenFX" instance=ExtResource("12_sgxv5")]
 unique_name_in_owner = true
 anchors_preset = 8
 anchor_left = 0.5
@@ -2074,7 +2075,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 disableUse = true
 
-[node name="StatusList" type="VBoxContainer" parent="Node2D/Combat/ScreenFX"]
+[node name="StatusList" type="VBoxContainer" parent="Combat/ScreenFX"]
 unique_name_in_owner = true
 offset_left = 986.0
 offset_top = 63.0
@@ -2083,7 +2084,7 @@ offset_bottom = 117.0
 scale = Vector2(3, 3)
 script = ExtResource("13_f0k7s")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Node2D/Combat/ScreenFX"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Combat/ScreenFX"]
 clip_contents = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -2097,20 +2098,17 @@ offset_bottom = 204.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CardsList" type="VBoxContainer" parent="Node2D/Combat/ScreenFX/ScrollContainer"]
+[node name="CardsList" type="VBoxContainer" parent="Combat/ScreenFX/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 150
 script = ExtResource("17_ntqgl")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_htd1i")
-
-[connection signal="pressed" from="Node2D/Combat/UI/UI/Buttons/EndTurn" to="Node2D/Combat/UI/UI" method="_on_end_turn_pressed"]
-[connection signal="pressed" from="Node2D/Combat/UI/UI/Buttons/Draw" to="Node2D/Combat/UI/UI" method="_on_DrawButton_pressed"]
-[connection signal="pressed" from="Node2D/Combat/UI/UI/Buttons/Shuffle" to="Node2D/Combat/UI/UI" method="_on_shuffle_pressed"]
-[connection signal="pressed" from="Node2D/Combat/UI/UI/Buttons/Move" to="Node2D/Combat/UI/UI" method="_on_move_pressed"]
-[connection signal="pressed" from="Node2D/Combat/UI/UI/Buttons/Status" to="Node2D/Combat/UI/UI" method="_on_status_pressed"]
-[connection signal="pressed" from="Node2D/Combat/UI/UI/Buttons/CardsHistory" to="Node2D/Combat/UI/UI" method="_on_cards_history_pressed"]
-[connection signal="mouse_entered" from="Node2D/Combat/UI/UI/RaiseArea" to="Node2D/Combat/UI/UI" method="_on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="Node2D/Combat/UI/UI/RaiseArea" to="Node2D/Combat/UI/UI" method="_on_area_2d_mouse_exited"]
+[connection signal="pressed" from="Combat/UI/UI/Buttons/EndTurn" to="Combat/UI/UI" method="_on_end_turn_pressed"]
+[connection signal="pressed" from="Combat/UI/UI/Buttons/Draw" to="Combat/UI/UI" method="_on_DrawButton_pressed"]
+[connection signal="pressed" from="Combat/UI/UI/Buttons/Shuffle" to="Combat/UI/UI" method="_on_shuffle_pressed"]
+[connection signal="pressed" from="Combat/UI/UI/Buttons/Move" to="Combat/UI/UI" method="_on_move_pressed"]
+[connection signal="pressed" from="Combat/UI/UI/Buttons/Status" to="Combat/UI/UI" method="_on_status_pressed"]
+[connection signal="pressed" from="Combat/UI/UI/Buttons/CardsHistory" to="Combat/UI/UI" method="_on_cards_history_pressed"]
+[connection signal="mouse_entered" from="Combat/UI/UI/RaiseArea" to="Combat/UI/UI" method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Combat/UI/UI/RaiseArea" to="Combat/UI/UI" method="_on_area_2d_mouse_exited"]

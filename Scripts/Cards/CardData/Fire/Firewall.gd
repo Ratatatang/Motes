@@ -5,7 +5,7 @@ func _init():
 	displayName = "Firewall"
 	name = "Firewall"
 	description = "Create a wall of flame 3 tiles long."
-	expandedDescription = "Create a wall of flame 3 tiles long that burns for 3 turns."
+	expandedDescription = "Create a wall of flame 3 tiles long that burns for 3 rounds."
 	castChance = 100
 	cost = 6
 	range = 4

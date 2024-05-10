@@ -5,7 +5,7 @@ func _init():
 	displayName = "Wall of ice"
 	name = "IceWall"
 	description = "Raise a solid wall of ice 3 tiles long."
-	expandedDescription = "Raises a pillar of ice.\n\nThe pillar is an impassable wall that will last for 5 turns."
+	expandedDescription = "Raises a pillar of ice.\n\nThe pillar is an impassable wall that will last for 4 rounds."
 	castChance = 100
 	cost = 7
 	range = 4

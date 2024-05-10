@@ -22,5 +22,5 @@ func _onTurnEnd(entity):
 func _onRound(entity):
 	pass
 
-func _onDamage(entity):
-	pass
+func _onDamage(entity, amount):
+	return amount

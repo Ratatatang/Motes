@@ -210,8 +210,13 @@ func heal(healAmount) -> void:
 		curHP = maxHP
 
 func damage(damageAmount, type) -> void:
-	curHP -= damageAmount
-	GlobalFX.displayDamageNumber(damageAmount, global_position, type)
+	var trueDamage = damageAmount
+	
+	for effect in statusEffects:
+		trueDamage = effect._onDamage(self, damageAmount)
+	
+	curHP -= trueDamage
+	GlobalFX.displayDamageNumber(trueDamage, global_position, type)
 	
 	if(curHP <= 0):
 		curHP = 0
