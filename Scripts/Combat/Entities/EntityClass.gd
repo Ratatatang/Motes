@@ -3,7 +3,7 @@ class_name Entity
 
 signal finishedMoving
 
-@export var speed = 1
+@export var speed : int = 8
 
 @export var deck : Array[String]
 @export var curDeck : Array[String]

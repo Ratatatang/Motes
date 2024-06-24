@@ -9,13 +9,15 @@ var entities = []
 
 var mouseHighlights = []
 
-var teamSpawnPoints = {
-	0: [Vector2(1, 9), Vector2(1, 8), Vector2(1, 10), Vector2(2, 9), Vector2(2, 8), Vector2(2, 10)],
-	1: [Vector2(32, 11), Vector2(32, 12), Vector2(32, 10), Vector2(33, 11), Vector2(33, 12), Vector2(33, 10)],
-	2: [Vector2(18, 2), Vector2(17, 2), Vector2(19, 2), Vector2(18, 1), Vector2(17, 1), Vector2(19, 1)],
-	3: [Vector2(13, 18), Vector2(12, 18), Vector2(14, 18), Vector2(13, 19), Vector2(12, 19), Vector2(14, 19)],
-	4: [Vector2(18, 9), Vector2(18, 10), Vector2(18, 8), Vector2(19, 9), Vector2(17, 9), Vector2(19, 10),]
+@export var teamSpawnPoints : Dictionary = {
+	0: [Vector2(1, 6), Vector2(1, 7), Vector2(1, 8), Vector2(2, 6), Vector2(2, 7), Vector2(2, 8)],
+	1: [Vector2(14, 1), Vector2(13, 1), Vector2(12, 1), Vector2(14, 2), Vector2(13, 2), Vector2(12, 2)],
+	2: [Vector2(11, 14), Vector2(10, 14), Vector2(9, 14), Vector2(11, 15), Vector2(10, 15), Vector2(9, 15)],
+	3: [Vector2(24, 6), Vector2(24, 7), Vector2(24, 8), Vector2(25, 6), Vector2(25, 7), Vector2(25, 8)],
+	4: [Vector2(13, 6), Vector2(13, 5), Vector2(13, 7), Vector2(12, 6), Vector2(14, 6), Vector2(14, 7),]
 }
+
+@export var startingTileObjects : Dictionary = {}
 
 func _ready():
 	MasterInfo.currentLevelMap = self
@@ -27,8 +29,6 @@ func _ready():
 	
 	dataGrid = grid.duplicate(true)
 	entityGrid = grid.duplicate(true)
-	
-	exportMap()
 
 @rpc("any_peer", "call_local") 
 func addEntity(entity, gridPos, parentID, team = "Player", randID = randi()):
@@ -195,15 +195,3 @@ func getEntityTile(entity):
 
 func getEntities() -> Array:
 	return entities
-
-func exportMap():
-	var cells = get_used_cells(0)
-	var cellIDs = get_used_cells_by_id(0)
-	
-	var mapData = [cells, cellIDs]
-	
-	var saveGame = FileAccess.open("user://savegame.save", FileAccess.WRITE)
-	
-	var jsonString = JSON.stringify(mapData)
-	
-	saveGame.store_line(jsonString)
